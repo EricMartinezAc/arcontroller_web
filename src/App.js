@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //Rutas
 import Inicio_ from "./Components/Routes/Inicio/Inicio.jsx";
-// import Singin_ from "./Components/Routes/Singing/Singin.jsx";
-// import Dashboard_ from "./Components/Routes/Dashboard/Dashboard.jsx";
+import Singin_ from "./Components/Routes/Singing/Singin.jsx";
+import Dashboard_ from "./Components/Routes/Dashboard/Dashboard.jsx";
 
 function App(props) {
   return (
@@ -28,12 +28,12 @@ function App(props) {
         <Router>
           <Routes>
             <Route exact path="/" element={<Inicio_ />}></Route>
-            {/* <Route path="/singin" element={<Singin_ />}></Route>
+            <Route path="/singin" element={<Singin_ />}></Route>
             <Route
               usuario
               path="/arcontroller/web/main/Dashboard"
               element={<Dashboard_ />}
-            ></Route> */}
+            ></Route>
           </Routes>
         </Router>
       </div>

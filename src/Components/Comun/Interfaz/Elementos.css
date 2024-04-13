@@ -1,0 +1,85 @@
+@import "./Colores.css";
+
+.btn-dangerous {
+    background-color: var(--dangerous);
+    color: whitesmoke;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.btn-dangerous:hover {
+    background-color: var(--dangerousHover);
+    font-weight: bold;
+    color: thistle;
+    border: 1px solid whitesmoke;
+}
+
+.btn-info {
+    background-color: var(--info);
+    color: whitesmoke;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.btn-info:hover {
+    background-color: var(--infoHover);
+    font-weight: bold;
+    color: thistle;
+    border: 1px solid var(--infoHoverBrd);
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: whitesmoke;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.btn-success:hover {
+    background-color: var(--successHover);
+    font-weight: bold;
+    color: rgb(21, 99, 5);
+    border: 1px solid var(--successHoverBrd);
+}
+
+.btn-warn {
+    background-color: var(--warn);
+    color: whitesmoke;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.btn-warn:hover {
+    background-color: var(--warnHover);
+    color: thistle;
+    font-weight: bold;
+    border: 1px solid var(--warnHoverBrd);
+}
+
+.back-modals {
+    width: 100hv;
+    height: 100vh;
+    background-color: var(--backPapper);
+}
+
+input, select {
+    padding-left: 15px;
+    -moz-appearance: textfield;
+}
+
+a {
+    color: thistle;
+    text-decoration: none;
+}
+
+a:hover {
+    font-weight: bold;
+}

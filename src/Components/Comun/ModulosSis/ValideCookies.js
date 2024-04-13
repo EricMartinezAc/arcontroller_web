@@ -1,4 +1,4 @@
-module.exports = ValideCookies = (route, cookies, pages) => {
+export default function ValideCookies(route, cookies, pages) {
   let resp = {
     value: false,
     msj: "",
@@ -46,4 +46,4 @@ module.exports = ValideCookies = (route, cookies, pages) => {
   }
 
   return resp;
-};
+}

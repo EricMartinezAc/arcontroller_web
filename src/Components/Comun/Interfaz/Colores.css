@@ -1,0 +1,14 @@
+:root {
+    --dangerous:  rgb(216, 38, 74);
+    --dangerousHover: rgb(220,20,60);
+    --info:rgb(55, 44, 199);
+    --infoHover: rgb(21, 12, 155);
+    --infoHoverBrd: rgb(107, 150, 214);
+    --success: rgb(29, 121, 11);
+    --successHover: rgb(86, 233, 56);
+    --successHoverBrd:  rgb(21, 99, 5);
+    --warn: rgb(199, 86, 20);
+    --warnHover:rgb(199, 86, 20);
+    --warnHoverBrd: rgb(228, 154, 112);
+    --backPapper: rgba(216, 191, 216, 0.705);
+}

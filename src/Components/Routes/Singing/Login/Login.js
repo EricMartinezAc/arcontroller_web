@@ -19,12 +19,12 @@ const classAUTHREG = new ClassAUTHREG();
 
 function Login(props) {
   //formulario
-  const [idProd, setIdProd] = useState("");
+  const [clav_prodct, setClav_prodct] = useState("");
   const [user, setUser] = useState("");
   const [pswLogin, setPswLogin] = useState("");
   const Onchange = (e) => {
     const input = e.target.name;
-    if (input === "idProd") setIdProd(e.target.value);
+    if (input === "clav_prodct") setClav_prodct(e.target.value);
     if (input === "user") setUser(e.target.value);
     if (input === "pswLogin") setPswLogin(e.target.value);
     console.log(input, e.target.value);
@@ -34,7 +34,7 @@ function Login(props) {
     props.setStateLoading(true);
     try {
       //setter data to Login
-      await classAUTHREG.SetDatsToAPI(user, pswLogin, idProd);
+      await classAUTHREG.SetDatsToAPI(user, pswLogin, clav_prodct);
       //send data to login
       await setTimeout(async () => {
         let RespAPI = await classAUTHREG.SendDatsAPI("auth", axios);
@@ -87,12 +87,12 @@ function Login(props) {
       <form className="FormAuth">
         <input
           type="text"
-          name="idProd"
-          id="idProd"
+          name="clav_prodct"
+          id="clav_prodct"
           className="form-control input_text_index"
           autoComplete="off"
           placeholder="INGRESE ID DEL PRODUCTO"
-          value={idProd}
+          value={clav_prodct}
           onChange={Onchange}
         />
         <input

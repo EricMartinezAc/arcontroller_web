@@ -2,7 +2,7 @@ import pages from "../../../Assets/pages";
 
 export default class ReqResDatos_auth_API {
   constructor() {
-    this.id_prod = "";
+    this.clav_prodct = "";
     this.user = "";
     this.pswLogin = "";
     this.rol = "";
@@ -20,7 +20,7 @@ export default class ReqResDatos_auth_API {
       if (
         proceso === "Dashboard" &&
         cookies.get("token") !== undefined &&
-        cookies.get("id_prod") !== undefined &&
+        cookies.get("clav_prodct") !== undefined &&
         cookies.get("user") !== undefined
       ) {
         resp.value = true;
@@ -55,38 +55,36 @@ export default class ReqResDatos_auth_API {
 
   ValideDatos = (proceso, datos) => {
     if (proceso === "auth") {
-      return datos.id_prod !== undefined && datos.user !== undefined
+      return datos.clav_prodct !== undefined && datos.user !== undefined
         ? true
         : false;
     }
     if (proceso === "regtr") {
-      return datos.id_prod !== undefined && datos.user !== undefined
+      return datos.clav_prodct !== undefined && datos.user !== undefined
         ? true
         : false;
     }
   };
 
-  SetDatsToAPI = (user_, pswLogin_, id_prod_, clav_prodct_, rol_) => {
+  SetDatsToAPI = (user_, pswLogin_, clav_prodct_, rol_) => {
+    this.clav_prodct = clav_prodct_;
     this.user = user_;
     this.pswLogin = pswLogin_;
-    this.id_prod = id_prod_;
-    this.clav_prodct = clav_prodct_;
     this.rol = rol_;
   };
 
   GetDatosAuth = async () => {
     return await {
+      clav_prodct: this.clav_prodct,
       user: this.user,
       pswLogin: this.pswLogin,
-      id_prod: this.id_prod,
-      clav_prodct: this.clav_prodct,
       rol: this.rol,
     };
   };
 
   SendDatsAPI = async (proceso, axios) => {
     console.log(
-      `solicitando credenciales para ${this.user} en ${this.id_prod}: ${proceso} `
+      `solicitando credenciales para ${this.user} en ${this.clav_prodct}: ${proceso} `
     );
     let datos = this.GetDatosAuth();
     const path_API = `${pages.localAPI}arcontroller/web/users/${proceso}`;

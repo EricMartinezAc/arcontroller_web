@@ -44,7 +44,7 @@ function Registro(props) {
       // send data to save/register
       await setTimeout(async () => {
         let RespAPI = await classAUTHREG.SendDatsAPI("regtr", axios);
-        if (RespAPI.valor === 300) {
+        if (RespAPI.statusCode === 200) {
           props.setAlertDialogs([
             "block",
             "info",
@@ -52,8 +52,10 @@ function Registro(props) {
             "->",
             RespAPI.msj,
           ]);
+          //asignement cookies
           await AsigneCookies("user", user, cookies);
           await AsigneCookies("token", RespAPI.respt, cookies);
+          //redirect to app dashboard
           await classAUTHREG.GetAPP(cookies.get("token"), axios);
         } else {
           props.setAlertDialogs([
@@ -61,13 +63,11 @@ function Registro(props) {
             "error",
             "Respuesta de servidor",
             "->",
-            RespAPI.msj,
+            `${RespAPI.statusCode}-${RespAPI.msj}`,
           ]);
-          setTimeout(() => {
-            props.resetWindowsAlertLoading();
-          }, 6000);
         }
 
+        //after 6 sec., reset alerts
         setTimeout(() => {
           props.resetWindowsAlertLoading();
         }, 6000);

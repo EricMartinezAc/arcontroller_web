@@ -38,7 +38,7 @@ function Login(props) {
       //send data to login
       await setTimeout(async () => {
         let RespAPI = await classAUTHREG.SendDatsAPI("auth", axios);
-        if (RespAPI.valor === 400) {
+        if (RespAPI.statusCode === 200) {
           props.setAlertDialogs([
             "block",
             "info",
@@ -46,8 +46,10 @@ function Login(props) {
             "->",
             RespAPI.msj,
           ]);
+          //asignement cookies
           await AsigneCookies("user", user, cookies);
-          await AsigneCookies("token", RespAPI.respt, cookies);
+          await AsigneCookies("token", RespAPI.token, cookies);
+          //redirect to app dashboard
           await classAUTHREG.GetAPP(cookies.get("token"), axios);
         } else {
           props.setAlertDialogs([
@@ -55,10 +57,11 @@ function Login(props) {
             "error",
             "Respuesta de servidor",
             "->",
-            RespAPI.msj,
+            `${RespAPI.statusCode}-${RespAPI.msj}`,
           ]);
         }
 
+        //after 6 sec., reset alerts
         setTimeout(() => {
           props.resetWindowsAlertLoading();
         }, 6000);

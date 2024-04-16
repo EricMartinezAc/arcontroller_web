@@ -1,14 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import PropTypes from "prop-types";
 
-export class Dashboard extends Component {
-  render() {
-    return <div>Dashboard</div>;
-  }
+function Dashboard(props) {
+  return <div>Dashboard</div>;
 }
 
-const mapStateToProps = (state) => ({});
+Dashboard.propTypes = {};
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default Dashboard;

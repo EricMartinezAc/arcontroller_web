@@ -120,22 +120,20 @@ export default class ReqResDatos_auth_API {
   };
 
   GetAPP = async (token, axios) => {
-    console.log(`transfiriendo a APP`);
-
     await axios
-      .get(`${pages.localAPI}arcontroller/web/app/dashboard`, {
+      .get(`${pages.remoteAPI}arcontroller/web/app/dashboard`, {
         headers: {
           autorization: `Bearer ${token}`,
         },
       })
       .then((resp) => {
-        console.log(resp.data.valor);
+        console.log(resp);
         setTimeout(() => {
-          if (resp.data.valor === 100) {
-            window.location = `${pages.local}arcontroller/web/main/Dashboard`;
+          if (resp.data.statusCode === 200) {
+            window.location = `${pages.this}arcontroller/web/main/Dashboard`;
           } else {
             alert(resp.data.msj);
-            window.location = `${pages.local}`;
+            window.location = `${pages.this}`;
           }
         }, 300);
       })

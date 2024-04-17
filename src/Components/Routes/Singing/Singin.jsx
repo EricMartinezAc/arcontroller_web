@@ -70,7 +70,7 @@ function Singin(props) {
         "Debes aceptar políticas de aplicación para usarla",
       ]);
       setTimeout(() => {
-        window.location = pages.local;
+        window.location = pages.this;
       }, 6000);
     }
   }, []);

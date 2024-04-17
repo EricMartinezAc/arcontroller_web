@@ -46,6 +46,7 @@ function Inicio(props) {
       "Da clic en inicio de seión para continuar",
     ]);
     setTimeout(() => {
+      console.log(cookies.get("aceptLegacy"));
       setAlertDialogs(["none", "", "", "", ""]);
     }, 6000);
   };

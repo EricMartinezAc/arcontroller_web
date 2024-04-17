@@ -108,7 +108,7 @@ function Login(props) {
           id="clav_prodct"
           className="form-control input_text_index"
           autoComplete="off"
-          placeholder="INGRESE ID DEL PRODUCTO"
+          placeholder="INGRESE CLAVE DEL PRODUCTO"
           value={clav_prodct}
           onChange={Onchange}
         />

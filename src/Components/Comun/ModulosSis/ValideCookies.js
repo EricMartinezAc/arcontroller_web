@@ -1,49 +1,43 @@
-export default function ValideCookies(route, cookies, pages) {
+export default function ValideCookies(proceso, cookies) {
+  //default response don´t permission, return home for redirect
   let resp = {
     value: false,
-    msj: "",
-    //routeTarjet: "https://arcontroller-front.vercel.app/",
+    msj: "NO CUENTA CON PERMISOS SUFICIENTES PARA CONTINUAR. SERÁ REDIRECIONADO AL INICIO",
+    procesoTarjet: `${pages.local}`,
   };
-  // let valide_email = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
-
   try {
-    //consulta comparación cookies
-    //-- si estoy en APP sin token retorne llevame a inicio
-    if (route === "Dashboard" && typeof cookies.get("token") === "undefined") {
-      console.log(cookies.getAll());
-      resp.msj = "DEBE LOGUEARSE PARA USAR LA APP";
-    }
+    // on dashboard if sesion is active, great us but not direct
     if (
-      route === "Dashboard" &&
+      proceso === "Dashboard" &&
       cookies.get("token") !== undefined &&
-      cookies.get("id_prod") !== undefined &&
+      cookies.get("owner") !== undefined &&
+      cookies.get("clav_prodct") !== undefined &&
       cookies.get("user") !== undefined
     ) {
       resp.value = true;
-      resp.msj = "Verificación de credenciales es correcta";
+      resp.msj = `Sesión activa confirmada, bienvenido ${cookies.get("user")}`;
+      resp.procesoTarjet = false;
     }
-
-    //--- si estoy en logeo y encuentra un token retorne true y lleveme a App
-    if (route === "Singin" && typeof cookies.get("token") !== "undefined") {
-      resp.value = true;
-      resp.msj = "Será redireccionado..";
-      resp.routeTarjet = `${pages.this}/arcontroller/web/main/Dashboard`;
-    }
-
-    //--- si estoy en Inicio y ya se encuentra una sesión activa? me envía a dashboard
-    if (route === "Inicio" && typeof cookies.get("token") !== "undefined") {
-      resp.value = true;
-      resp.msj = "Ya se encuentra una sesión activa";
-      resp.routeTarjet = `${pages.this}/arcontroller/web/main/Dashboard`;
-    }
-    if (route === "Inicio" && typeof cookies.get("token") === "undefined") {
-      resp.value = true;
-      resp.routeTarjet = "none";
+    // on loggin or home
+    if (proceso === "Singin" || proceso === "Inicio") {
+      //if exist token active redirect on dashboard
+      if (typeof cookies.get("token") !== "undefined") {
+        resp.value = true;
+        resp.msj = `Sesión activa confirmada, bienvenido ${cookies.get(
+          "user"
+        )}`;
+        resp.procesoTarjet = `${pages.local}/arcontroller/web/main/Dashboard`;
+      }
+      //if not exist token active, destroy all cookies
+      if (typeof cookies.get("token") === "undefined") {
+        resp.msj =
+          "Bienvenido a la mejor aplicación de control de recursos fisicos del mundo";
+        resp.procesoTarjet = false;
+      }
     }
   } catch (error) {
-    resp.routeTarjet = "Inicio";
     resp.msj = `Ha ocurrido un error en validación de datos: ${error}`;
+    resp.procesoTarjet = false;
   }
-
   return resp;
 }

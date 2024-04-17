@@ -19,11 +19,13 @@ const classAUTHREG = new ClassAUTHREG();
 
 function Login(props) {
   //formulario
+  const [owner, setOwner] = useState("");
   const [clav_prodct, setClav_prodct] = useState("");
   const [user, setUser] = useState("");
   const [pswLogin, setPswLogin] = useState("");
   const Onchange = (e) => {
     const input = e.target.name;
+    if (input === "owner") setOwner(e.target.value);
     if (input === "clav_prodct") setClav_prodct(e.target.value);
     if (input === "user") setUser(e.target.value);
     if (input === "pswLogin") setPswLogin(e.target.value);
@@ -34,7 +36,7 @@ function Login(props) {
     props.setStateLoading(true);
     try {
       //setter data to Login
-      await classAUTHREG.SetDatsToAPI(user, pswLogin, clav_prodct);
+      await classAUTHREG.SetDatsToAPI(owner, user, pswLogin, clav_prodct);
       //send data to login
       await setTimeout(async () => {
         let RespAPI = await classAUTHREG.SendDatsAPI("auth", axios);
@@ -88,6 +90,18 @@ function Login(props) {
       <img alt="logo" className="logo" src={Logo} />
       <h3 className="title_"> AUTENTICACIÓN </h3>
       <form className="FormAuth">
+        <Box>
+          <input
+            type="text"
+            name="owner"
+            id="owner"
+            className="form-control input_text_index"
+            autoComplete="off"
+            placeholder="INGRESE NOMBRE DE PRODUCTO"
+            value={owner}
+            onChange={Onchange}
+          />
+        </Box>
         <input
           type="text"
           name="clav_prodct"

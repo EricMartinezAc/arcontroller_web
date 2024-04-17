@@ -20,12 +20,14 @@ const classAUTHREG = new ClassAUTHREG();
 
 function Registro(props) {
   //formulario
+  const [owner, setOwner] = useState("");
   const [clavProdct, setClavProdct] = useState("");
   const [user, setUser] = useState("");
   const [pswLogin, setPswLogin] = useState("");
   const [PO_, setPO_] = useState(false);
   const Onchange = (e) => {
     const input = e.target.name;
+    if (input === "owner") setOwner(e.target.value);
     if (input === "clavProdct") setClavProdct(e.target.value);
     if (input === "user") setUser(e.target.value);
     if (input === "pswLogin") setPswLogin(e.target.value);
@@ -36,6 +38,7 @@ function Registro(props) {
     try {
       //setter data to register
       await classAUTHREG.SetDatsToAPI(
+        owner,
         clavProdct,
         user,
         pswLogin,
@@ -123,6 +126,18 @@ function Registro(props) {
       <h3 className="title">REGISTRO</h3>
 
       <form className="FormAuth" onSubmit={() => console.log("datos")}>
+        <Box>
+          <input
+            type="text"
+            name="owner"
+            id="owner"
+            className="form-control input_text_index"
+            autoComplete="off"
+            placeholder="INGRESE NOMBRE DE PRODUCTO"
+            value={owner}
+            onChange={Onchange}
+          />
+        </Box>
         <Box>
           <input
             type="text"

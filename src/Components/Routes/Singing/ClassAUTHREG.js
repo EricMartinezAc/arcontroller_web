@@ -2,6 +2,7 @@ import pages from "../../../Assets/pages";
 
 export default class ReqResDatos_auth_API {
   constructor() {
+    this.owner = "";
     this.clav_prodct = "";
     this.user = "";
     this.pswLogin = "";
@@ -20,6 +21,7 @@ export default class ReqResDatos_auth_API {
       if (
         proceso === "Dashboard" &&
         cookies.get("token") !== undefined &&
+        cookies.get("owner") !== undefined &&
         cookies.get("clav_prodct") !== undefined &&
         cookies.get("user") !== undefined
       ) {
@@ -66,7 +68,8 @@ export default class ReqResDatos_auth_API {
     }
   };
 
-  SetDatsToAPI = (user_, pswLogin_, clav_prodct_, rol_) => {
+  SetDatsToAPI = (owner, user_, pswLogin_, clav_prodct_, rol_) => {
+    this.owner = owner;
     this.clav_prodct = clav_prodct_;
     this.user = user_;
     this.pswLogin = pswLogin_;
@@ -75,6 +78,7 @@ export default class ReqResDatos_auth_API {
 
   GetDatosAuth = async () => {
     return await {
+      owner: this.owner,
       clav_prodct: this.clav_prodct,
       user: this.user,
       pswLogin: this.pswLogin,
@@ -84,7 +88,7 @@ export default class ReqResDatos_auth_API {
 
   SendDatsAPI = async (proceso, axios) => {
     console.log(
-      `solicitando credenciales para ${this.user} en ${this.clav_prodct}: ${proceso} `
+      `solicitando credenciales para ${this.user} en ${this.owner}: ${proceso} `
     );
     let datos = this.GetDatosAuth();
     const path_API = `${pages.localAPI}arcontroller/web/users/${proceso}`;

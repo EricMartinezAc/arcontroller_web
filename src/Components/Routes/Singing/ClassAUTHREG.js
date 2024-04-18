@@ -10,6 +10,7 @@ export default class ReqResDatos_auth_API {
   }
 
   ValideDatos = (proceso, datos) => {
+    alert(pages);
     if (proceso === "auth") {
       return datos.clav_prodct !== undefined && datos.user !== undefined
         ? true

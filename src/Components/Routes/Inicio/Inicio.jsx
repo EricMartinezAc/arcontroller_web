@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 
 //recursos
 import "./Inicio.css";
+import pages from "../../../Assets/pages";
 
 //components
 
@@ -64,8 +65,8 @@ function Inicio(props) {
   };
 
   useEffect(() => {
-    const rspValideCookies = ValideCookies("Inicio", cookies);
-    if (rspValideCookies.routeTarjet === "none") {
+    const rspValideCookies = ValideCookies("Inicio", cookies, pages);
+    if (!rspValideCookies.value) {
       console.log("app segura");
     } else {
       setAlertDialogs([
@@ -74,7 +75,7 @@ function Inicio(props) {
         "Hola!",
         "Tiene un mensaje de servidor",
         rspValideCookies.msj,
-      ])((window.location = rspValideCookies.routeTarjet));
+      ]);
     }
   }, []);
 

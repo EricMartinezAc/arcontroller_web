@@ -10,7 +10,6 @@ export default class ReqResDatos_auth_API {
   }
 
   ValideDatos = (proceso, datos) => {
-    alert(pages);
     if (proceso === "auth") {
       return datos.clav_prodct !== undefined && datos.user !== undefined
         ? true
@@ -46,7 +45,7 @@ export default class ReqResDatos_auth_API {
       `solicitando credenciales para ${this.user} en ${this.owner}: ${proceso} `
     );
     let datos = this.GetDatosAuth();
-    const path_API = `${pages.localAPI}arcontroller/web/users/${proceso}`;
+    const path_API = `${pages.remoteAPI}arcontroller/web/users/${proceso}`;
     const resultValideDatos = await this.ValideDatos(proceso, datos);
 
     if (resultValideDatos) {
@@ -73,7 +72,7 @@ export default class ReqResDatos_auth_API {
     } else {
       alert("Datos ingresados no cumplen requerimientos");
       setTimeout(() => {
-        window.location = "http://localhost:3000/Singin";
+        window.location = `${pages.this}/Singin`;
       }, 5000);
     }
   };
@@ -99,7 +98,7 @@ export default class ReqResDatos_auth_API {
       .catch((err) => {
         alert("Error en generación de token:", err);
         setTimeout(() => {
-          window.location = `${pages.local}`;
+          window.location = `${pages.this}`;
         }, 300);
         console.error("Error :", err);
       });

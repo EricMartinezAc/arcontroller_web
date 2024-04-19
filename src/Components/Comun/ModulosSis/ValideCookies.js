@@ -30,6 +30,7 @@ export default function ValideCookies(proceso, cookies, pages) {
       }
       //if not exist token active, destroy all cookies
       if (typeof cookies.get("token") === "undefined") {
+        console.log("cookies no encontradas");
         require("./DropCookies").All(cookies, "/");
       }
     }

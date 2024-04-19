@@ -1,8 +1,8 @@
 const pages = {
-  this: "https://arcontroller-web.vercel.app/",
-  remoteAPI: "https://api-publica.vercel.app/",
-  // local: "http://localhost:3000/",
-  // localAPI: "http://localhost:2024/",
+  this: "http://localhost:3000/", //"https://arcontroller-web.vercel.app/",
+  remoteAPI: "http://localhost:2024/", //"https://api-publica.vercel.app/",
+  // local: ,
+  // localAPI: ,
 };
 
 module.exports = pages;

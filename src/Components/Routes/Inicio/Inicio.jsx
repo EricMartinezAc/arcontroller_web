@@ -10,7 +10,6 @@ import Loading from "../../Comun/Intercciones/Loading";
 import Header from "./Partials/Header/Header";
 import Main from "./Partials/Main/Main";
 import Aside from "./Partials/Aside/Aside";
-import AlertCookies from "../../Comun/Interfaz/cookies/AlertCookies";
 import Footer from "../../Comun/Interfaz/Footer/Footer";
 
 //funcionaidades
@@ -18,22 +17,39 @@ import Cookies from "universal-cookie";
 import ValideCookies from "../../Comun/ModulosSis/ValideCookies";
 
 import DescriptionAlerts from "../../Comun/Intercciones/DescriptionAlerts";
+import AlertCookies from "../../Comun/Interfaz/cookies/AlertCookies";
 import { Box } from "@mui/material";
 
 function Inicio(props) {
+  const cookies = new Cookies();
   //window loading and alert
-
+  const [state_policy_cookies, setState_policy_cookies] = useState(false);
   const [stateLoading, setStateLoading] = useState("none");
   const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
-  //legacy cookies
-  const [state_permission_login, setState_permission_login] = useState(false);
 
   //VALIDACIÓN DE COOKIES
-  const cookies = new Cookies();
 
-  const AceptacionCookies = () => {
-    setState_permission_login(true);
-    cookies.set("aceptLegacy", state_permission_login, {
+  useEffect(() => {
+    const RespValideCookies = ValideCookies("Inicio", cookies, pages);
+    if (!RespValideCookies.value) {
+      console.log("app segura");
+    } else {
+      setAlertDialogs([
+        "block",
+        "info",
+        "Hola!",
+        "Tiene un mensaje de servidor",
+        RespValideCookies.msj,
+      ]);
+      setTimeout(() => {
+        window.location(RespValideCookies.procesoTarjet);
+      }, 6000);
+    }
+  }, [state_policy_cookies]);
+
+  const AceptacionCookies = async () => {
+    await setState_policy_cookies(true);
+    await cookies.set("aceptLegacy", true, {
       path: "/",
       secure: true,
       sameSite: "strict",
@@ -47,7 +63,7 @@ function Inicio(props) {
       "Da clic en inicio de seión para continuar",
     ]);
     setTimeout(() => {
-      console.log(cookies.get("aceptLegacy"));
+      setStateLoading("none");
       setAlertDialogs(["none", "", "", "", ""]);
     }, 6000);
   };
@@ -63,21 +79,6 @@ function Inicio(props) {
       setAlertDialogs(["none", "", "", "", ""]);
     }, 6000);
   };
-
-  useEffect(() => {
-    const rspValideCookies = ValideCookies("Inicio", cookies, pages);
-    if (!rspValideCookies.value) {
-      console.log("app segura");
-    } else {
-      setAlertDialogs([
-        "block",
-        "info",
-        "Hola!",
-        "Tiene un mensaje de servidor",
-        rspValideCookies.msj,
-      ]);
-    }
-  }, []);
 
   return (
     <>
@@ -117,12 +118,13 @@ function Inicio(props) {
       <header>
         <Header
           setStateLoading={setStateLoading}
-          state_permission_login={state_permission_login}
+          stateLoading={stateLoading}
+          state_permission_login={state_policy_cookies}
         />
       </header>
       <section
         className="section_alertCookies"
-        style={{ display: state_permission_login ? "none" : "block" }}
+        style={{ display: !state_policy_cookies ? "block" : "none" }}
       >
         <AlertCookies
           AceptacionCookies={AceptacionCookies}

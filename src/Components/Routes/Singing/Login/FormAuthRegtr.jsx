@@ -25,13 +25,13 @@ function Registro(props) {
   const [user, setUser] = useState("");
   const [pswLogin, setPswLogin] = useState("");
   const [PO_, setPO_] = useState(false);
+
   const Onchange = (e) => {
     const input = e.target.name;
     if (input === "owner") setOwner(e.target.value);
     if (input === "clav_prodct") setclav_prodct(e.target.value);
     if (input === "user") setUser(e.target.value);
     if (input === "pswLogin") setPswLogin(e.target.value);
-    console.log(input, e.target.value);
   };
   const EnviarDatosReg = async (e) => {
     e.preventDefault();
@@ -47,41 +47,31 @@ function Registro(props) {
       );
       // send data to save/register
       await setTimeout(async () => {
-        let RespAPI = await classAUTHREG.SendDatsAPI("regtr", axios);
+        let proceso = props.visibleFormAuth ? "auth" : "regtr";
+        let RespAPI = await classAUTHREG.SendDatsAPI(proceso, axios);
         console.log("respApi: ", RespAPI);
-        // if (RespAPI.statusCode === 200) {
-        //   props.setAlertDialogs([
-        //     "block",
-        //     "info",
-        //     "Respuesta de servidor",
-        //     "->",
-        //     RespAPI.msj,
-        //   ]);
-        //   //asignement cookies
-        //   await AsigneCookies("user", user, cookies);
-        //   await AsigneCookies("token", RespAPI.respt, cookies);
-        //   //redirect to app dashboard
-        //   await classAUTHREG.GetAPP(cookies.get("token"), axios);
-        // } else {
-        //   props.setAlertDialogs([
-        //     "block",
-        //     "error",
-        //     "Respuesta de servidor",
-        //     "->",
-        //     `${RespAPI.statusCode}-${RespAPI.msj}`,
-        //   ]);
-        // }
-        // //after 6 sec., reset alerts
-        // setTimeout(() => {
-        //   props.resetWindowsAlertLoading();
-        // }, 6000);
+        if (RespAPI.statusCode === 200) {
+          //asignement cookies
+          await AsigneCookies("token", RespAPI.token, cookies);
+          //redirect to app dashboard
+          await classAUTHREG.GetAPP(cookies.get("token"), axios);
+        } else {
+          props.setStateLoading(false);
+          props.setAlertDialogs([
+            "block",
+            "error",
+            "Respuesta de servidor",
+            "->",
+            `${RespAPI.statusCode}-${RespAPI.msj}`,
+          ]);
+          //after 6 sec., reset dialogs
+          setTimeout(() => {
+            props.setAlertDialogs(["none", "info", "", "", ``]);
+          }, 6000);
+        }
       }, 2000);
     } catch (error) {
-      alert("error enviando datos al servidor, revise su conexion: " + error);
-      console.log(
-        "error enviando datos al servidor, revise su conexion: ",
-        error
-      );
+      alert("error enviando datos al servidor, revise su conexion: ", error);
     }
   };
 
@@ -124,7 +114,9 @@ function Registro(props) {
     >
       <img alt="logo" className="logo" src={Logo} />
 
-      <h3 className="title">REGISTRO</h3>
+      <h3 className="title">
+        {props.visibleFormAuth ? "AUTENTICACION" : "REGISTRO"}
+      </h3>
 
       <form className="FormAuth" onSubmit={() => console.log("datos")}>
         <Box>
@@ -172,6 +164,7 @@ function Registro(props) {
           onChange={Onchange}
         />
         <FormControlLabel
+          style={{ display: props.visibleFormAuth ? "inherit" : "none" }}
           control={
             <Switch
               checked={PO_}
@@ -182,12 +175,13 @@ function Registro(props) {
           }
           label="Product Owner"
         />
+        ;
         <br /> <br />
         <br />
         <input
           className="btn btn-success"
           type="submit"
-          value="REGISTRAR"
+          value={props.visibleFormAuth ? "INICIO SESIÓN" : "REGISTRAR"}
           onClick={EnviarDatosReg}
         />
         <br />

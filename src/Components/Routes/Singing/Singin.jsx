@@ -21,7 +21,7 @@ import {
 } from "../../Comun/ModulosSis/ValideInputREGEXP";
 
 import Login from "./Login/Login";
-import Registro from "./Login/Registro";
+import FormAuthRegtr from "./Login/FormAuthRegtr";
 import DescriptionAlerts from "../../Comun/Intercciones/DescriptionAlerts";
 import Loading from "../../Comun/Intercciones/Loading";
 import pages from "../../../Assets/pages";
@@ -116,28 +116,10 @@ function Singin(props) {
         md={5}
         xs={12}
       >
-        {/* RGTR */}
-        <Box
-          sx={{
-            display: visibleFormAuth ? "none" : "true",
-          }}
-        >
-          <Registro
-            ValidacionFormAuth={ValidacionFormAuth}
-            stateLoading={stateLoading}
-            setStateLoading={setStateLoading}
-            AlertDialogs={AlertDialogs}
-            setAlertDialogs={setAlertDialogs}
-            resetWindowsAlertLoading={resetWindowsAlertLoading}
-          />
-        </Box>
-        {/* LOGIN */}
-        <Box
-          sx={{
-            display: visibleFormAuth ? "true" : "none",
-          }}
-        >
-          <Login
+        {/* FORM */}
+        <Box>
+          <FormAuthRegtr
+            visibleFormAuth={visibleFormAuth}
             ValidacionFormAuth={ValidacionFormAuth}
             stateLoading={stateLoading}
             setStateLoading={setStateLoading}

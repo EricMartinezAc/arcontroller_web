@@ -28,7 +28,7 @@ function App(props) {
         <Router>
           <Routes>
             <Route exact path="/" element={<Inicio_ />}></Route>
-            <Route path="/singin" element={<Singin_ />}></Route>
+            <Route path="/Singin" element={<Singin_ />}></Route>
             <Route
               usuario
               path="/arcontroller/web/main/Dashboard"

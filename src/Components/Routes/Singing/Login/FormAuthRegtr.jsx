@@ -164,7 +164,7 @@ function Registro(props) {
           onChange={Onchange}
         />
         <FormControlLabel
-          style={{ display: props.visibleFormAuth ? "inherit" : "none" }}
+          style={{ display: props.visibleFormAuth ? "none" : "inherit" }}
           control={
             <Switch
               checked={PO_}

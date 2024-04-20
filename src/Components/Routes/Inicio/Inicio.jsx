@@ -3,6 +3,7 @@ import React, { Component, useEffect, useState } from "react";
 //recursos
 import "./Inicio.css";
 import pages from "../../../Assets/pages";
+import axios from "axios";
 
 //components
 
@@ -15,6 +16,7 @@ import Footer from "../../Comun/Interfaz/Footer/Footer";
 //funcionaidades
 import Cookies from "universal-cookie";
 import ValideCookies from "../../Comun/ModulosSis/ValideCookies";
+import ReqResDatos_auth_API from "../Singing/ClassAUTHREG";
 
 import DescriptionAlerts from "../../Comun/Intercciones/DescriptionAlerts";
 import AlertCookies from "../../Comun/Interfaz/cookies/AlertCookies";
@@ -22,30 +24,29 @@ import { Box } from "@mui/material";
 
 function Inicio(props) {
   const cookies = new Cookies();
+  const reqResDatos_auth_API = new ReqResDatos_auth_API();
   //window loading and alert
   const [state_policy_cookies, setState_policy_cookies] = useState(false);
   const [stateLoading, setStateLoading] = useState("none");
   const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
 
-  //VALIDACIÓN DE COOKIES
-
+  //on start
   useEffect(() => {
-    const RespValideCookies = ValideCookies("Inicio", cookies, pages);
-    if (!RespValideCookies.value) {
-      console.log("app segura");
-    } else {
+    const respValideCookies = ValideCookies("Inicio", cookies, pages);
+    if (respValideCookies.getApp) {
       setAlertDialogs([
         "block",
-        "info",
-        "Hola!",
-        "Tiene un mensaje de servidor",
-        RespValideCookies.msj,
+        "success",
+        "Respuesta de validación",
+        "Ahora puedes usar al aplicación. ",
+        respValideCookies.msj,
       ]);
-      setTimeout(() => {
-        window.location(RespValideCookies.procesoTarjet);
-      }, 6000);
+      setTimeout(
+        () => reqResDatos_auth_API.GetAPP(respValideCookies.token, axios),
+        6000
+      );
     }
-  }, [state_policy_cookies]);
+  }, []);
 
   const AceptacionCookies = async () => {
     await setState_policy_cookies(true);
@@ -67,7 +68,7 @@ function Inicio(props) {
       setAlertDialogs(["none", "", "", "", ""]);
     }, 6000);
   };
-  const DenegarCookies = () => {
+  const DenegarCookies = async () => {
     setAlertDialogs([
       true,
       "warning",
@@ -76,7 +77,7 @@ function Inicio(props) {
       "Puedes ver y usar otros servicios",
     ]);
     setTimeout(() => {
-      setAlertDialogs(["none", "", "", "", ""]);
+      window.location(pages.this);
     }, 6000);
   };
 

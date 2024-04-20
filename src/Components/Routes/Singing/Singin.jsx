@@ -38,47 +38,27 @@ function Singin(props) {
     setAlertDialogs(["none", "", "", "", ""]);
   };
 
-  //ejecute en cada actualización
+  //valide cookies
   useEffect(() => {
-    //validar cookies previo
+    //valide permisions
     const rspValideCookies = ValideCookies("Singin", cookies, pages);
-    //valide sesión
-    if (rspValideCookies.value) {
+    if (rspValideCookies.getApp === null && rspValideCookies.msj !== null) {
       setStateLoading("block");
-      setAlertDialogs([
-        "block",
-        "info",
-        "validación de sesión",
-        "Sesión activa.",
-        rspValideCookies.msj,
-      ]);
-      setTimeout(() => {
-        resetWindowsAlertLoading();
-        reqResDatos_auth_API.GetAPP(cookies.get("token"), axios);
-      }, 6000);
-    }
-  }, []);
-  //valide aceptación de politicas
-  useEffect(() => {
-    console.log(cookies.getAll());
-    if (typeof cookies.get("aceptLegacy") === "undefined") {
-      setAlertDialogs([
-        "block",
-        "error",
-        "APLICACIÓN VERIFICADA",
-        "permisos denegados: ",
-        "Debes aceptar políticas de aplicación para usarla",
-      ]);
       setTimeout(() => {
         window.location = pages.this;
       }, 6000);
     }
+    if (rspValideCookies.getApp) {
+      setStateLoading("block");
+      setTimeout(() => {
+        reqResDatos_auth_API.GetAPP(cookies.get("token"), axios);
+      }, 6000);
+    }
   }, []);
+
   //valide forms
-  const ValidacionFormAuth = (user, pswLogin, idProd) => {
-    return ValideInputUsuario(user) &&
-      ValideInputPassword(pswLogin) &&
-      ValideInputPassword(idProd)
+  const ValidacionFormAuth = (user, pswLogin) => {
+    return ValideInputUsuario(user) && ValideInputPassword(pswLogin)
       ? true
       : false;
   };

@@ -16,13 +16,14 @@ export default class ReqResDatos_auth_API {
         : false;
     }
     if (proceso === "regtr") {
-      return datos.clav_prodct !== undefined && datos.user !== undefined
+      return typeof datos.clav_prodct !== "undefined" &&
+        typeof datos.user !== "undefined"
         ? true
         : false;
     }
   };
 
-  SetDatsToAPI = (owner, user_, pswLogin_, clav_prodct_, rol_) => {
+  SetDatsToAPI = (owner, clav_prodct_, user_, pswLogin_, rol_) => {
     this.owner = owner;
     this.clav_prodct = clav_prodct_;
     this.user = user_;
@@ -41,14 +42,12 @@ export default class ReqResDatos_auth_API {
   };
 
   SendDatsAPI = async (proceso, axios) => {
-    console.log(
-      `solicitando credenciales para ${this.user} en ${this.owner}: ${proceso} `
-    );
-    let datos = this.GetDatosAuth();
-    const path_API = `${pages.remoteAPI}arcontroller/web/users/${proceso}`;
-    const resultValideDatos = await this.ValideDatos(proceso, datos);
+    let datos = await this.GetDatosAuth();
+    const path_API =
+      await `${pages.remoteAPI}arcontroller/web/users/${proceso}`;
 
-    if (resultValideDatos) {
+    const resultValideDatos = await this.ValideDatos(proceso, datos);
+    if (await resultValideDatos) {
       try {
         return fetch(path_API, {
           method: "POST",

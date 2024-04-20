@@ -19,16 +19,16 @@ const classAUTHREG = new ClassAUTHREG();
 
 function Login(props) {
   //formulario
-  const [owner, setOwner] = useState("");
-  const [clav_prodct, setClav_prodct] = useState("");
-  const [user, setUser] = useState("");
-  const [pswLogin, setPswLogin] = useState("");
+  const [owner_, setOwner] = useState("");
+  const [clav_prodct_, setClav_prodct] = useState("");
+  const [user_, setUser] = useState("");
+  const [pswLogin_, setPswLogin] = useState("");
   const Onchange = (e) => {
     const input = e.target.name;
-    if (input === "owner") setOwner(e.target.value);
-    if (input === "clav_prodct") setClav_prodct(e.target.value);
-    if (input === "user") setUser(e.target.value);
-    if (input === "pswLogin") setPswLogin(e.target.value);
+    if (input === "owner_") setOwner(e.target.value);
+    if (input === "clav_prodct_") setClav_prodct(e.target.value);
+    if (input === "user_") setUser(e.target.value);
+    if (input === "pswLogin_") setPswLogin(e.target.value);
     console.log(input, e.target.value);
   };
   const EnviarDatosReg = async (e) => {
@@ -36,7 +36,7 @@ function Login(props) {
     props.setStateLoading(true);
     try {
       //setter data to Login
-      await classAUTHREG.SetDatsToAPI(owner, user, pswLogin, clav_prodct);
+      await classAUTHREG.SetDatsToAPI(owner_, user_, pswLogin_, clav_prodct_);
       //send data to login
       await setTimeout(async () => {
         let RespAPI = await classAUTHREG.SendDatsAPI("auth", axios);
@@ -49,7 +49,7 @@ function Login(props) {
             RespAPI.msj,
           ]);
           //asignement cookies
-          await AsigneCookies("user", user, cookies);
+          await AsigneCookies("user", user_, cookies);
           await AsigneCookies("token", RespAPI.token, cookies);
           //redirect to app dashboard
           await classAUTHREG.GetAPP(cookies.get("token"), axios);
@@ -93,42 +93,43 @@ function Login(props) {
         <Box>
           <input
             type="text"
-            name="owner"
-            id="owner"
+            name="owner_"
+            id="owner_"
             className="form-control input_text_index"
-            autoComplete="off"
+            autoComplete="on"
             placeholder="INGRESE NOMBRE DE PRODUCTO"
-            value={owner}
+            value={owner_}
             onChange={Onchange}
           />
         </Box>
         <input
           type="text"
-          name="clav_prodct"
-          id="clav_prodct"
+          name="clav_prodct_"
+          id="clav_prodct_"
           className="form-control input_text_index"
-          autoComplete="off"
+          autoComplete="on"
           placeholder="INGRESE CLAVE DEL PRODUCTO"
-          value={clav_prodct}
+          value={clav_prodct_}
           onChange={Onchange}
         />
         <input
           type="text"
-          id="user"
-          name="user"
+          id="user_"
+          name="user_"
+          autoComplete="on"
           className="form-control input_text_index"
           placeholder="INGRESE SU USUARIO"
-          value={user}
+          value={user_}
           onChange={Onchange}
         />
         <input
           type="password"
-          name="pswLogin"
-          id="pswLogin"
+          name="pswLogin_"
+          id="pswLogin_"
           className="form-control input_text_index"
           autoComplete="off"
           placeholder="CONTRASEÑA DE USUARIO"
-          value={pswLogin}
+          value={pswLogin_}
           onChange={Onchange}
         />
 

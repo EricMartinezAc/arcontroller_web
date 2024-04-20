@@ -21,16 +21,17 @@ const classAUTHREG = new ClassAUTHREG();
 function Registro(props) {
   //formulario
   const [owner, setOwner] = useState("");
-  const [clavProdct, setClavProdct] = useState("");
+  const [clav_prodct, setclav_prodct] = useState("");
   const [user, setUser] = useState("");
   const [pswLogin, setPswLogin] = useState("");
   const [PO_, setPO_] = useState(false);
   const Onchange = (e) => {
     const input = e.target.name;
     if (input === "owner") setOwner(e.target.value);
-    if (input === "clavProdct") setClavProdct(e.target.value);
+    if (input === "clav_prodct") setclav_prodct(e.target.value);
     if (input === "user") setUser(e.target.value);
     if (input === "pswLogin") setPswLogin(e.target.value);
+    console.log(input, e.target.value);
   };
   const EnviarDatosReg = async (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ function Registro(props) {
       //setter data to register
       await classAUTHREG.SetDatsToAPI(
         owner,
-        clavProdct,
+        clav_prodct,
         user,
         pswLogin,
         PO_ ? "PO" : "PM"
@@ -47,33 +48,33 @@ function Registro(props) {
       // send data to save/register
       await setTimeout(async () => {
         let RespAPI = await classAUTHREG.SendDatsAPI("regtr", axios);
-        if (RespAPI.statusCode === 200) {
-          props.setAlertDialogs([
-            "block",
-            "info",
-            "Respuesta de servidor",
-            "->",
-            RespAPI.msj,
-          ]);
-          //asignement cookies
-          await AsigneCookies("user", user, cookies);
-          await AsigneCookies("token", RespAPI.respt, cookies);
-          //redirect to app dashboard
-          await classAUTHREG.GetAPP(cookies.get("token"), axios);
-        } else {
-          props.setAlertDialogs([
-            "block",
-            "error",
-            "Respuesta de servidor",
-            "->",
-            `${RespAPI.statusCode}-${RespAPI.msj}`,
-          ]);
-        }
-
-        //after 6 sec., reset alerts
-        setTimeout(() => {
-          props.resetWindowsAlertLoading();
-        }, 6000);
+        console.log("respApi: ", RespAPI);
+        // if (RespAPI.statusCode === 200) {
+        //   props.setAlertDialogs([
+        //     "block",
+        //     "info",
+        //     "Respuesta de servidor",
+        //     "->",
+        //     RespAPI.msj,
+        //   ]);
+        //   //asignement cookies
+        //   await AsigneCookies("user", user, cookies);
+        //   await AsigneCookies("token", RespAPI.respt, cookies);
+        //   //redirect to app dashboard
+        //   await classAUTHREG.GetAPP(cookies.get("token"), axios);
+        // } else {
+        //   props.setAlertDialogs([
+        //     "block",
+        //     "error",
+        //     "Respuesta de servidor",
+        //     "->",
+        //     `${RespAPI.statusCode}-${RespAPI.msj}`,
+        //   ]);
+        // }
+        // //after 6 sec., reset alerts
+        // setTimeout(() => {
+        //   props.resetWindowsAlertLoading();
+        // }, 6000);
       }, 2000);
     } catch (error) {
       alert("error enviando datos al servidor, revise su conexion: " + error);
@@ -132,7 +133,7 @@ function Registro(props) {
             name="owner"
             id="owner"
             className="form-control input_text_index"
-            autoComplete="off"
+            autoComplete="on"
             placeholder="INGRESE NOMBRE DE PRODUCTO"
             value={owner}
             onChange={Onchange}
@@ -141,12 +142,12 @@ function Registro(props) {
         <Box>
           <input
             type="text"
-            name="clavProdct"
-            id="clavProdct"
+            name="clav_prodct"
+            id="clav_prodct"
             className="form-control input_text_index"
-            autoComplete="off"
+            autoComplete="on"
             placeholder="INGRESE CLAVE DE PRODUCTO"
-            value={clavProdct}
+            value={clav_prodct}
             onChange={Onchange}
           />
         </Box>
@@ -154,6 +155,7 @@ function Registro(props) {
           type="text"
           id="user"
           name="user"
+          autoComplete="on"
           className="form-control input_text_index"
           placeholder="INGRESE SU USUARIO"
           value={user}

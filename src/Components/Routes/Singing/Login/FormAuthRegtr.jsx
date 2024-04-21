@@ -50,6 +50,7 @@ function Registro(props) {
         let proceso = props.visibleFormAuth ? "auth" : "regtr";
         let RespAPI = await classAUTHREG.SendDatsAPI(proceso);
         console.log("respApi::::: ", RespAPI);
+        props.setStateLoading(false);
         if (RespAPI.statusCode === 200) {
           //asignement cookies
           await AsigneCookies("token", RespAPI.datos.token, cookies);
@@ -57,7 +58,7 @@ function Registro(props) {
           //redirect to app dashboard
           await classAUTHREG.GetAPP(cookies.get("user"), cookies.get("token"));
         } else {
-          props.setStateLoading(false);
+          console.log("---intenta denuevo....");
           props.setAlertDialogs([
             "block",
             "error",

@@ -12,7 +12,7 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 
 import ValideCookies from "../../Comun/ModulosSis/ValideCookies";
-import ReqResDatos_auth_API from "../../Comun/ModulosSis/class_authAPI";
+import ReqResDatos_auth_API from "./ClassAUTHREG";
 //import RestarApp from '../../Comun/ModulosSis/RestarApp';
 
 import {
@@ -42,6 +42,7 @@ function Singin(props) {
   useEffect(() => {
     //valide permisions
     const rspValideCookies = ValideCookies("Singin", cookies, pages);
+    console.log(rspValideCookies);
     if (rspValideCookies.getApp === null && rspValideCookies.msj !== null) {
       setStateLoading("block");
       setTimeout(() => {
@@ -51,7 +52,10 @@ function Singin(props) {
     if (rspValideCookies.getApp) {
       setStateLoading("block");
       setTimeout(() => {
-        reqResDatos_auth_API.GetAPP(cookies.get("token"), axios);
+        reqResDatos_auth_API.GetAPP(
+          cookies.get("user") || "undefined",
+          cookies.get("token")
+        );
       }, 6000);
     }
   }, []);

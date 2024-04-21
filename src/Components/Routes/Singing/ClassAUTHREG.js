@@ -41,15 +41,15 @@ export default class ReqResDatos_auth_API {
     };
   };
 
-  SendDatsAPI = async (proceso, axios) => {
+  SendDatsAPI = async (proceso) => {
     let datos = await this.GetDatosAuth();
     const path_API =
       await `${pages.remoteAPI}arcontroller/web/users/${proceso}`;
-
     const resultValideDatos = await this.ValideDatos(proceso, datos);
-    if (await resultValideDatos) {
+
+    if (resultValideDatos) {
       try {
-        return fetch(path_API, {
+        return await fetch(path_API, {
           method: "POST",
           mode: "cors",
           headers: {
@@ -60,13 +60,9 @@ export default class ReqResDatos_auth_API {
             process_: proceso,
             datos_: datos,
           }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            return data;
-          });
+        }).then((res) => res.json());
       } catch (error) {
-        alert(`${error}`);
+        alert(`no se pudo realizar envio de datos: ${error}`);
       }
     } else {
       alert("Datos ingresados no cumplen requerimientos");
@@ -76,28 +72,31 @@ export default class ReqResDatos_auth_API {
     }
   };
 
-  GetAPP = async (token, axios) => {
-    await axios
-      .get(`${pages.remoteAPI}arcontroller/web/app/dashboard`, {
-        headers: {
-          autorization: `Bearer ${token}`,
-        },
-      })
-      .then((resp) => {
-        console.log(resp);
+  GetAPP = async (user, token) => {
+    console.log("enviando a la app ", token);
+    await fetch(`${pages.remoteAPI}arcontroller/web/app/dashboard`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        autorization: `Bearer ${token} ${user}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("respuesta api getapp ", data);
         setTimeout(() => {
-          if (resp.data.statusCode === 200) {
+          if (data.statusCode === 200) {
             window.location = `${pages.this}arcontroller/web/main/Dashboard`;
           } else {
-            alert(resp.data.msj);
-            window.location = `${pages.this}`;
+            alert(data.msj);
           }
-        }, 300);
+        }, 1500);
       })
+
       .catch((err) => {
         alert("Error en generación de token:", err);
         setTimeout(() => {
-          window.location = `${pages.this}`;
+          console.log(`${pages.this}`);
         }, 300);
         console.error("Error :", err);
       });

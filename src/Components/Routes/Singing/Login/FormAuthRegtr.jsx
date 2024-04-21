@@ -48,13 +48,14 @@ function Registro(props) {
       // send data to save/register
       await setTimeout(async () => {
         let proceso = props.visibleFormAuth ? "auth" : "regtr";
-        let RespAPI = await classAUTHREG.SendDatsAPI(proceso, axios);
-        console.log("respApi: ", RespAPI);
+        let RespAPI = await classAUTHREG.SendDatsAPI(proceso);
+        console.log("respApi::::: ", RespAPI);
         if (RespAPI.statusCode === 200) {
           //asignement cookies
-          await AsigneCookies("token", RespAPI.token, cookies);
+          await AsigneCookies("token", RespAPI.datos.token, cookies);
+          await AsigneCookies("user", user, cookies);
           //redirect to app dashboard
-          await classAUTHREG.GetAPP(cookies.get("token"), axios);
+          await classAUTHREG.GetAPP(cookies.get("user"), cookies.get("token"));
         } else {
           props.setStateLoading(false);
           props.setAlertDialogs([
@@ -62,7 +63,7 @@ function Registro(props) {
             "error",
             "Respuesta de servidor",
             "->",
-            `${RespAPI.statusCode}-${RespAPI.msj}`,
+            `${RespAPI.statusCode}-${RespAPI.datos.msj}`,
           ]);
           //after 6 sec., reset dialogs
           setTimeout(() => {
@@ -131,7 +132,7 @@ function Registro(props) {
             onChange={Onchange}
           />
         </Box>
-        <Box>
+        <Box style={{ display: props.visibleFormAuth ? "none" : "inherit" }}>
           <input
             type="text"
             name="clav_prodct"

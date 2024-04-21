@@ -12,6 +12,7 @@ export default function ValideCookies(process, cookies, pages) {
   try {
     // ---- Rules on home
     if (process === "Inicio") {
+      require("./DropCookies").All(cookies, "/");
       // ## if acepted policy cookies and exist token : return dashboard
       if (
         cookies.get("aceptLegacy") &&
@@ -28,11 +29,17 @@ export default function ValideCookies(process, cookies, pages) {
 
     // ----Rules on singin
     //## without acetp policy cookies, return to home, on home to be dropped all cookies
-    if (process === "Singin" && !cookies.get("aceptLegacy")) {
-      resp.msj = `Es necesario que acepte las políticas de uso de cookies para continuar`;
-    } else {
+    if (process === "Singin") {
+      if (!cookies.get("aceptLegacy")) {
+        resp.getApp = null;
+        resp.msj = `Es necesario que acepte las políticas de uso de cookies para continuar`;
+      }
+
       // ## si ya existe token, redirect to dashboard
-      if (typeof cookies.get("token") !== "undefined") {
+      if (
+        cookies.get("aceptLegacy") &&
+        typeof cookies.get("token") !== "undefined"
+      ) {
         //## return to app
         resp.getApp = true;
         resp.msj = `Sesión activa confirmada, bienvenido de vuelta`;

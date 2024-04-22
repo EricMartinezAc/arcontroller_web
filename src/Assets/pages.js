@@ -1,5 +1,5 @@
 const pages = {
-  this: "https://arcontroller-web.onrender.com/",
+  this: "https://arcontroller-web.vercel.app/", //"https://arcontroller-web.onrender.com/",
   remoteAPI: "https://api-publica.onrender.com/",
   // local: ,
   // localAPI: ,

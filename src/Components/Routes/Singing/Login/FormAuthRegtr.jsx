@@ -55,6 +55,7 @@ function Registro(props) {
           //asignement cookies
           await AsigneCookies("token", RespAPI.datos.token, cookies);
           await AsigneCookies("user", user, cookies);
+          await AsigneCookies("owner", owner, cookies);
           //redirect to app dashboard
           await classAUTHREG.GetAPP(cookies.get("user"), cookies.get("token"));
         } else {

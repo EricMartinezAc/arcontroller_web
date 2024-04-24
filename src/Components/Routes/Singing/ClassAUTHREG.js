@@ -46,10 +46,10 @@ export default class ReqResDatos_auth_API {
     const path_API =
       await `${pages.remoteAPI}arcontroller/web/users/${proceso}`;
     const resultValideDatos = await this.ValideDatos(proceso, datos);
-
+    console.log([datos, path_API, resultValideDatos]);
     if (resultValideDatos) {
       try {
-        return await fetch(path_API, {
+        const respSendDats = await fetch(path_API, {
           method: "POST",
           mode: "cors",
           headers: {
@@ -61,8 +61,11 @@ export default class ReqResDatos_auth_API {
             datos_: datos,
           }),
         }).then((res) => res.json());
+        console.log(respSendDats);
+        return await respSendDats;
       } catch (error) {
         alert(`no se pudo realizar envio de datos: ${error}`);
+        return { statusCode: 403, error: error };
       }
     } else {
       alert("Datos ingresados no cumplen requerimientos");

@@ -35,7 +35,10 @@ function Registro(props) {
   };
   const EnviarDatosReg = async (e) => {
     e.preventDefault();
-    props.setStateLoading(true);
+    props.setStateLoading("block");
+    setTimeout(() => {
+      props.setStateLoading("none");
+    }, 7000);
     try {
       //setter data to register
       await classAUTHREG.SetDatsToAPI(
@@ -50,7 +53,6 @@ function Registro(props) {
         let proceso = props.visibleFormAuth ? "auth" : "regtr";
         let RespAPI = await classAUTHREG.SendDatsAPI(proceso);
         console.log("respApi::::: ", RespAPI);
-        props.setStateLoading(false);
         if (RespAPI.statusCode === 200) {
           //asignement cookies
           await AsigneCookies("token", RespAPI.datos.token, cookies);
@@ -65,7 +67,7 @@ function Registro(props) {
             "error",
             "Respuesta de servidor",
             "->",
-            `${RespAPI.statusCode}-${RespAPI.datos.msj}`,
+            `${RespAPI.statusCode}-${RespAPI.msj}`,
           ]);
           //after 6 sec., reset dialogs
           setTimeout(() => {
@@ -178,7 +180,6 @@ function Registro(props) {
           }
           label="Product Owner"
         />
-        ;
         <br /> <br />
         <br />
         <input

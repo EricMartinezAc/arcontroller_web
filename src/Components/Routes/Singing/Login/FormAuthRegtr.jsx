@@ -36,9 +36,6 @@ function Registro(props) {
   const EnviarDatosReg = async (e) => {
     e.preventDefault();
     props.setStateLoading("block");
-    setTimeout(() => {
-      props.setStateLoading("none");
-    }, 7000);
     try {
       //setter data to register
       await classAUTHREG.SetDatsToAPI(
@@ -69,10 +66,6 @@ function Registro(props) {
             "->",
             `${RespAPI.statusCode}-${RespAPI.msj}`,
           ]);
-          //after 6 sec., reset dialogs
-          setTimeout(() => {
-            props.setAlertDialogs(["none", "info", "", "", ``]);
-          }, 6000);
         }
       }, 2000);
     } catch (error) {

@@ -33,10 +33,16 @@ function Singin(props) {
   //window loading and alert
   const [stateLoading, setStateLoading] = useState("none");
   const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
-  const resetWindowsAlertLoading = () => {
-    setStateLoading("none");
-    setAlertDialogs(["none", "", "", "", ""]);
-  };
+  useEffect(() => {
+    setTimeout(() => {
+      setStateLoading("none");
+    }, 7000);
+  }, [stateLoading]);
+  useEffect(() => {
+    setTimeout(() => {
+      setAlertDialogs(["none", "", "", "", ""]);
+    }, 6500);
+  }, [AlertDialogs]);
 
   //valide cookies
   useEffect(() => {

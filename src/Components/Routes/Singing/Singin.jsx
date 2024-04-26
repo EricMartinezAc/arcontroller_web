@@ -135,7 +135,6 @@ function Singin(props) {
             setStateLoading={setStateLoading}
             AlertDialogs={AlertDialogs}
             setAlertDialogs={setAlertDialogs}
-            resetWindowsAlertLoading={resetWindowsAlertLoading}
           />
         </Box>
       </Grid>

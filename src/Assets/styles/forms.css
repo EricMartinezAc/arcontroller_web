@@ -1,0 +1,12 @@
+.containerInput{
+    display: block;
+    margin-top: 30px;
+}
+
+.inputFlex {
+    display:flex;
+    align-self: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}

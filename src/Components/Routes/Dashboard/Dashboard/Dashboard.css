@@ -1,0 +1,35 @@
+footer {
+    width: 100%;
+
+}
+.AppContainer{
+    width: 100%
+}
+
+.mainContainer {
+    max-height: fit-content;
+    padding: 10px;
+    background-color: rgb(225, 225, 225);
+}
+
+
+
+@media (max-width: 800px) {
+    .main-admin {
+        display: block;
+    }
+}
+
+@media (max-width: 600px) {
+    @media (max-width: 350px) {}
+}
+
+@media (max-width: 300px) {
+    .noRenderAdminDesktop {
+        display: block;
+    }
+
+    .ContentAdmin {
+        display: none;
+    }
+}

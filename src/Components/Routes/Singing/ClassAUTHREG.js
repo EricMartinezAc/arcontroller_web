@@ -60,7 +60,9 @@ export default class ReqResDatos_auth_API {
             process_: proceso,
             datos_: datos,
           }),
-        }).then((res) => res.json());
+        })
+          .then((res) => res.json())
+          .catch((err) => console.err);
         console.log(respSendDats);
         return await respSendDats;
       } catch (error) {

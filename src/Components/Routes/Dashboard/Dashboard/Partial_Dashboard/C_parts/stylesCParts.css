@@ -1,0 +1,29 @@
+.inputFileImg {
+    position: relative;
+    display: inline-block;
+    background-color: #edf63e;
+}
+.inputFileImg:hover{
+    background-color: #b5bc28;
+}
+.inputFileImg::before{
+    content: 'CLIC PARA SUBIR UNA IMAGEN';
+    font-size: small;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.inputFileImg input[type="file"] {
+    opacity: 0;
+    width: 200px;
+    height: 32px;
+    display: inline-block;
+  }

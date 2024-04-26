@@ -33,7 +33,7 @@ function Dashboard(props) {
       token
     );
     setLocations([resptAPIFetchLocation]);
-    console.log([locations, resptAPIFetchLocation]);
+    console.log([1, locations, resptAPIFetchLocation]);
   }, []);
 
   return (

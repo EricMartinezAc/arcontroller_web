@@ -48,32 +48,28 @@ export default class ClassLocations {
   };
 
   FetchLocationsALL = async (owner, user, token) => {
-    const process = "all";
-    console.log(`${pages.remoteAPI}arcontroller/web/locations/queries/find`);
-    return await fetch(
-      `${pages.remoteAPI}arcontroller/web/locations/queries/find`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          autorization: `Bearer ${owner} ${token} ${user} ${process}`,
-        },
-      }
-    )
+    const process = "findAll";
+    return await fetch(`${pages.remoteAPI}arcontroller/web/locations/queries`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        autorization: `Bearer ${owner} ${token} ${user} ${process}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        console.log("respuesta api fetch all ", data);
         setTimeout(() => {
           return data;
         }, 1500);
       });
   };
 
-  AddLocationsAny = async (user, token) => {
-    const process = "one";
+  AddLocationAny = async (user, token) => {
+    const process = "createOne";
+    console.log(["create for", user, token]);
     const datos = this.GetLocations();
     const resptAPI = await fetch(
-      `${pages.remoteAPI}/arcontroller/web/locations/queries/create`,
+      `${pages.remoteAPI}arcontroller/web/locations/queries`,
       {
         method: "POST",
         mode: "cors",
@@ -85,9 +81,8 @@ export default class ClassLocations {
       }
     )
       .then((res) => res.json())
-      .then((data) => {
-        return data;
-      });
+      .catch((err) => console.log("error", err));
+    console.log("----", resptAPI);
     return await resptAPI;
   };
 }

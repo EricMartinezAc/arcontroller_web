@@ -33,8 +33,12 @@ function LocationsAll(props) {
       fileImgLocalidades,
       typeLocalidades,
     });
-    const resptAPI = await classLocations.AddLocationAny(props.cookies);
+    const resptAPI = await classLocations.AddLocationAny(
+      props.user,
+      props.token
+    );
     console.log(resptAPI);
+    return await resptAPI
   };
   const EditLocation = async () => {
     const resptAPI = await classLocations.AddLocationAny(props.cookies, {
@@ -76,6 +80,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="nombreLocalidades">Nombre de localidad</label>
           <input
+            autoComplete="on"
             id="nombreLocalidades"
             name="nombreLocalidades"
             value={nombreLocalidades}
@@ -85,6 +90,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="paisLocalidades">Pais de localidad</label>
           <input
+            autoComplete="on"
             id="paisLocalidades"
             name="paisLocalidades"
             value={paisLocalidades}
@@ -94,6 +100,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="ciudadLocalidades">Ciudad de localidad</label>
           <input
+            autoComplete="on"
             id="ciudadLocalidades"
             name="ciudadLocalidades"
             value={ciudadLocalidades}
@@ -103,6 +110,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="dptoLocalidades">Dpto de localidad</label>
           <input
+            autoComplete="on"
             id="dptoLocalidades"
             name="dptoLocalidades"
             value={dptoLocalidades}
@@ -112,6 +120,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="direccionLocalidades">Dirección de localidad</label>
           <input
+            autoComplete="on"
             id="direccionLocalidades"
             name="direccionLocalidades"
             value={direccionLocalidades}
@@ -121,6 +130,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="contactLocalidades">contacto de localidad</label>
           <input
+            autoComplete="on"
             id="contactLocalidades"
             name="contactLocalidades"
             value={contactLocalidades}
@@ -130,6 +140,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="emailLocalidades">email de localidad</label>
           <input
+            autoComplete="on"
             id="emailLocalidades"
             name="emailLocalidades"
             value={emailLocalidades}
@@ -139,6 +150,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="fileInputProveedores">proveedores de localidad</label>
           <input
+            autoComplete="on"
             id="fileInputProveedores"
             name="fileInputProveedores"
             value={fileInputProveedores}
@@ -148,6 +160,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="fileInputZonas">zonas de localidad</label>
           <input
+            autoComplete="on"
             id="fileInputZonas"
             name="fileInputZonas"
             value={fileInputZonas}
@@ -157,6 +170,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="fileImgLocalidades">Imagen de localidad</label>
           <input
+            autoComplete="on"
             id="fileImgLocalidades"
             name="fileImgLocalidades"
             value={fileImgLocalidades}
@@ -166,6 +180,7 @@ function LocationsAll(props) {
         <Box className="inputFlex">
           <label htmlFor="typeLocalidades">Imagen de localidad</label>
           <input
+            autoComplete="on"
             id="typeLocalidades"
             name="typeLocalidades"
             value={typeLocalidades}

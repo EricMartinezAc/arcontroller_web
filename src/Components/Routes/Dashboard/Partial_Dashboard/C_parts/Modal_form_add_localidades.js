@@ -4,9 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
-  ButtonGroup,
   Grid,
-  IconButton,
   Input,
   List,
   ListItemButton,
@@ -19,15 +17,12 @@ import {
 import ico_add_localidades from "../../../../../Assets/Imgs/icos/ico_addContrato.png";
 import ImageIcon from "@mui/icons-material/Image";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import DraftsIcon from "@mui/icons-material/Drafts";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import DetailsIcon from "@mui/icons-material/Details";
-import SendIcon from "@mui/icons-material/Send";
 import { Stack } from "@mui/system";
 
 import EnviarFormAddLocalidades from "../../../../Comun/ModulosSis/EnviarFormAddLocalidades";
 
-import * as XLSX from "xlsx";
 import axios from "axios";
 import Cookies from "universal-cookie";
 

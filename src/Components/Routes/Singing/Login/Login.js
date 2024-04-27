@@ -62,11 +62,6 @@ function Login(props) {
             `${RespAPI.statusCode}-${RespAPI.msj}`,
           ]);
         }
-
-        //after 6 sec., reset alerts
-        setTimeout(() => {
-          props.resetWindowsAlertLoading();
-        }, 6000);
       }, 2000);
     } catch (error) {
       alert("error enviando datos al servidor, revise su conexion: " + error);

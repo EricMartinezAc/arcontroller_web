@@ -4,8 +4,7 @@ import React, { useEffect } from "react";
 //recursos
 import "./Dashboard.css";
 import Cookies from "universal-cookie";
-import RestarApp from "../../Comun/ModulosSis/RestarApp";
-import ValideCookies from "../../Comun/ModulosSis/ValideCookies.js";
+import FindUserActive from "./Queries/FindUserActive.js";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import TabContext from "@mui/lab/TabContext";
 import TabPanel from "@mui/lab/TabPanel";
@@ -58,7 +57,7 @@ function Dashboard(props) {
   const [stateLoading, setStateLoading] = useState("none");
   const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
   //datas
-  const [user, setUser] = useState([{ name: "invitado", area: "NaN" }]);
+  const [user, setUser] = useState();
   const [actions, setActions] = useState([3, 11]);
 
   //relation beetwen left side menu and windows
@@ -73,34 +72,33 @@ function Dashboard(props) {
     setOpenDrawer(openDrawer === "none" ? "block" : "none");
   };
   const CerrarApp = () => {
-    setAlertDialogs([
-      "block",
-      "info",
-      "Cierre seguro",
-      "->",
-      "La aplicación a cerrado con éxito",
-    ]);
     setTimeout(() => {
-      RestarApp(cookies, ["aceptLegacy", "token"]);
-      window.location = pages.local;
+      window.location = `${pages.this}`;
     }, 5000);
   };
 
   useEffect(() => {
     //steep one: validación de permanencia en la APP
-    const secureApp = ValideCookies("Dashboard", cookies, null);
-    if (!secureApp.value) {
+    if (
+      !cookies.get("aceptLegacy") ||
+      typeof cookies.get("user") === "undefined" ||
+      typeof cookies.get("token") === "undefined"
+    ) {
       setAlertDialogs([
         "block",
         "error",
         "Alerta de seguridad",
         "SECUREAPP value: ",
-        secureApp.msj,
+        "no cuenta con credenciales suficientes",
       ]);
-      setTimeout(() => {
-        window.location = `${pages.this}`;
-      }, 5000);
+      console.log(cookies.getAll());
     }
+    //steep two: carga de datos en API
+    const resptFindUserActive = FindUserActive(
+      cookies.get("user"),
+      cookies.get("token")
+    );
+    console.log[(12, resptFindUserActive)];
   }, []);
   // consumo de API
   // const CargaInicial = () => {

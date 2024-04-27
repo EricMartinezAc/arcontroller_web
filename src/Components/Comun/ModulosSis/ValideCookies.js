@@ -50,14 +50,12 @@ export default function ValideCookies(process, cookies, pages) {
     // ## if not exist sesion, us to be redirect to Singin.
     // ## on sigin if not exist acept policy cookies, to be redirect to home
     if (
-      (process === "Dashboard" && typeof cookies.get("user") === "undefined") ||
-      typeof cookies.get("token") === "undefined"
+      process === "Dashboard" &&
+      typeof cookies.get("token") !== "undefined"
     ) {
       resp.value = false;
       resp.msj = `Sesión no cuenta con credenciales suficientes`;
-    } else {
-      resp.value = true;
-      resp.msj = `Bienvenido a la mejor aplicación de manejo de recursos físicos`;
+      resp.getApp = false;
     }
   } catch (error) {
     resp.msj = `Ha ocurrido un error en validación de datos: ${error}`;

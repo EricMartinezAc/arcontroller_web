@@ -16,7 +16,7 @@ export default class User {
       : false;
   };
 
-  SetDatsToAPI = (_id_, user_, pswLogin_, token_, rol_, id_prodct_) => {
+  SetDatos = (_id_, user_, pswLogin_, token_, rol_, id_prodct_) => {
     this._id = _id_;
     this.user = user_;
     this.pswLogin = pswLogin_;
@@ -25,7 +25,7 @@ export default class User {
     this.id_prodct = id_prodct_;
   };
 
-  GetDatosAuth = async () => {
+  GetDatos = async () => {
     return await {
       _id: this._id,
       user: this.user,
@@ -36,13 +36,12 @@ export default class User {
     };
   };
 
-  PutUser = async () => {
-    let datos = await this.GetDatosAuth();
-    const path_API =
-      await `${pages.remoteAPI}arcontroller/web/users/putUser`;
-    const resultValideDatos = await this.ValideDatos(token, user);
-    console.log([datos, path_API, resultValideDatos]);
+  DatosUser = async () => {
+    let datos = await this.GetDatos();
+    const path_API = await `${pages.remoteAPI}arcontroller/web/user`;
+    const resultValideDatos = await this.ValideDatos(datos.token, datos.user);
     if (resultValideDatos) {
+      console.log([datos, path_API]);
       try {
         const respSendDats = await fetch(path_API, {
           method: "POST",
@@ -68,6 +67,4 @@ export default class User {
       }, 5000);
     }
   };
-
 }
-

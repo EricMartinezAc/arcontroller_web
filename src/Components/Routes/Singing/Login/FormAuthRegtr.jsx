@@ -46,28 +46,27 @@ function Registro(props) {
         PO_ ? "PO" : "PM"
       );
       // send data to save/register
-      await setTimeout(async () => {
-        let proceso = props.visibleFormAuth ? "auth" : "regtr";
-        let RespAPI = await classAUTHREG.SendDatsAPI(proceso);
-        console.log("respApi::::: ", RespAPI);
-        if (RespAPI.statusCode === 200) {
-          //asignement cookies
-          await AsigneCookies("token", RespAPI.datos.token, cookies);
-          await AsigneCookies("user", user, cookies);
-          await AsigneCookies("owner", owner, cookies);
-          //redirect to app dashboard
-          await classAUTHREG.GetAPP(cookies.get("user"), cookies.get("token"));
-        } else {
-          console.log("---intenta denuevo....");
-          props.setAlertDialogs([
-            "block",
-            "error",
-            "Respuesta de servidor",
-            "->",
-            `${RespAPI.statusCode}-${RespAPI.msj}`,
-          ]);
-        }
-      }, 2000);
+
+      let proceso = props.visibleFormAuth ? "auth" : "regtr";
+      let RespAPI = await classAUTHREG.SendDatsAPI(proceso);
+      console.log("respApi::::: ", RespAPI);
+      if (RespAPI.statusCode === 200) {
+        //asignement cookies
+        await AsigneCookies("token", RespAPI.datos.token, cookies);
+        await AsigneCookies("user", user, cookies);
+        await AsigneCookies("owner", owner, cookies);
+        //redirect to app dashboard
+        await classAUTHREG.GetAPP(cookies.get("user"), cookies.get("token"));
+      } else {
+        console.log("---intenta denuevo....");
+        props.setAlertDialogs([
+          "block",
+          "error",
+          "Respuesta de servidor",
+          "->",
+          `${RespAPI.statusCode}-${RespAPI.msj}`,
+        ]);
+      }
     } catch (error) {
       alert("error enviando datos al servidor, revise su conexion: ", error);
     }

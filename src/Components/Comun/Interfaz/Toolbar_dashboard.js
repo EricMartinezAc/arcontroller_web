@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 function Toolbar_dashboard({
   fecha,
   user,
+  owner,
   actions,
   setActions,
   handleDrawer,
@@ -57,7 +58,7 @@ function Toolbar_dashboard({
               variant="h6"
               noWrap
             >
-              {user.name || "Invitado"} /{user.area || "Sin Área"}
+              {owner || "Modeo de prueba"} /{user || "Sin user"}
             </Typography>
           </Grid>
           {/* barra de Notificaciones */}

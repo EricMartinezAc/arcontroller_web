@@ -41,10 +41,7 @@ function Inicio(props) {
         "Ahora puedes usar al aplicación. ",
         respValideCookies.msj,
       ]);
-      setTimeout(
-        () => reqResDatos_auth_API.GetAPP(respValideCookies.token, axios),
-        6000
-      );
+      reqResDatos_auth_API.GetAPP(respValideCookies.token, axios);
     }
   }, []);
 
@@ -64,7 +61,6 @@ function Inicio(props) {
       "Da clic en inicio de seión para continuar",
     ]);
     setTimeout(() => {
-      setStateLoading("none");
       setAlertDialogs(["none", "", "", "", ""]);
     }, 6000);
   };
@@ -76,9 +72,6 @@ function Inicio(props) {
       "Lo sentimos, las cookies son necesarias para el funcionamiento del sistema",
       "Puedes ver y usar otros servicios",
     ]);
-    setTimeout(() => {
-      window.location(pages.this);
-    }, 6000);
   };
 
   return (

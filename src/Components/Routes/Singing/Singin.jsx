@@ -36,7 +36,7 @@ function Singin(props) {
   useEffect(() => {
     setTimeout(() => {
       setStateLoading("none");
-    }, 7000);
+    }, 15000);
   }, [stateLoading]);
   useEffect(() => {
     setTimeout(() => {
@@ -131,9 +131,7 @@ function Singin(props) {
           <FormAuthRegtr
             visibleFormAuth={visibleFormAuth}
             ValidacionFormAuth={ValidacionFormAuth}
-            stateLoading={stateLoading}
             setStateLoading={setStateLoading}
-            AlertDialogs={AlertDialogs}
             setAlertDialogs={setAlertDialogs}
           />
         </Box>

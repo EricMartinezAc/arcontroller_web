@@ -40,6 +40,7 @@ import pages from "../../../Assets/pages.js";
 function Dashboard(props) {
   //instances
   const cookies = new Cookies();
+  const findUserActive = new FindUserActive();
 
   //global variables
   const fecha = {
@@ -58,6 +59,7 @@ function Dashboard(props) {
   const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
   //datas
   const [user, setUser] = useState();
+  const [locations, setLocations] = useState([]);
   const [actions, setActions] = useState([3, 11]);
 
   //relation beetwen left side menu and windows
@@ -94,11 +96,17 @@ function Dashboard(props) {
       console.log(cookies.getAll());
     }
     //steep two: carga de datos en API
-    const resptFindUserActive = FindUserActive(
+    findUserActive.SetDatos(
+      null,
       cookies.get("user"),
-      cookies.get("token")
+      null,
+      cookies.get("token"),
+      null,
+      null
     );
-    console.log[(12, resptFindUserActive)];
+    const resptFindUserActive = findUserActive.DatosUser();
+    console.log([12, resptFindUserActive]);
+    setUser(resptFindUserActive);
   }, []);
   // consumo de API
   // const CargaInicial = () => {
@@ -215,7 +223,8 @@ function Dashboard(props) {
         <header>
           <ToolbarDashboard
             fecha={fecha}
-            user={user}
+            user={cookies.get("user")}
+            owner={cookies.get("owner")}
             actions={actions}
             setActions={setActions}
             handleDrawer={handleDrawer}

@@ -36,7 +36,7 @@ export default class User {
     };
   };
 
-  DatosUser = async () => {
+  loadData = async (owner) => {
     let datos = await this.GetDatos();
     const path_API = await `${pages.remoteAPI}arcontroller/web/user`;
     const resultValideDatos = await this.ValideDatos(datos.token, datos.user);
@@ -50,7 +50,7 @@ export default class User {
             "Content-Type": "application/json",
             "access-control-allow-origin": "*",
           },
-          body: JSON.stringify(datos),
+          body: JSON.stringify({ owner, datos }),
         })
           .then((res) => res.json())
           .catch((err) => console.err);

@@ -95,6 +95,7 @@ function Dashboard(props) {
       ]);
       console.log(cookies.getAll());
     }
+
     //steep two: carga de datos en API
     findUserActive.SetDatos(
       null,
@@ -104,7 +105,7 @@ function Dashboard(props) {
       null,
       null
     );
-    const resptFindUserActive = findUserActive.DatosUser();
+    const resptFindUserActive = findUserActive.loadData(cookies.get("owner"));
     console.log([12, resptFindUserActive]);
     setUser(resptFindUserActive);
   }, []);

@@ -22,7 +22,7 @@ import ViewDashboard from "./Components/viewDashboard/View.js";
 import ViewDashboardContable from "./Components/viewDashboardContable/View.js";
 import ViewDashboardMtto from "./Components/viewDashboardMtto/View.js";
 import ViewHSEQ from "./Components/viewHSEQ/View.js";
-import ViewLocalidades from "./Components/viewLocalidades/View.js";
+import ViewSucursal from "./Components/viewSucursal/View.js";
 import ViewLogist from "./Components/viewLogistica/View.js";
 import ViewMarcoLegal from "./Components/viewMarcoLeg/View.js";
 import ViewPlaneacion from "./Components/viewPlaneacion/View.js";
@@ -54,12 +54,14 @@ function Dashboard(props) {
   const [openDrawer, setOpenDrawer] = useState("none");
   //--> by windows
   const [valueWindows, setValueWindows] = useState("0");
+  const [modeStrict, setModeStrict] = useState(true);
   //window loading and alert
   const [stateLoading, setStateLoading] = useState("none");
   const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
   //datas
   const [user, setUser] = useState();
-  const [locations, setLocations] = useState([]);
+  const [usersOwner, setUsersOwner] = useState();
+  const [sucursales, setSucursales] = useState();
   const [actions, setActions] = useState([3, 11]);
 
   //relation beetwen left side menu and windows
@@ -105,84 +107,25 @@ function Dashboard(props) {
       null,
       null
     );
-    const resptFindUserActive = findUserActive.loadData(cookies.get("owner"));
-    console.log([12, resptFindUserActive]);
-    setUser(resptFindUserActive);
+
+    findUserActive
+      .loadData(cookies.get("owner"))
+      .then((data) => {
+        console.log(data.datos.userReq.rol);
+        setModeStrict(data.datos.userReq.rol === "PM" ? true : false);
+        data.datos.userReq.roll === "PO" &&
+          setUsersOwner(data.datos.usersOfOwner);
+        setUser(data.datos.userReq);
+        setSucursales(data.datos.areas);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
-  // consumo de API
-  // const CargaInicial = () => {
-  //   let RSPTaAPI = Class_API_.ConsumirDatos(
-  //     cookies.get("token"),
-  //     cookies.get("id_prod"),
-  //     cookies.get("user"),
-  //     "StartApp",
-  //     axios
-  //   );
-  //   if (RSPTaAPI.valor === 200) {
-  //     console.log("datos cargados");
-  //     setState({
-  //       user: RSPTaAPI.user,
-  //       datas: RSPTaAPI.datas,
-  //       visibleVentana: {
-  //         viewEmptyDatasDashboard: "none",
-  //         viewDashboard: "block",
-  //         viewDashboardContable: "none",
-  //         viewDashboardMtto: "none",
-  //         viewLocalidades: "none",
-  //         viewRRHH: "none",
-  //         viewLogist: "none",
-  //         viewPlaneacion: "none",
-  //         viewHSEQ: "none",
-  //         viewMarcoLegal: "none",
-  //         viewConfig: "none",
-  //         viewAyuda: "none",
-  //         viewNubeVirtual: "none",
-  //       },
-  //     });
-  //   } else {
-  //     setState({
-  //       user: {},
-  //       datas: {},
-  //       visibleVentana: {
-  //         viewEmptyDatasDashboard: "block",
-  //         viewDashboard: "none",
-  //         viewDashboardContable: "none",
-  //         viewDashboardMtto: "none",
-  //         viewLocalidades: "none",
-  //         viewRRHH: "none",
-  //         viewLogist: "none",
-  //         viewPlaneacion: "none",
-  //         viewHSEQ: "none",
-  //         viewMarcoLegal: "none",
-  //         viewConfig: "none",
-  //         viewAyuda: "none",
-  //         viewNubeVirtual: "none",
-  //       },
-  //     });
-  //   }
-  // };
 
-  // ciclo de vida del componente
-
-  // const componentDidMount = () => {
-  //   let resptValideCookies = ValideCookies("Dashboard", cookies);
-  //   let compareTokens = true; //se debe compara token de cookies con token de usuario
-  //   if (resptValideCookies.value === false || !compareTokens) {
-  //     CerrarApp(resptValideCookies.msj);
-  //   } else {
-  //     // CambiarEstadoDescriptionAlerts(
-  //     //   true,
-  //     //   "success",
-  //     //   "CREDENTIALES VERIFICADAS",
-  //     //   cookies.get("user"),
-  //     //   resptValideCookies.msj
-  //     // );
-  //     // setTimeout(() => {
-  //     //   CambiarEstadoDescriptionAlerts(false, "", "", "", "");
-  //     // }, 3000);
-  //     // CargaInicial();
-  //   }
-  // };
+  useEffect(() => {
+    console.log(modeStrict);
+  }, [modeStrict]);
 
   return (
     <>
@@ -251,7 +194,10 @@ function Dashboard(props) {
                 </List>
                 <Divider />
                 <List>
-                  <ListItemsSecundDashboard handleWindow={handleWindow} />
+                  <ListItemsSecundDashboard
+                    handleWindow={handleWindow}
+                    modeStrict={modeStrict}
+                  />
                 </List>
               </Drawer>
             </aside>
@@ -269,8 +215,8 @@ function Dashboard(props) {
                 <TabPanel value="2">
                   <ViewDashboardMtto />
                 </TabPanel>
-                <TabPanel value="3">
-                  <ViewLocalidades />
+                <TabPanel>
+                  <ViewSucursal modeStrict={modeStrict} />
                 </TabPanel>
                 <TabPanel value="4">
                   <ViewRRHH />

@@ -16,15 +16,19 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { Divider } from "@mui/material";
 import PropTypes from "prop-types";
 
-function ListItems_secund_dashboard({ handleWindow }) {
+function ListItems_secund_dashboard({ handleWindow, modeStrict }) {
   return (
     <>
       <ListSubheader inset>Gestión de activos</ListSubheader>
-      <ListItem button onClick={() => handleWindow("3")}>
+      <ListItem
+        style={{ display: modeStrict ? "none" : "block" }}
+        button
+        onClick={() => handleWindow("3")}
+      >
         <ListItemIcon>
           <FactoryIcon />
         </ListItemIcon>
-        <ListItemText primary="Localidades" />
+        <ListItemText primary="Sucursales" />
       </ListItem>
       <ListItem button onClick={() => handleWindow("4")}>
         <ListItemIcon>

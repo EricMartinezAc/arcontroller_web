@@ -21,7 +21,7 @@ function ListItems_secund_dashboard({ handleWindow, modeStrict }) {
     <>
       <ListSubheader inset>Gestión de activos</ListSubheader>
       <ListItem
-        style={{ display: modeStrict ? "none" : "block" }}
+        style={{ display: modeStrict && "none" }}
         button
         onClick={() => handleWindow("3")}
       >

@@ -1,13 +1,13 @@
 .inputFileImg {
     position: relative;
     display: inline-block;
-    background-color: #edf63e;
 }
 .inputFileImg:hover{
     background-color: #b5bc28;
+    cursor: pointer;
 }
 .inputFileImg::before{
-    content: 'CLIC PARA SUBIR UNA IMAGEN';
+    cursor: pointer;
     font-size: small;
     color: black;
     display: flex;
@@ -19,11 +19,12 @@
     right: 0;
     top: 0;
     bottom: 0;
+    content: 'Click aquí para agregar imagen';
 }
-
 .inputFileImg input[type="file"] {
     opacity: 0;
     width: 200px;
-    height: 32px;
+    height: 12px;
     display: inline-block;
+    cursor: pointer;
   }

@@ -20,11 +20,11 @@ const classAUTHREG = new ClassAUTHREG();
 
 function Registro(props) {
   //formulario
-  const [owner, setOwner] = useState("");
-  const [clav_prodct, setclav_prodct] = useState("");
-  const [user, setUser] = useState("");
-  const [pswLogin, setPswLogin] = useState("");
-  const [PO_, setPO_] = useState(false);
+  const [owner, setOwner] = useState("arcwebtest");
+  const [clav_prodct, setclav_prodct] = useState("clav_owner");
+  const [user, setUser] = useState("eric");
+  const [pswLogin, setPswLogin] = useState("qwerty");
+  const [PO_, setPO_] = useState(true);
 
   const Onchange = (e) => {
     const input = e.target.name;

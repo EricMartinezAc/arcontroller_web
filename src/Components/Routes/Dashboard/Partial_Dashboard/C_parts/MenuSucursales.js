@@ -12,14 +12,14 @@ import { alpha } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SearchSharp } from "@mui/icons-material";
 
-import ModalFormAddLocalidades from "./Modal_form_add_localidades";
-import ModalFormEditLocalidades from "./Modal_form_editar_localidades";
-import ModalFormPrintLocalidades from "./Modal_form_imprimir_localidades";
-import ModalFormDropLocalidades from "./Modal_form_borrar_localidades";
+import ModalFormAddSucursal from "./Modal_form_add_sucursal";
+import ModalFormEditSucursal from "./Modal_form_editar_sucursal";
+import ModalFormPrintSucursal from "./Modal_form_imprimir_sucursal";
+import ModalFormDropSucursal from "./Modal_form_borrar_sucursal";
 
 import PropTypes from "prop-types";
 
-function MenuLocalidades(props) {
+function MenuSucursal(props) {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -79,7 +79,7 @@ function MenuLocalidades(props) {
   const [openModalPrint, setOpenModalPrint] = useState(false);
   const visibleModalPrint = () => setOpenModalPrint(!openModalPrint);
   const [visibleSearch, setVisibleSearch] = useState(false);
-  const visibleSearchLocalidades = () => setVisibleSearch(!visibleSearch);
+  const visibleSearchSucursal = () => setVisibleSearch(!visibleSearch);
 
   return (
     <nav className="menu-main">
@@ -89,12 +89,12 @@ function MenuLocalidades(props) {
             <Grid item xs={8}>
               <IconButton>
                 <Typography component="h5" variant="h6">
-                  Localidades
+                  Sucursales
                 </Typography>
               </IconButton>
             </Grid>
             <Grid item xs={4}>
-              <IconButton onClick={visibleSearchLocalidades}>
+              <IconButton onClick={visibleSearchSucursal}>
                 <SearchSharp />
               </IconButton>
               <IconButton onClick={visibleModalAdd} size="medium">
@@ -144,19 +144,22 @@ function MenuLocalidades(props) {
           </Grid>
         </Item>
       </Box>
-      <ModalFormAddLocalidades
+      <ModalFormAddSucursal
         open={openModalAdd}
+        owner={props.owner}
+        user={props.user}
+        usersOwner={props.usersOwner}
         visibleModalAdd={visibleModalAdd}
       />
-      <ModalFormEditLocalidades
+      <ModalFormEditSucursal
         open={openModalEdit}
         visibleModalEdit={visibleModalEdit}
       />
-      <ModalFormPrintLocalidades
+      <ModalFormPrintSucursal
         open={openModalPrint}
         visibleModalPrint={visibleModalPrint}
       />
-      <ModalFormDropLocalidades
+      <ModalFormDropSucursal
         open={openModalDrop}
         visibleModalDrop={visibleModalDrop}
       />
@@ -164,6 +167,6 @@ function MenuLocalidades(props) {
   );
 }
 
-MenuLocalidades.propTypes = {};
+MenuSucursal.propTypes = {};
 
-export default MenuLocalidades;
+export default MenuSucursal;

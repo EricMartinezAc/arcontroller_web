@@ -60,7 +60,8 @@ function Dashboard(props) {
   const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
   //datas
   const [user, setUser] = useState();
-  const [usersOwner, setUsersOwner] = useState();
+  const [usersOwner, setUsersOwner] = useState(null);
+
   const [sucursales, setSucursales] = useState();
   const [actions, setActions] = useState([3, 11]);
 
@@ -69,19 +70,25 @@ function Dashboard(props) {
     setOpenDrawer("none");
   }, [valueWindows]);
   const handleWindow = (newValue) => {
-    console.log(newValue);
     setValueWindows(newValue);
   };
   const handleDrawer = () => {
     setOpenDrawer(openDrawer === "none" ? "block" : "none");
   };
+  useEffect(() => {
+    modeStrict
+      ? console.log("App con restricciones")
+      : console.log("Usuario root");
+  }, [modeStrict]);
   const CerrarApp = () => {
     setTimeout(() => {
       window.location = `${pages.this}`;
     }, 5000);
   };
 
+  //Load App --------
   useEffect(() => {
+    console.log("-----", cookies.getAll());
     //steep one: validación de permanencia en la APP
     if (
       !cookies.get("aceptLegacy") ||
@@ -96,6 +103,9 @@ function Dashboard(props) {
         "no cuenta con credenciales suficientes",
       ]);
       console.log(cookies.getAll());
+      setTimeout(() => {
+        window.location = "/";
+      }, 35000);
     }
 
     //steep two: carga de datos en API
@@ -110,22 +120,19 @@ function Dashboard(props) {
 
     findUserActive
       .loadData(cookies.get("owner"))
-      .then((data) => {
-        console.log(data.datos.userReq.rol);
-        setModeStrict(data.datos.userReq.rol === "PM" ? true : false);
-        data.datos.userReq.roll === "PO" &&
-          setUsersOwner(data.datos.usersOfOwner);
-        setUser(data.datos.userReq);
-        setSucursales(data.datos.areas);
+      .then(async (data) => {
+        console.log("resp API ---------", await data.datos);
+        await setModeStrict(data.datos.userReq.rol === "PM" ? true : false);
+        await setUsersOwner(
+          data.datos.userReq.rol === "PO" ? data.datos.usersOfOwner : "PM"
+        );
+        await setUser(data.datos.userReq);
+        await setSucursales(data.datos.branch);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  useEffect(() => {
-    console.log(modeStrict);
-  }, [modeStrict]);
 
   return (
     <>
@@ -215,8 +222,13 @@ function Dashboard(props) {
                 <TabPanel value="2">
                   <ViewDashboardMtto />
                 </TabPanel>
-                <TabPanel>
-                  <ViewSucursal modeStrict={modeStrict} />
+                <TabPanel value="3">
+                  <ViewSucursal
+                    owner={cookies.get("owner")}
+                    user={user}
+                    usersOwner={usersOwner}
+                    sucursales={sucursales}
+                  />
                 </TabPanel>
                 <TabPanel value="4">
                   <ViewRRHH />

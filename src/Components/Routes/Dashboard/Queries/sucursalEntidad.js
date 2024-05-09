@@ -91,42 +91,33 @@ export default class sucursalEntidad {
 
   QueryAPI = async (process, owner, user) => {
     const path_to_API = `${pages.remoteAPI}arcontroller/web/${process}`;
-
     const data = await this.GetDatos();
-
     const resultValideDatos = await ValideDatosMiddle(process, data);
 
-    console.log(`send data form API by add sucursal: `, [
-      resultValideDatos,
-      process,
-      owner,
-      user,
-      data,
-    ]);
-    // if (resultValideDatos) {
-    //   console.log("run to ", [process, owner, user, path_to_API, ]);
-    //   // try {
-    //   //   const respSendDats = await fetch(path_to_API, {
-    //   //     method: "POST",
-    //   //     mode: "cors",
-    //   //     headers: {
-    //   //       "Content-Type": "application/json",
-    //   //       "access-control-allow-origin": "*",
-    //   //     },
-    //   //     body: JSON.stringify({ process, owner, user, data,  }),
-    //   //   })
-    //   //     .then((res) => res.json())
-    //   //     .catch((err) => console.err(err));
-    //   //   return await respSendDats;
-    //   // } catch (error) {
-    //   //   alert(`no se pudo realizar envio de datos: ${error}`);
-    //   //   return { statusCode: 403, error };
-    //   // }
-    // } else {
-    //   alert("Datos ingresados no cumplen requerimientos");
-    //   setTimeout(() => {
-    //     window.location = `${pages.this}/Singin`;
-    //   }, 5000);
-    // }
+    if (resultValideDatos) {
+      console.log("run to ", [process, owner, user, path_to_API, data]);
+      try {
+        const respSendDats = await fetch(path_to_API, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "access-control-allow-origin": "*",
+          },
+          body: JSON.stringify({ process, owner, user, data }),
+        })
+          .then((res) => res.json())
+          .catch((err) => console.err(err));
+        return await respSendDats;
+      } catch (error) {
+        alert(`no se pudo realizar envio de datos: ${error}`);
+        return { statusCode: 403, error };
+      }
+    } else {
+      alert("Datos ingresados no cumplen requerimientos");
+      setTimeout(() => {
+        window.location = `${pages.this}/Singin`;
+      }, 5000);
+    }
   };
 }

@@ -2,6 +2,15 @@ import { React, useEffect, useState } from "react";
 
 import XLSX from "xlsx";
 
+import dayjs from "dayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -65,9 +74,12 @@ export default function BasicModal(props) {
   const [tipo, setTipo] = useState("Seleccione un tipo");
   const [clasificacion, setClasificacion] = useState("Clasifique sucursal");
   const [prioridad, setPrioridad] = useState("Seleccione nivel de prioridad");
-  const [inicioOp, setInicioOp] = useState();
+  const [inicioOp, setInicioOp] = useState("16-06-1992");
+  const handle_fileInputDate = async (dateObj) => {
+    await setInicioOp(JSON.stringify(dateObj));
+  };
   const [contactos, setContactos] = useState([]);
-  const [team, setTeam] = useState([]);
+  const team = props.owner;
   const [imagen, setImagen] = useState(ImgInic);
   const handle_fileImgSucursales = (e) => {
     if (e.target.files.length > 0) {
@@ -90,7 +102,7 @@ export default function BasicModal(props) {
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
-      setAreas({ file, data });
+      setAreas(JSON.stringify(data));
     };
 
     fileReader.onerror = (error) => {
@@ -107,7 +119,7 @@ export default function BasicModal(props) {
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
-      setProveedores({ file, data });
+      setProveedores(JSON.stringify(data));
     };
 
     fileReader.onerror = (error) => {
@@ -510,7 +522,7 @@ export default function BasicModal(props) {
                   </FormControl>
                 </Stack>
               </Grid>
-              <Grid m={1} item xs={12} md={6}>
+              <Grid m={1} item xs={12} md={10}>
                 <Stack component="form" noValidate autoComplete="on">
                   <FormControl>
                     <Select
@@ -519,7 +531,7 @@ export default function BasicModal(props) {
                       value={gerente}
                       label="Gerente"
                       onChange={(e) => {
-                        setTipo(e.target.value);
+                        setGerente(e.target.value);
                       }}
                     >
                       <MenuItem value="Gerente">Gerente</MenuItem>
@@ -534,22 +546,31 @@ export default function BasicModal(props) {
                   </FormControl>
                 </Stack>
               </Grid>
-              <Grid m={1} item xs={12} md={4}>
-                <Stack component="form" noValidate autoComplete="on">
-                  <TextField
-                    autoComplete="true"
-                    onChange={(e) => setInicioOp(e.target.value)}
-                    name={"inicioOp"}
-                    id={"inicioOp"}
-                    label="Fecha de inicio de operación"
-                    defaultValue=""
-                    helperText=""
-                  />
-                </Stack>
-              </Grid>
               <Grid m={1} item xs={12} md={10}>
                 <Stack component="form" noValidate autoComplete="on">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                      components={[
+                        "DatePicker",
+                        "MobileDatePicker",
+                        "DesktopDatePicker",
+                        "StaticDatePicker",
+                      ]}
+                    >
+                      <DemoItem label="Fecha de inicio de operaciones">
+                        <DesktopDatePicker
+                          onChange={(e) => handle_fileInputDate(e)}
+                          defaultValue={dayjs(inicioOp)}
+                        />
+                      </DemoItem>
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </Stack>
+              </Grid>
+              {/* <Grid m={1} item xs={12} md={10}>
+                <Stack component="form" noValidate autoComplete="on">
                   <TextField
+                    hidden
                     autoComplete="true"
                     onChange={(e) => setTeam(e.target.value)}
                     name={"team"}
@@ -559,7 +580,7 @@ export default function BasicModal(props) {
                     helperText=""
                   />
                 </Stack>
-              </Grid>
+              </Grid> */}
             </Grid>
             {/* proveedores */}
             <Grid

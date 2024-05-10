@@ -22,7 +22,7 @@ export default class sucursalEntidad {
   }
 
   SetDatos = (datos) => {
-    this._id = GenerateObjectId();
+    this._id = datos._id;
     this.sucursal = datos.sucursal;
     this.ubicacion = datos.ubicacion;
     this.centroCosto = datos.centroCosto;

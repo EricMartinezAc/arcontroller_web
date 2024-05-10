@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 
 //recursos
 import "./Dashboard.css";
-import sucursalEntidad from "./Queries/sucursalEntidad.js";
+import SucursalEntidad from "./Queries/sucursalEntidad.js";
 import Cookies from "universal-cookie";
 import FindUserActive from "./Queries/FindUserActive.js";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";

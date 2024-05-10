@@ -189,6 +189,7 @@ export default function BasicModal(props) {
       areas,
       proveedores,
       gerente,
+      id_prodct: props.user.id_prodct,
     });
     const respSendDats = await sucursalEntidad.QueryAPI(
       "branch/add/any",

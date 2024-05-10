@@ -1,5 +1,6 @@
 const pages = require("../../../../Assets/pages.js");
 const { ValideDatosMiddle } = require("../../../Comun/ModulosSis/Segurity.js");
+const GenerateObjectId = require("../../../Comun/ModulosGen/GenerateObjectId.js");
 
 export default class sucursalEntidad {
   constructor() {
@@ -21,7 +22,7 @@ export default class sucursalEntidad {
   }
 
   SetDatos = (datos) => {
-    this._id = datos._id;
+    this._id = GenerateObjectId();
     this.sucursal = datos.sucursal;
     this.ubicacion = datos.ubicacion;
     this.centroCosto = datos.centroCosto;
@@ -33,6 +34,7 @@ export default class sucursalEntidad {
     this.team = datos.team;
     this.imagen = datos.imagen;
     this.areas = datos.areas;
+    this.proveedores = datos.proveedores;
     this.gerente = datos.gerente;
     this.id_prodct = datos.id_prodct;
   };
@@ -57,37 +59,37 @@ export default class sucursalEntidad {
     };
   };
 
-  loadData = async (owner) => {
-    let datos = await this.GetDatos();
-    const path_API = await `${pages.remoteAPI}arcontroller/web/user`;
-    const resultValideDatos = await this.ValideDatos(datos.token, datos.user);
-    if (resultValideDatos) {
-      console.log([datos, path_API]);
-      try {
-        const respSendDats = await fetch(path_API, {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            "access-control-allow-origin": "*",
-          },
-          body: JSON.stringify({ owner, datos }),
-        })
-          .then((res) => res.json())
-          .catch((err) => console.err);
-        console.log(respSendDats);
-        return await respSendDats;
-      } catch (error) {
-        alert(`no se pudo realizar envio de datos: ${error}`);
-        return { statusCode: 403, error: error };
-      }
-    } else {
-      alert("Datos ingresados no cumplen requerimientos");
-      setTimeout(() => {
-        window.location = `${pages.this}/Singin`;
-      }, 5000);
-    }
-  };
+  // loadData = async (owner) => {
+  //   let datos = await this.GetDatos();
+  //   const path_API = await `${pages.remoteAPI}arcontroller/web/user`;
+  //   const resultValideDatos = await this.ValideDatos(datos.token, datos.user);
+  //   if (resultValideDatos) {
+  //     console.log([datos, path_API]);
+  //     try {
+  //       const respSendDats = await fetch(path_API, {
+  //         method: "POST",
+  //         mode: "cors",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "access-control-allow-origin": "*",
+  //         },
+  //         body: JSON.stringify({ owner, datos }),
+  //       })
+  //         .then((res) => res.json())
+  //         .catch((err) => console.err);
+  //       console.log(respSendDats);
+  //       return await respSendDats;
+  //     } catch (error) {
+  //       alert(`no se pudo realizar envio de datos: ${error}`);
+  //       return { statusCode: 403, error: error };
+  //     }
+  //   } else {
+  //     alert("Datos ingresados no cumplen requerimientos");
+  //     setTimeout(() => {
+  //       window.location = `${pages.this}/Singin`;
+  //     }, 5000);
+  //   }
+  // };
 
   QueryAPI = async (process, owner, user) => {
     const path_to_API = `${pages.remoteAPI}arcontroller/web/${process}`;
@@ -95,7 +97,6 @@ export default class sucursalEntidad {
     const resultValideDatos = await ValideDatosMiddle(process, data);
 
     if (resultValideDatos) {
-      console.log("run to ", [process, owner, user, path_to_API, data]);
       try {
         const respSendDats = await fetch(path_to_API, {
           method: "POST",

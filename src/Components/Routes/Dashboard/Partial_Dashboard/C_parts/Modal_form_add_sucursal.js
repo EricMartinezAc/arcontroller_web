@@ -6,10 +6,8 @@ import dayjs from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -60,8 +58,6 @@ export default function BasicModal(props) {
   }, []);
 
   const visibleModalAdd = props.visibleModalAdd;
-
-  const sucursalEntidad = new SucursalEntidad();
 
   const [visbleGeneralForm, setvisbleGeneralForm] = useState("flex");
   const [visibleAreas, setvisibleAreas] = useState("none");
@@ -175,7 +171,7 @@ export default function BasicModal(props) {
 
   const BtnEnviarFormAddSucursales = async () => {
     console.log("go");
-    await sucursalEntidad.SetDatos({
+    setdataFormAddSucursal({
       sucursal,
       ubicacion,
       centroCosto,
@@ -191,12 +187,6 @@ export default function BasicModal(props) {
       gerente,
       id_prodct: props.user.id_prodct,
     });
-    const respSendDats = await sucursalEntidad.QueryAPI(
-      "branch/add/any",
-      props.owner,
-      props.user
-    );
-    console.log(await respSendDats, "---------------");
   };
 
   return (

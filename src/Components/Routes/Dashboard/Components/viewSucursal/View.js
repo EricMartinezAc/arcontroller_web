@@ -8,11 +8,16 @@ import Menu from "../../Partial_Dashboard/C_parts/MenuSucursales";
 
 import PropTypes from "prop-types";
 
-function View({ owner, user, usersOwner, sucursales }) {
+function View({ owner, user, usersOwner, sucursales, setdataFormAddSucursal }) {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
-        <Menu owner={owner} user={user} usersOwner={usersOwner} />
+        <Menu
+          owner={owner}
+          user={user}
+          usersOwner={usersOwner}
+          setdataFormAddSucursal={setdataFormAddSucursal}
+        />
       </Grid>
       <Grid p={1} item xs={12} md={8}>
         <TableDatas />

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 
 //recursos
 import "./Dashboard.css";
+import sucursalEntidad from "./Queries/sucursalEntidad.js";
 import Cookies from "universal-cookie";
 import FindUserActive from "./Queries/FindUserActive.js";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -63,6 +64,19 @@ function Dashboard(props) {
   const [usersOwner, setUsersOwner] = useState(null);
 
   const [sucursales, setSucursales] = useState();
+  const [dataFormAddSucursal, setdataFormAddSucursal] = useState({});
+  const sucursalEntidad = new SucursalEntidad();
+  //---?? Queries from actuality branch
+  useEffect(() => {
+    sucursalEntidad.SetDatos(dataFormAddSucursal);
+    const respSendDats = sucursalEntidad.QueryAPI(
+      "branch/add/any",
+      props.owner,
+      props.user
+    );
+    console.log("---------------", respSendDats);
+  }, [dataFormAddSucursal]);
+
   const [actions, setActions] = useState([3, 11]);
 
   //relation beetwen left side menu and windows
@@ -228,6 +242,7 @@ function Dashboard(props) {
                     user={user}
                     usersOwner={usersOwner}
                     sucursales={sucursales}
+                    setdataFormAddSucursal={setdataFormAddSucursal}
                   />
                 </TabPanel>
                 <TabPanel value="4">

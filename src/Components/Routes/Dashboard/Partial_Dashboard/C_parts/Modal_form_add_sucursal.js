@@ -171,7 +171,7 @@ export default function BasicModal(props) {
 
   const BtnEnviarFormAddSucursales = async () => {
     console.log("go");
-    setdataFormAddSucursal({
+    props.setdataFormAddSucursal({
       sucursal,
       ubicacion,
       centroCosto,

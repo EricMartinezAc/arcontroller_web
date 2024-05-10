@@ -1,6 +1,5 @@
 const pages = require("../../../../Assets/pages.js");
 const { ValideDatosMiddle } = require("../../../Comun/ModulosSis/Segurity.js");
-const GenerateObjectId = require("../../../Comun/ModulosGen/GenerateObjectId.js");
 
 export default class sucursalEntidad {
   constructor() {

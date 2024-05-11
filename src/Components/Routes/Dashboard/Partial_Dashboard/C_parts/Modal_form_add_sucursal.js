@@ -57,15 +57,33 @@ export default function BasicModal(props) {
     console.log(props, "model");
   }, []);
 
+  //ventanas
   const visibleModalAdd = props.visibleModalAdd;
-
+  const setVisible1 = () => {
+    setvisbleGeneralForm("flex");
+    setvisibleAreas("none");
+    setvisibleProveedores("none");
+  };
+  const setVisible2 = () => {
+    setvisbleGeneralForm("none");
+    setvisibleAreas("flex");
+    setvisibleProveedores("none");
+  };
+  const setVisible3 = () => {
+    setvisbleGeneralForm("none");
+    setvisibleAreas("none");
+    setvisibleProveedores("flex");
+  };
   const [visbleGeneralForm, setvisbleGeneralForm] = useState("flex");
   const [visibleAreas, setvisibleAreas] = useState("none");
   const [visibleProveedores, setvisibleProveedores] = useState("none");
 
   //fomrs general
   const [sucursal, setSucursal] = useState("");
-  const [ubicacion, setUbicacion] = useState([]);
+  const [pais, setPais] = useState("");
+  const [ciudad, setCiudad] = useState("");
+  const [dpto, setDpto] = useState("");
+  const [dir, setDir] = useState("");
   const [centroCosto, setCentroCosto] = useState("");
   const [tipo, setTipo] = useState("Seleccione un tipo");
   const [clasificacion, setClasificacion] = useState("Clasifique sucursal");
@@ -74,7 +92,8 @@ export default function BasicModal(props) {
   const handle_fileInputDate = async (dateObj) => {
     await setInicioOp(JSON.stringify(dateObj));
   };
-  const [contactos, setContactos] = useState([]);
+  const [contactos, setContactos] = useState("");
+  const [email, setEmail] = useState("");
   const team = props.owner;
   const [imagen, setImagen] = useState(ImgInic);
   const handle_fileImgSucursales = (e) => {
@@ -124,22 +143,6 @@ export default function BasicModal(props) {
   };
   const [gerente, setGerente] = useState("Gerente");
 
-  const setVisible1 = () => {
-    setvisbleGeneralForm("flex");
-    setvisibleAreas("none");
-    setvisibleProveedores("none");
-  };
-  const setVisible2 = () => {
-    setvisbleGeneralForm("none");
-    setvisibleAreas("flex");
-    setvisibleProveedores("none");
-  };
-  const setVisible3 = () => {
-    setvisbleGeneralForm("none");
-    setvisibleAreas("none");
-    setvisibleProveedores("flex");
-  };
-
   // const TransformDataExcelToJSON = (refFile, name) => {
   //   const promise = new Promise((resolve, reject) => {
   //     const fileReader = new FileReader();
@@ -170,16 +173,15 @@ export default function BasicModal(props) {
   // };
 
   const BtnEnviarFormAddSucursales = async () => {
-    console.log("go");
     props.setdataFormAddSucursal({
       sucursal,
-      ubicacion,
+      ubicacion: [pais, ciudad, dpto, dir],
       centroCosto,
       tipo,
       clasificacion,
       prioridad,
       inicioOp,
-      contactos,
+      contactos: [contactos, email],
       team,
       imagen,
       areas,
@@ -210,13 +212,13 @@ export default function BasicModal(props) {
                 }}
                 src={ico_add_Sucursales}
               />
-              Agrega una localidad
+              Agrega una sucursal
             </Typography>
           </Grid>
           <Grid p={2} container xs={12} md={12}>
             {/* aside */}
             <Grid p={2} item xs={12} md={5}>
-              {/* imagen perfil localidad */}
+              {/* imagen perfil sucursal */}
               <img
                 style={{
                   zIndex: -100,
@@ -331,7 +333,7 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setPais(e.target.value)}
                     name={"pais"}
                     id={"pais"}
                     label="Pais"
@@ -349,7 +351,7 @@ export default function BasicModal(props) {
                 >
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setCiudad(e.target.value)}
                     name={"ciudad"}
                     id="ciudad"
                     label="ciudad o municipio"
@@ -367,7 +369,7 @@ export default function BasicModal(props) {
                 >
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setDpto(e.target.value)}
                     name={"dpto"}
                     id={"dpto"}
                     label="Dpto"
@@ -381,7 +383,7 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setDir(e.target.value)}
                     name={"direccion"}
                     id={"direccion"}
                     label="Dirección"
@@ -395,7 +397,7 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setContactos([...e.target.value])}
+                    onChange={(e) => setContactos(e.target.value)}
                     name={"contacto"}
                     id={"contacto"}
                     label="# contacto"
@@ -408,7 +410,7 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setContactos([...e.target.value])}
+                    onChange={(e) => setEmail(e.target.value)}
                     name={"email"}
                     id={"email"}
                     label="e-mail"
@@ -421,7 +423,7 @@ export default function BasicModal(props) {
             {/* //detalles */}
             <Grid p={2} sx={{ display: visibleAreas }} container xs={12} md={7}>
               <Grid m={1} item xs={12} md={10}>
-                <label className="form-label" for="fileInputAreas">
+                <label className="form-label" htmlFor="fileInputAreas">
                   Agrege areas pertenecientes a esta sucursal
                 </label>
                 <br />
@@ -506,37 +508,38 @@ export default function BasicModal(props) {
                       <MenuItem value="Oficina">Oficina</MenuItem>
                       <MenuItem value="Publico">Publico</MenuItem>
                       <MenuItem value="HomeOFfice">Home Office</MenuItem>
-                      <MenuItem className="btn-danger" value="Peligroso">
-                        Alta Peligrosidad
-                      </MenuItem>
+                      <MenuItem value="Peligroso">Alta Peligrosidad</MenuItem>
                     </Select>
                   </FormControl>
                 </Stack>
               </Grid>
-              <Grid m={1} item xs={12} md={10}>
-                <Stack component="form" noValidate autoComplete="on">
-                  <FormControl>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={gerente}
-                      label="Gerente"
-                      onChange={(e) => {
-                        setGerente(e.target.value);
-                      }}
-                    >
-                      <MenuItem value="Gerente">Gerente</MenuItem>
-                      {props.usersOwner.map((item, index) => {
-                        return (
-                          <MenuItem key={index} value={item.user}>
-                            {item.user}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Stack>
-              </Grid>
+              {
+                <Grid m={1} item xs={12} md={10}>
+                  <Stack component="form" noValidate autoComplete="on">
+                    <FormControl>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={gerente}
+                        label="Gerente"
+                        onChange={(e) => {
+                          setGerente(e.target.value);
+                        }}
+                      >
+                        <MenuItem value="Gerente">Gerente</MenuItem>
+                        {props.usersOwner.length > 0 &&
+                          props.usersOwner.map((item, index) => {
+                            return (
+                              <MenuItem key={index} value={item.user}>
+                                {item.user}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
+                  </Stack>
+                </Grid>
+              }
               <Grid m={1} item xs={12} md={10}>
                 <Stack component="form" noValidate autoComplete="on">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -582,7 +585,7 @@ export default function BasicModal(props) {
               md={7}
             >
               <Box>
-                <label className="form-label" for="fileInputProveedores">
+                <label className="form-label" htmlFor="fileInputProveedores">
                   Agrege la relación de proveedores según área de conocimiento
                 </label>
                 <br />

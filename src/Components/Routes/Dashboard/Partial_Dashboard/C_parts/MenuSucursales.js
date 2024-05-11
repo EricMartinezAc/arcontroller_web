@@ -151,6 +151,7 @@ function MenuSucursal(props) {
         usersOwner={props.usersOwner}
         visibleModalAdd={visibleModalAdd}
         setdataFormAddSucursal={props.setdataFormAddSucursal}
+        setSucursales={props.setSucursales}
       />
       <ModalFormEditSucursal
         open={openModalEdit}

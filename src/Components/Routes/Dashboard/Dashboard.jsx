@@ -42,6 +42,7 @@ function Dashboard(props) {
   //instances
   const cookies = new Cookies();
   const findUserActive = new FindUserActive();
+  const sucursalEntidad = new SucursalEntidad();
 
   //global variables
   const fecha = {
@@ -53,57 +54,72 @@ function Dashboard(props) {
   //states and yourself func
   //--> by left side menu
   const [openDrawer, setOpenDrawer] = useState("none");
+  const handleDrawer = () => {
+    setOpenDrawer(openDrawer === "none" ? "block" : "none");
+  };
+
   //--> by windows
   const [valueWindows, setValueWindows] = useState("0");
-  const [modeStrict, setModeStrict] = useState(true);
-  //window loading and alert
-  const [stateLoading, setStateLoading] = useState("none");
-  const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
-  //datas
-  const [user, setUser] = useState();
-  const [usersOwner, setUsersOwner] = useState(null);
-
-  const [sucursales, setSucursales] = useState();
-  const [dataFormAddSucursal, setdataFormAddSucursal] = useState({});
-  const sucursalEntidad = new SucursalEntidad();
-  //---?? Queries from actuality branch
-  useEffect(() => {
-    sucursalEntidad.SetDatos(dataFormAddSucursal);
-    const respSendDats = sucursalEntidad.QueryAPI(
-      "branch/add/any",
-      props.owner,
-      props.user
-    );
-    console.log("---------------", respSendDats);
-  }, [dataFormAddSucursal]);
-
-  const [actions, setActions] = useState([3, 11]);
-
-  //relation beetwen left side menu and windows
   useEffect(() => {
     setOpenDrawer("none");
   }, [valueWindows]);
   const handleWindow = (newValue) => {
     setValueWindows(newValue);
   };
-  const handleDrawer = () => {
-    setOpenDrawer(openDrawer === "none" ? "block" : "none");
-  };
+
+  //security
+  const [modeStrict, setModeStrict] = useState(true);
   useEffect(() => {
     modeStrict
       ? console.log("App con restricciones")
       : console.log("Usuario root");
   }, [modeStrict]);
+
   const CerrarApp = () => {
     setTimeout(() => {
       window.location = `${pages.this}`;
     }, 5000);
   };
 
-  //Load App --------
+  //window loading and alert
+  const [stateLoading, setStateLoading] = useState("none");
+  const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
+
+  //Notifications
+  const [actions, setActions] = useState([3, 11]);
+
+  //data current
+  const [user, setUser] = useState({});
+  const [usersOwner, setUsersOwner] = useState([]);
+  const [sucursales, setSucursales] = useState([]);
+
+  const [areas, setAreas] = useState([]);
   useEffect(() => {
+    console.log(areas);
+  }, [areas]);
+
+  //Forms
+  const [dataFormAddSucursal, setdataFormAddSucursal] = useState({});
+  //---?? Listen to data Form add branch
+  useEffect(() => {
+    sucursalEntidad.SetDatos(dataFormAddSucursal);
+    const respSendDats = sucursalEntidad
+      .QueryAPI("branch/add/any", props.owner, props.user)
+      .then((resp) => {
+        if (resp.statusCode === 200) {
+          sucursalEntidad.ReLoadDataAPI(cookies.getAll());
+        }
+        if (resp.statusCode === 203) {
+          sucursalEntidad.ReLoadDataAPI(cookies.getAll());
+        }
+      });
+  }, [dataFormAddSucursal]);
+
+  //Load App --------
+  //----*** steep one: validación de permanencia en la APP
+  useEffect(() => {
+    setStateLoading("block");
     console.log("-----", cookies.getAll());
-    //steep one: validación de permanencia en la APP
     if (
       !cookies.get("aceptLegacy") ||
       typeof cookies.get("user") === "undefined" ||
@@ -121,8 +137,11 @@ function Dashboard(props) {
         window.location = "/";
       }, 35000);
     }
+  }, []);
 
-    //steep two: carga de datos en API
+  //----*** steep two: carga de datos en API
+  useEffect(() => {
+    //setear el USUARIO ACTIVO para definir los datos a consumir
     findUserActive.SetDatos(
       null,
       cookies.get("user"),
@@ -131,7 +150,7 @@ function Dashboard(props) {
       null,
       null
     );
-
+    //active el consumo masivo de todos los datos para el producto segun USUARIO ACTIVO
     findUserActive
       .loadData(cookies.get("owner"))
       .then(async (data) => {
@@ -140,10 +159,16 @@ function Dashboard(props) {
         await setUsersOwner(
           data.datos.userReq.rol === "PO" ? data.datos.usersOfOwner : "PM"
         );
-        await setUser(data.datos.userReq);
-        await setSucursales(data.datos.branch);
+        await setUser(data.datos.userReq || null);
+        await setSucursales(
+          data.datos.userReq.rol === "PO" ? data.datos.branch : null
+        );
+
+        await setAreas(data.datos.areas ? data.datos.areas : null);
+        setStateLoading("none");
       })
       .catch((err) => {
+        setStateLoading("none");
         console.log(err);
       });
   }, []);
@@ -243,6 +268,7 @@ function Dashboard(props) {
                     usersOwner={usersOwner}
                     sucursales={sucursales}
                     setdataFormAddSucursal={setdataFormAddSucursal}
+                    setSucursales={setSucursales}
                   />
                 </TabPanel>
                 <TabPanel value="4">

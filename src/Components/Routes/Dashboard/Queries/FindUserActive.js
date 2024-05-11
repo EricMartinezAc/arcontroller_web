@@ -54,7 +54,6 @@ export default class User {
         })
           .then((res) => res.json())
           .catch((err) => console.err);
-        console.log(respSendDats);
         return await respSendDats;
       } catch (error) {
         alert(`no se pudo realizar envio de datos: ${error}`);

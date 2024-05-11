@@ -8,7 +8,7 @@ import Menu from "../../Partial_Dashboard/C_parts/MenuSucursales";
 
 import PropTypes from "prop-types";
 
-function View({ owner, user, usersOwner, sucursales, setdataFormAddSucursal }) {
+function View({ owner, user, usersOwner, sucursales, setdataFormAddSucursal, setSucursales }) {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
@@ -17,6 +17,7 @@ function View({ owner, user, usersOwner, sucursales, setdataFormAddSucursal }) {
           user={user}
           usersOwner={usersOwner}
           setdataFormAddSucursal={setdataFormAddSucursal}
+          setSucursales={setSucursales}
         />
       </Grid>
       <Grid p={1} item xs={12} md={8}>

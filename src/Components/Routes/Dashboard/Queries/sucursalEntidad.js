@@ -1,5 +1,5 @@
 const pages = require("../../../../Assets/pages.js");
-const { ValideDatosMiddle } = require("../../../Comun/ModulosSis/Segurity.js");
+const { ValideDatosMiddle } = require("../../../Comun/ModulosSis/Security.js");
 
 export default class sucursalEntidad {
   constructor() {
@@ -58,37 +58,38 @@ export default class sucursalEntidad {
     };
   };
 
-  // loadData = async (owner) => {
-  //   let datos = await this.GetDatos();
-  //   const path_API = await `${pages.remoteAPI}arcontroller/web/user`;
-  //   const resultValideDatos = await this.ValideDatos(datos.token, datos.user);
-  //   if (resultValideDatos) {
-  //     console.log([datos, path_API]);
-  //     try {
-  //       const respSendDats = await fetch(path_API, {
-  //         method: "POST",
-  //         mode: "cors",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "access-control-allow-origin": "*",
-  //         },
-  //         body: JSON.stringify({ owner, datos }),
-  //       })
-  //         .then((res) => res.json())
-  //         .catch((err) => console.err);
-  //       console.log(respSendDats);
-  //       return await respSendDats;
-  //     } catch (error) {
-  //       alert(`no se pudo realizar envio de datos: ${error}`);
-  //       return { statusCode: 403, error: error };
-  //     }
-  //   } else {
-  //     alert("Datos ingresados no cumplen requerimientos");
-  //     setTimeout(() => {
-  //       window.location = `${pages.this}/Singin`;
-  //     }, 5000);
-  //   }
-  // };
+  ReLoadDataAPI = async (owner) => {
+    console.log(owner);
+    // let datos = await this.GetDatos();
+    // const path_API = await `${pages.remoteAPI}arcontroller/web/user`;
+    // const resultValideDatos = await this.ValideDatos(datos.token, datos.user);
+    // if (resultValideDatos) {
+    //   console.log([datos, path_API]);
+    //   try {
+    //     const respSendDats = await fetch(path_API, {
+    //       method: "POST",
+    //       mode: "cors",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "access-control-allow-origin": "*",
+    //       },
+    //       body: JSON.stringify({ owner, datos }),
+    //     })
+    //       .then((res) => res.json())
+    //       .catch((err) => console.err);
+    //     console.log(respSendDats);
+    //     return await respSendDats;
+    //   } catch (error) {
+    //     alert(`no se pudo realizar envio de datos: ${error}`);
+    //     return { statusCode: 403, error: error };
+    //   }
+    // } else {
+    //   alert("Datos ingresados no cumplen requerimientos");
+    //   setTimeout(() => {
+    //     window.location = `${pages.this}/Singin`;
+    //   }, 5000);
+    // }
+  };
 
   QueryAPI = async (process, owner, user) => {
     const path_to_API = `${pages.remoteAPI}arcontroller/web/${process}`;

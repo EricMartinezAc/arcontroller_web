@@ -103,14 +103,24 @@ function Dashboard(props) {
   //---?? Listen to data Form add branch
   useEffect(() => {
     sucursalEntidad.SetDatos(dataFormAddSucursal);
-    const respSendDats = sucursalEntidad
+    sucursalEntidad
       .QueryAPI("branch/add/any", props.owner, props.user)
       .then((resp) => {
+        console.log(resp);
+        setAlertDialogs([
+          "block",
+          resp.statusCode === 200 ? "success" : "warning",
+          "Respuesta de servidor",
+          "->: ",
+          resp.msj,
+        ]);
+        setTimeout(() => {
+          setAlertDialogs(["none", "", "", "", ""]);
+        }, 5000);
         if (resp.statusCode === 200) {
-          sucursalEntidad.ReLoadDataAPI(cookies.getAll());
-        }
-        if (resp.statusCode === 203) {
-          sucursalEntidad.ReLoadDataAPI(cookies.getAll());
+          const NewSucursales = sucursales;
+          NewSucursales.push(resp.datos);
+          setSucursales(NewSucursales);
         }
       });
   }, [dataFormAddSucursal]);
@@ -135,7 +145,7 @@ function Dashboard(props) {
       console.log(cookies.getAll());
       setTimeout(() => {
         window.location = "/";
-      }, 35000);
+      }, 5600);
     }
   }, []);
 

@@ -18,6 +18,7 @@ export default class sucursalEntidad {
     this.proveedores = null;
     this.gerente = null;
     this.id_prodct = null;
+    this.state = null;
   }
 
   SetDatos = (datos) => {
@@ -36,6 +37,7 @@ export default class sucursalEntidad {
     this.proveedores = datos.proveedores;
     this.gerente = datos.gerente;
     this.id_prodct = datos.id_prodct;
+    this.state = datos.state;
   };
 
   GetDatos = async () => {
@@ -55,6 +57,7 @@ export default class sucursalEntidad {
       proveedores: this.proveedores,
       gerente: this.gerente,
       id_prodct: this.id_prodct,
+      state: this.state,
     };
   };
 

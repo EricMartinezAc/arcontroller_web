@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Box, Grid, IconButton, styled, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  styled,
+  Typography,
+} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import AddIcon from "@mui/icons-material/Add";
 import PrintIcon from "@mui/icons-material/Print";
@@ -12,12 +19,11 @@ import { alpha } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SearchSharp } from "@mui/icons-material";
 
+import ModalDataSearchSucursal from "./Modal_dataSearch_sucursal";
 import ModalFormAddSucursal from "./Modal_form_add_sucursal";
 import ModalFormEditSucursal from "./Modal_form_editar_sucursal";
 import ModalFormPrintSucursal from "./Modal_form_imprimir_sucursal";
 import ModalFormDropSucursal from "./Modal_form_borrar_sucursal";
-
-import PropTypes from "prop-types";
 
 function MenuSucursal(props) {
   const Item = styled(Paper)(({ theme }) => ({
@@ -78,8 +84,30 @@ function MenuSucursal(props) {
   const visibleModalDrop = () => setOpenModalDrop(!openModalDrop);
   const [openModalPrint, setOpenModalPrint] = useState(false);
   const visibleModalPrint = () => setOpenModalPrint(!openModalPrint);
+  //for searcher box
   const [visibleSearch, setVisibleSearch] = useState(false);
   const visibleSearchSucursal = () => setVisibleSearch(!visibleSearch);
+  // for handle data searcher
+
+  let dataSearch = "";
+  const handle_dataSearch = (e) => {
+    dataSearch = e.target.value;
+  };
+  //modal search result
+  const [dataSearchResult, setDataSearchResult] = useState(null);
+  useEffect(() => {
+    if (dataSearchResult !== null) setOpenModalDataSearch(!openModalDataSearch);
+  }, [dataSearchResult]);
+
+  const [openModalDataSearch, setOpenModalDataSearch] = useState(false);
+  // FOR SEARCH
+  const visibleModalDataSearch = () => {
+    props.datos.map((data, item) => {
+      if (data.sucursal === dataSearch || data.centroCosto === dataSearch) {
+        setDataSearchResult(data);
+      }
+    });
+  };
 
   return (
     <nav className="menu-main">
@@ -126,8 +154,8 @@ function MenuSucursal(props) {
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
+                  onChange={(e) => handle_dataSearch(e)}
+                  placeholder="Search..…"
                 />
               </Search>
             </Grid>
@@ -138,12 +166,24 @@ function MenuSucursal(props) {
             </Grid>
             <Grid item xs={4}>
               <Item>
-                <Typography variant="h7">Result</Typography>
+                <Typography variant="h7">
+                  <Button
+                    onClick={visibleModalDataSearch}
+                    className="btn btn-primary"
+                  >
+                    BUSCAR
+                  </Button>
+                </Typography>
               </Item>
             </Grid>
           </Grid>
         </Item>
       </Box>
+      <ModalDataSearchSucursal
+        dat={dataSearchResult}
+        open={openModalDataSearch}
+        visibleModalDataSearch={visibleModalDataSearch}
+      />
       <ModalFormAddSucursal
         open={openModalAdd}
         owner={props.owner}

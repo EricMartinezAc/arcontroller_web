@@ -28,15 +28,15 @@ import {
   TextField,
 } from "@mui/material";
 
-import ico_add_Sucursales from "../../../../../Assets/Imgs/icos/ico_addContrato.png";
+import ico_add_Sucursales from "../../../../../../Assets/Imgs/icos/ico_addContrato.png";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import DetailsIcon from "@mui/icons-material/Details";
 import { Stack } from "@mui/system";
 
-import ImgInic from "../../../../../Assets/Imgs/logos/logo_153x124.png";
-import SucursalEntidad from "../../Queries/sucursalEntidad";
-import "./stylesCParts.css";
+import ImgInic from "../../../../../../Assets/Imgs/logos/logo_153x124.png";
+import SucursalEntidad from "../../../Queries/sucursalEntidad";
+import "../../../stylesCParts.css";
 
 const style = {
   position: "absolute",
@@ -175,7 +175,7 @@ export default function BasicModal(props) {
   const BtnEnviarFormAddSucursales = async () => {
     props.setdataFormAddSucursal({
       sucursal,
-      ubicacion: [pais, ciudad, dpto, dir],
+      ubicacion: [pais, dpto, ciudad, dir],
       centroCosto,
       tipo,
       clasificacion,
@@ -188,6 +188,7 @@ export default function BasicModal(props) {
       proveedores,
       gerente,
       id_prodct: props.user.id_prodct,
+      state: "Activo",
     });
   };
 
@@ -504,11 +505,16 @@ export default function BasicModal(props) {
                       <MenuItem value={"Clasifique sucursal"}>
                         Clasifique sucursal
                       </MenuItem>
+                      <MenuItem value="Minorista">Minorista</MenuItem>
+                      <MenuItem value="Mayorista">Mayorista</MenuItem>
                       <MenuItem value="Edificio">Edifico</MenuItem>
                       <MenuItem value="Oficina">Oficina</MenuItem>
+                      <MenuItem value="Local">Local</MenuItem>
+                      <MenuItem value="Taller">Taller</MenuItem>
                       <MenuItem value="Publico">Publico</MenuItem>
+                      <MenuItem value="Bodega">Bodega</MenuItem>
                       <MenuItem value="HomeOFfice">Home Office</MenuItem>
-                      <MenuItem value="Peligroso">Alta Peligrosidad</MenuItem>
+                      <MenuItem value="Otro">Otro</MenuItem>
                     </Select>
                   </FormControl>
                 </Stack>

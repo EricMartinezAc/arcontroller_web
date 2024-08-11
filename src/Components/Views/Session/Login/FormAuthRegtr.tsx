@@ -17,7 +17,7 @@ interface RegistroProps {
 const cookies = new Cookies();
 const classAUTHREG = new ClassAUTHREG();
 
-const Registro: React.FC<any> = ({
+const FormAuthRegtr: React.FC<any> = ({
   user,
   setUser,
   ValidacionFormAuth,
@@ -179,4 +179,4 @@ const Registro: React.FC<any> = ({
   );
 };
 
-export default Registro;
+export default FormAuthRegtr;

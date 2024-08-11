@@ -5,11 +5,10 @@ import {
   ValideInputPassword,
   ValideInputUsuario,
 } from "../../Common/ModulosSis/ValideInputREGEXP";
-import FormAuthRegtr from "./Login/FormAuthRegtr";
-import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
-import { SinginProps } from "../../../dto/SinginProps";
 import { PagesDTO } from "@/dto/PagesDTO";
 import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
+import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
+import FormAuthRegtr from "./Login/FormAuthRegtr";
 
 interface SignUpOrSignInProps {
   serverResources: {
@@ -41,38 +40,21 @@ const SignUpOrSignIn: React.FC<SignUpOrSignInProps> = ({
   const reqResDatos_auth_API = new ReqResDatos_auth_API();
   const [visibleFormAuth, setVisibleFormAuth] = useState<boolean>(true);
 
-  // Estado de carga y alertas
-  const [stateLoading, setStateLoading] = useState<string>("flex");
-  const [AlertDialogs, setAlertDialogs] = useState<string[]>([
-    "none",
-    "",
-    "",
-    "",
-    "",
-  ]);
-
-  // Manejo del estado de carga
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setStateLoading("none");
-    }, 15000);
-
-    return () => clearTimeout(timer); // Limpiar el temporizador cuando el componente se desmonte
-  }, []);
-
-  // Manejo de las alertas
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAlertDialogs(["none", "", "", "", ""]);
-    }, 6500);
-
-    return () => clearTimeout(timer); // Limpiar el temporizador cuando el componente se desmonte
-  }, [AlertDialogs]);
-
   // Validación del formulario
   const ValidacionFormAuth = (user: string, pswLogin: string): boolean => {
     return ValideInputUsuario(user) && ValideInputPassword(pswLogin);
   };
+
+  // Definir los valores posibles para AlertSeverity
+  type AlertSeverityType = "error" | "warning" | "info" | "success";
+  const validAlertSeverity: AlertSeverityType = [
+    "error",
+    "warning",
+    "info",
+    "success",
+  ].includes(engineResources.AlertDialogs[1] as AlertSeverityType)
+    ? (engineResources.AlertDialogs[1] as AlertSeverityType)
+    : "info"; // Valor por defecto
 
   return (
     <Grid
@@ -85,7 +67,7 @@ const SignUpOrSignIn: React.FC<SignUpOrSignInProps> = ({
       {/* ALERTAS */}
       <Box
         sx={{
-          display: AlertDialogs[0],
+          display: engineResources.AlertDialogs[0],
           zIndex: 10,
           width: "100%",
           height: "auto",
@@ -95,13 +77,12 @@ const SignUpOrSignIn: React.FC<SignUpOrSignInProps> = ({
           alignItems: "center",
         }}
       >
-        {/* Aquí puedes descomentar DescriptionAlerts si es necesario */}
-        {/* <DescriptionAlerts
-          AlertSeverity={AlertDialogs[1]}
-          AlertTilte={AlertDialogs[2]}
-          AlertMsjLow={AlertDialogs[3]}
-          AlertMsjHight={AlertDialogs[4]}
-        /> */}
+        <DescriptionAlerts
+          AlertSeverity={validAlertSeverity}
+          AlertTilte={engineResources.AlertDialogs[2]}
+          AlertMsjLow={engineResources.AlertDialogs[3]}
+          AlertMsjHight={engineResources.AlertDialogs[4]}
+        />
       </Box>
 
       {/* Forms */}
@@ -114,16 +95,15 @@ const SignUpOrSignIn: React.FC<SignUpOrSignInProps> = ({
         xs={12}
       >
         <Box>
-          {/* Aquí puedes descomentar FormAuthRegtr si es necesario */}
-          {/* <FormAuthRegtr
+          <FormAuthRegtr
             visibleFormAuth={visibleFormAuth}
             ValidacionFormAuth={ValidacionFormAuth}
-            setStateLoading={setStateLoading}
-            setAlertDialogs={setAlertDialogs}
+            setStateLoading={engineResources.setStateLoading}
+            setAlertDialogs={engineResources.setAlertDialogs}
             setUser={serverResources.setUser}
             setProduct={serverResources.setProdct}
             setBranches={serverResources.setBranches}
-          /> */}
+          />
         </Box>
       </Grid>
 

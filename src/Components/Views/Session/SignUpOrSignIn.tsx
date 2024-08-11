@@ -1,20 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { Box, Grid, Link, Typography } from "@mui/material";
 import ReqResDatos_auth_API from "./ClassAUTHREG";
-
-// Importar los módulos de validación
 import {
   ValideInputPassword,
   ValideInputUsuario,
 } from "../../Common/ModulosSis/ValideInputREGEXP";
-
 import FormAuthRegtr from "./Login/FormAuthRegtr";
 import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
-import pages from "../../../Assets/pages";
 import { SinginProps } from "../../../dto/SinginProps";
-import ValideCookies from "../../Common/ModulosSis/ValideCookies";
+import { PagesDTO } from "@/dto/PagesDTO";
+import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
 
-const SignUpOrSignIn: React.FC<any> = ({
+interface SignUpOrSignInProps {
+  serverResources: {
+    user: any; // Replace with appropriate type
+    setUser: React.Dispatch<React.SetStateAction<any>>; // Replace with appropriate type
+    prodct: any; // Replace with appropriate type
+    setProdct: React.Dispatch<React.SetStateAction<any>>; // Replace with appropriate type
+    branches: any; // Replace with appropriate type
+    setBranches: React.Dispatch<React.SetStateAction<any>>; // Replace with appropriate type
+  };
+  engineResources: {
+    isSmallScreen: boolean;
+    pages: PagesDTO;
+    ValideCookies: ResponseValideCookies;
+    aceptLegacy: boolean;
+    setAceptLegacy: React.Dispatch<React.SetStateAction<boolean>>;
+    AlertDialogs: string[];
+    setAlertDialogs: React.Dispatch<React.SetStateAction<string[]>>;
+    stateLoading: string;
+    setStateLoading: React.Dispatch<React.SetStateAction<string>>;
+    cookies: any;
+  };
+}
+
+const SignUpOrSignIn: React.FC<SignUpOrSignInProps> = ({
   serverResources,
   engineResources,
 }) => {
@@ -22,41 +42,32 @@ const SignUpOrSignIn: React.FC<any> = ({
   const [visibleFormAuth, setVisibleFormAuth] = useState<boolean>(true);
 
   // Estado de carga y alertas
+  const [stateLoading, setStateLoading] = useState<string>("flex");
+  const [AlertDialogs, setAlertDialogs] = useState<string[]>([
+    "none",
+    "",
+    "",
+    "",
+    "",
+  ]);
 
   // Manejo del estado de carga
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setStateLoading("none");
     }, 15000);
-  }, [stateLoading]);
+
+    return () => clearTimeout(timer); // Limpiar el temporizador cuando el componente se desmonte
+  }, []);
 
   // Manejo de las alertas
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setAlertDialogs(["none", "", "", "", ""]);
     }, 6500);
-  }, [AlertDialogs]);
 
-  // Validación de cookies
-  useEffect(() => {
-    const rspValideCookies = ValideCookies("Singin", cookies, pages);
-    console.log(rspValideCookies);
-    if (rspValideCookies.getApp === null && rspValideCookies.msj !== null) {
-      setStateLoading("block");
-      setTimeout(() => {
-        window.location.href = pages.this;
-      }, 6000);
-    }
-    if (rspValideCookies.getApp) {
-      setStateLoading("block");
-      setTimeout(() => {
-        reqResDatos_auth_API.GetAPP(
-          cookies.get("user") || "undefined",
-          cookies.get("token")
-        );
-      }, 6000);
-    }
-  }, [cookies, pages, reqResDatos_auth_API]);
+    return () => clearTimeout(timer); // Limpiar el temporizador cuando el componente se desmonte
+  }, [AlertDialogs]);
 
   // Validación del formulario
   const ValidacionFormAuth = (user: string, pswLogin: string): boolean => {
@@ -72,7 +83,6 @@ const SignUpOrSignIn: React.FC<any> = ({
       }}
     >
       {/* ALERTAS */}
-
       <Box
         sx={{
           display: AlertDialogs[0],
@@ -85,7 +95,7 @@ const SignUpOrSignIn: React.FC<any> = ({
           alignItems: "center",
         }}
       >
-        alert
+        {/* Aquí puedes descomentar DescriptionAlerts si es necesario */}
         {/* <DescriptionAlerts
           AlertSeverity={AlertDialogs[1]}
           AlertTilte={AlertDialogs[2]}
@@ -104,18 +114,19 @@ const SignUpOrSignIn: React.FC<any> = ({
         xs={12}
       >
         <Box>
-          form auth
+          {/* Aquí puedes descomentar FormAuthRegtr si es necesario */}
           {/* <FormAuthRegtr
             visibleFormAuth={visibleFormAuth}
             ValidacionFormAuth={ValidacionFormAuth}
             setStateLoading={setStateLoading}
             setAlertDialogs={setAlertDialogs}
-            setUser={setUser}
-            setProduct={setProduct}
-            setBranches={setBranches}
+            setUser={serverResources.setUser}
+            setProduct={serverResources.setProdct}
+            setBranches={serverResources.setBranches}
           /> */}
         </Box>
       </Grid>
+
       {/* Handle visible forms */}
       <Grid
         sx={{

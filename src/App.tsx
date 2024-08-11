@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// Componentes
-// import Inicio_ from "./Components/Routes/Inicio";
-import SignUpOrSignIn from "./Components/Routes/Session/SignUpOrSignIn";
-import Dashboard_ from "./Components/Routes/Dashboard/Dashboard";
+import Cookies from "universal-cookie";
 
 // Contexto
-import { AuthProvider, useAuth } from "./Contexts/AuthContext";
+import { AuthProvider } from "./Contexts/AuthContext";
+
+//components views
+import { Inicio } from "./Components/Views";
+
+//server resources
+import { pages } from "./constans";
+import ValideCookies from "./Components/Common/ModulosSis/ValideCookies";
 import { UserDTO } from "./dto/User.dto";
 import { ProdctDTO } from "./dto/Prodct.dto";
 import { BranchesDTO } from "./dto/Branches.dto";
 
-import Cookies from "universal-cookie";
-import ValideCookies from "./Components/Common/ModulosSis/ValideCookies";
-import Loading from "./Components/Common/Intercciones/Loading";
-import { Box } from "@mui/material";
-import pages from "./Assets/pages";
+//resources
+import "./App.css";
 
 function App() {
-  const [isSmallScreen, setSmallScreen] = useState<boolean>(
-    window.innerWidth < 600
-  );
+  //server resources
   const [user, setUser] = useState<UserDTO[]>([]);
   const [prodct, setProdct] = useState<ProdctDTO[]>([]);
   const [branches, setBranches] = useState<BranchesDTO[]>([]);
+  //local resources
+  const [isSmallScreen, setSmallScreen] = useState<boolean>(
+    window.innerWidth < 600
+  );
+  //engine resources
   const [aceptLegacy, setAceptLegacy] = useState<boolean>(false);
   const [AlertDialogs, setAlertDialogs] = useState<string[]>([
     "none",
@@ -50,88 +51,30 @@ function App() {
     };
   }, []);
 
-  // Validación de cookies
-  useEffect(() => {
-    const rspValideCookies = ValideCookies("Singin", cookies, pages);
-    console.log(rspValideCookies);
-    if (rspValideCookies.getApp === null && rspValideCookies.msj !== null) {
-      setStateLoading("block");
-      setTimeout(() => {
-        window.location.href = pages.this;
-      }, 6000);
-    }
-    if (rspValideCookies.getApp) {
-      setStateLoading("block");
-      setTimeout(() => {
-        reqResDatos_auth_API.GetAPP(
-          cookies.get("user") || "undefined",
-          cookies.get("token")
-        );
-      }, 6000);
-    }
-  }, [user, prodct, branches]);
-
   return (
     <AuthProvider>
-      <div className="App">
-        <Box
-          sx={{
-            display: stateLoading,
-            backgroundColor: "rgba(238, 221, 238, 0.742)",
-            zIndex: 10,
-            position: "absolute",
-            width: "100%",
-            height: "125%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Loading />
-        </Box>
-        {isSmallScreen ? (
-          <div className="noRenderable">
-            <p>
-              Tu dispositivo no cumple con las características necesarias.
-              <br />
-              <b>Ponte en contacto con el proveedor del servicio.</b>
-            </p>
-          </div>
-        ) : (
-          <Router>
-            <Routes>
-              {/* <Route path="/" element={<Inicio_ />} /> */}
-              <Route
-                path="/"
-                element={
-                  <SignUpOrSignIn
-                    serverResources={{
-                      user,
-                      setUser,
-                      prodct,
-                      setProdct,
-                      branches,
-                      setBranches,
-                    }}
-                    engineResources={{
-                      aceptLegacy,
-                      setAceptLegacy,
-                      cookies,
-                      AlertDialogs,
-                      setAlertDialogs,
-                      ValideCookies,
-                      pages,
-                    }}
-                  />
-                }
-              />
-              <Route
-                path="/arcontroller/web/main/Dashboard"
-                element={<Dashboard_ />}
-              />
-            </Routes>
-          </Router>
-        )}
-      </div>
+      <Inicio
+        serverResources={{
+          user,
+          setUser,
+          prodct,
+          setProdct,
+          branches,
+          setBranches,
+        }}
+        engineResources={{
+          isSmallScreen,
+          pages,
+          ValideCookies,
+          aceptLegacy,
+          setAceptLegacy,
+          AlertDialogs,
+          setAlertDialogs,
+          stateLoading,
+          setStateLoading,
+          cookies,
+        }}
+      />
     </AuthProvider>
   );
 }

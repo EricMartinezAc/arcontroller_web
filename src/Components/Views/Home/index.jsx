@@ -5,13 +5,13 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { Box } from "@mui/material";
 import "../../../Assets/styles/Inicio.css";
-import pages from "../../../Assets/pages";
+import pages from "../../../constans/pages";
 
 //components
 import Loading from "../../Common/Intercciones/Loading";
-import Header from "../../../Components/Routes/Inicio/Partials/Header/Header";
-import Main from "../../../Components/Routes/Inicio/Partials/Main/Main";
-import Aside from "../../../Components/Routes/Inicio/Partials/Aside/Aside";
+import Header from "./Partials/Header/Header";
+import Main from "./Partials/Main/Main";
+import Aside from "./Partials/Aside/Aside";
 import Footer from "../../Common/Interfaz/Footer";
 
 //funcionaidades

@@ -1,4 +1,4 @@
-const pages = require("../../../../Assets/pages");
+const pages = require("../../../../constans/pages");
 
 export default class ClassLocations {
   constructor() {

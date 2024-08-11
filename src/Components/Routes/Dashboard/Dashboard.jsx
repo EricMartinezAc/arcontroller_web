@@ -11,9 +11,9 @@ import TabPanel from "@mui/lab/TabPanel";
 
 //componentes
 //-Header
-import ToolbarDashboard from "../../Comun/Interfaz/Toolbar_dashboard.js";
-import ListItemsPrincDashboard from "../../Comun/Interfaz/ListItems_princ_dashboard.js";
-import ListItemsSecundDashboard from "../../Comun/Interfaz/ListItems_secund_dashboard.js";
+import ToolbarDashboard from "../../Common/Interfaz/Toolbar_dashboard.js";
+import ListItemsPrincDashboard from "../../Common/Interfaz/ListItems_princ_dashboard.js";
+import ListItemsSecundDashboard from "../../Common/Interfaz/ListItems_secund_dashboard.js";
 
 //-Main
 import ViewAyuda from "./Components/viewAyuda/View.js";
@@ -28,11 +28,11 @@ import ViewMarcoLegal from "./Components/viewMarcoLeg/View.js";
 import ViewPlaneacion from "./Components/viewPlaneacion/View.js";
 import ViewRRHH from "./Components/viewRRHH/ViewRRHH.js";
 
-import Footer from "../../Comun/Interfaz/Footer/Footer";
+import Footer from "../../Common/Interfaz/Footer";
 
 //alertas
-import Loading from "../../Comun/Intercciones/Loading.js";
-import DescriptionAlerts from "../../Comun/Intercciones/DescriptionAlerts.js";
+import Loading from "../../Common/Intercciones/Loading.js";
+import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts.js";
 
 import { useState } from "react";
 import pages from "../../../Assets/pages.js";

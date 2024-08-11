@@ -1,15 +1,18 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-
-import LogoISE from "../../../../Assets/Imgs/logos/Desktop-1ise.transp.png";
-
+import React from "react";
 import { Button, Divider, Link, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import LogoISE from "../../../../Assets/Imgs/logos/logo_632x512.png";
 
-function AlertCookies(props) {
-  const AceptacionCookies = props.AceptacionCookies;
-  const DenegarCookies = props.DenegarCookies;
+// Definir los tipos de las propiedades que recibirá el componente
+interface AlertCookiesProps {
+  AceptacionCookies: () => void;
+  DenegarCookies: () => void;
+}
 
+const AlertCookies: React.FC<AlertCookiesProps> = ({
+  AceptacionCookies,
+  DenegarCookies,
+}) => {
   return (
     <Box
       sx={{
@@ -82,7 +85,7 @@ function AlertCookies(props) {
           autenticación y registro de usuarios nuevos para cliente
           ARControllers, así como para el manejo de datos y su funcionalidad.
           Las cookies son estrictamente necesarias para el funcionamiento de
-          este sistema. Al usar este sistema, acepta las politicas de manejo de
+          este sistema. Al usar este sistema, acepta las políticas de manejo de
           información. Por motivos de seguridad, este consentimiento tiene
           caducidad de tiempo.
           <br />
@@ -130,8 +133,6 @@ function AlertCookies(props) {
       </Box>
     </Box>
   );
-}
-
-AlertCookies.propTypes = {};
+};
 
 export default AlertCookies;

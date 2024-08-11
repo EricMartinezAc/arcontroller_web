@@ -1,58 +1,50 @@
-import React, { Component, useState, useEffect } from "react";
-import {
-  Alert,
-  Box,
-  Button,
-  Grid,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
-import Cookies from "universal-cookie";
-import axios from "axios";
-
-import ValideCookies from "../../Comun/ModulosSis/ValideCookies";
+import React, { useState, useEffect } from "react";
+import { Box, Grid, Link, Typography } from "@mui/material";
 import ReqResDatos_auth_API from "./ClassAUTHREG";
-//import RestarApp from '../../Comun/ModulosSis/RestarApp';
 
+// Importar los módulos de validación
 import {
   ValideInputPassword,
   ValideInputUsuario,
-} from "../../Comun/ModulosSis/ValideInputREGEXP";
+} from "../../Common/ModulosSis/ValideInputREGEXP";
 
-import Login from "./Login/Login";
 import FormAuthRegtr from "./Login/FormAuthRegtr";
-import DescriptionAlerts from "../../Comun/Intercciones/DescriptionAlerts";
-import Loading from "../../Comun/Intercciones/Loading";
+import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
 import pages from "../../../Assets/pages";
+import { SinginProps } from "../../../dto/SinginProps";
+import ValideCookies from "../../Common/ModulosSis/ValideCookies";
 
-function Singin(props) {
-  const [visibleFormAuth, setVisibleFormAuth] = useState(true);
-  const cookies = new Cookies();
+const SignUpOrSignIn: React.FC<any> = ({
+  serverResources,
+  engineResources,
+}) => {
   const reqResDatos_auth_API = new ReqResDatos_auth_API();
-  //window loading and alert
-  const [stateLoading, setStateLoading] = useState("none");
-  const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
+  const [visibleFormAuth, setVisibleFormAuth] = useState<boolean>(true);
+
+  // Estado de carga y alertas
+
+  // Manejo del estado de carga
   useEffect(() => {
     setTimeout(() => {
       setStateLoading("none");
     }, 15000);
   }, [stateLoading]);
+
+  // Manejo de las alertas
   useEffect(() => {
     setTimeout(() => {
       setAlertDialogs(["none", "", "", "", ""]);
     }, 6500);
   }, [AlertDialogs]);
 
-  //valide cookies
+  // Validación de cookies
   useEffect(() => {
-    //valide permisions
     const rspValideCookies = ValideCookies("Singin", cookies, pages);
     console.log(rspValideCookies);
     if (rspValideCookies.getApp === null && rspValideCookies.msj !== null) {
       setStateLoading("block");
       setTimeout(() => {
-        window.location = pages.this;
+        window.location.href = pages.this;
       }, 6000);
     }
     if (rspValideCookies.getApp) {
@@ -64,13 +56,11 @@ function Singin(props) {
         );
       }, 6000);
     }
-  }, []);
+  }, [cookies, pages, reqResDatos_auth_API]);
 
-  //valide forms
-  const ValidacionFormAuth = (user, pswLogin) => {
-    return ValideInputUsuario(user) && ValideInputPassword(pswLogin)
-      ? true
-      : false;
+  // Validación del formulario
+  const ValidacionFormAuth = (user: string, pswLogin: string): boolean => {
+    return ValideInputUsuario(user) && ValideInputPassword(pswLogin);
   };
 
   return (
@@ -79,24 +69,10 @@ function Singin(props) {
       sx={{
         backgroundColor: "#a9a",
         height: "auto",
-        //`repeat(auto-fit, minmax('150px', '1fr'))`
       }}
     >
       {/* ALERTAS */}
-      <Box
-        sx={{
-          display: stateLoading,
-          backgroundColor: "rgba(238, 221, 238, 0.742)",
-          zIndex: 10,
-          position: "absolute",
-          width: "100%",
-          height: "125%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Loading />
-      </Box>
+
       <Box
         sx={{
           display: AlertDialogs[0],
@@ -109,12 +85,13 @@ function Singin(props) {
           alignItems: "center",
         }}
       >
-        <DescriptionAlerts
+        alert
+        {/* <DescriptionAlerts
           AlertSeverity={AlertDialogs[1]}
           AlertTilte={AlertDialogs[2]}
           AlertMsjLow={AlertDialogs[3]}
           AlertMsjHight={AlertDialogs[4]}
-        />
+        /> */}
       </Box>
 
       {/* Forms */}
@@ -126,14 +103,17 @@ function Singin(props) {
         md={5}
         xs={12}
       >
-        {/* FORM */}
         <Box>
-          <FormAuthRegtr
+          form auth
+          {/* <FormAuthRegtr
             visibleFormAuth={visibleFormAuth}
             ValidacionFormAuth={ValidacionFormAuth}
             setStateLoading={setStateLoading}
             setAlertDialogs={setAlertDialogs}
-          />
+            setUser={setUser}
+            setProduct={setProduct}
+            setBranches={setBranches}
+          /> */}
         </Box>
       </Grid>
       {/* Handle visible forms */}
@@ -173,8 +153,6 @@ function Singin(props) {
       </Grid>
     </Grid>
   );
-}
+};
 
-Singin.propTypes = {};
-
-export default Singin;
+export default SignUpOrSignIn;

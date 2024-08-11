@@ -10,27 +10,11 @@ export default function ValideCookies(process, cookies, pages) {
   //default response don´t permission, return home for redirect
   let resp = { msj: null, getApp: null };
   try {
-    // ---- Rules on home
-    if (process === "Inicio") {
-      require("./DropCookies").All(cookies, "/");
-      // ## if acepted policy cookies and exist token : return dashboard
-      if (
-        cookies.get("aceptLegacy") &&
-        typeof cookies.get("token") !== "undefined"
-      ) {
-        resp.token = cookies.get("token");
-        resp.msj = `Sesión activa confirmada, bienvenido de vuelta`;
-        resp.getApp = true;
-      } else {
-        //## else, destoy all cookies.
-        require("./DropCookies").All(cookies, "/");
-      }
-    }
-
     // ----Rules on singin
     //## without acetp policy cookies, return to home, on home to be dropped all cookies
     if (process === "Singin") {
       if (!cookies.get("aceptLegacy")) {
+        require("./DropCookies").All(cookies, "/");
         resp.getApp = null;
         resp.msj = `Es necesario que acepte las políticas de uso de cookies para continuar`;
       }

@@ -23,7 +23,7 @@
 .section_inicio {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    background-image: url('../../../Assets/Imgs/fondos/abstract-vector.jpg');
+    background-image: url('../Imgs/fondos/abstract-vector.jpg');
     background-repeat: no-repeat;
     background-position-x: -50%;
 }

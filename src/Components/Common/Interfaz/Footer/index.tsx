@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 //import Copyright from '../etiquetas/Copyright'
-import "./Footer.css";
-import "../Elementos.css";
+import "../../../../Assets/styles/Footer.css";
+import "../../../../Assets/styles/Elementos.css";
 
-function Footer(props) {
+function Footer() {
   return (
     <div className="footer-1">
       <div className="menu-footer">

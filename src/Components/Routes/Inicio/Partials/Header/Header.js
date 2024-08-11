@@ -16,7 +16,7 @@ import { Divider } from "@mui/material";
 
 import "./Header.css";
 
-import Loading from "../../../../Comun/Intercciones/Loading";
+import Loading from "../../../../Common/Intercciones/Loading";
 
 import LogoARC from "../../../../../Assets/Imgs/logos/rueda_tubos_142x78.png";
 import Logck from "../../../../../Assets/Imgs/icos/logck.png";

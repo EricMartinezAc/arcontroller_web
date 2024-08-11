@@ -12,7 +12,7 @@ import ClassAUTHREG from "../ClassAUTHREG";
 //import RestartApp from '../../../Comun/ModulosSis/RestarApp'
 
 //métodos
-import AsigneCookies from "../../../Comun/ModulosSis/AsigneCookies";
+import AsigneCookies from "../../../Common/ModulosSis/AsigneCookies";
 
 const cookies = new Cookies();
 const classAUTHREG = new ClassAUTHREG();

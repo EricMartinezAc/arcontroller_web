@@ -1,26 +1,25 @@
 import React, { Component, useEffect, useState } from "react";
 
 //recursos
-import "./Inicio.css";
-import pages from "../../../Assets/pages";
 import axios from "axios";
+import Cookies from "universal-cookie";
+import { Box } from "@mui/material";
+import "../../../Assets/styles/Inicio.css";
+import pages from "../../../Assets/pages";
 
 //components
-
-import Loading from "../../Comun/Intercciones/Loading";
-import Header from "./Partials/Header/Header";
-import Main from "./Partials/Main/Main";
-import Aside from "./Partials/Aside/Aside";
-import Footer from "../../Comun/Interfaz/Footer/Footer";
+import Loading from "../../Common/Intercciones/Loading";
+import Header from "../../../Components/Routes/Inicio/Partials/Header/Header";
+import Main from "../../../Components/Routes/Inicio/Partials/Main/Main";
+import Aside from "../../../Components/Routes/Inicio/Partials/Aside/Aside";
+import Footer from "../../Common/Interfaz/Footer";
 
 //funcionaidades
-import Cookies from "universal-cookie";
-import ValideCookies from "../../Comun/ModulosSis/ValideCookies";
-import ReqResDatos_auth_API from "../Singing/ClassAUTHREG";
+import ValideCookies from "../../Common/ModulosSis/ValideCookies";
+import ReqResDatos_auth_API from "../Session/ClassAUTHREG";
 
-import DescriptionAlerts from "../../Comun/Intercciones/DescriptionAlerts";
-import AlertCookies from "../../Comun/Interfaz/cookies/AlertCookies";
-import { Box } from "@mui/material";
+import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
+import AlertCookies from "../../Common/Interfaz/modalAceptPolicy";
 
 function Inicio(props) {
   const cookies = new Cookies();

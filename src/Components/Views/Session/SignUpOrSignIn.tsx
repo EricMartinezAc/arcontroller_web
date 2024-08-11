@@ -9,15 +9,18 @@ import { PagesDTO } from "@/dto/PagesDTO";
 import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
 import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
 import FormAuthRegtr from "./Login/FormAuthRegtr";
+import { UserDTO } from "@/dto/User.dto";
+import { ProdctDTO } from "@/dto/Prodct.dto";
+import { BranchesDTO } from "@/dto/Branches.dto";
 
 interface SignUpOrSignInProps {
   serverResources: {
-    user: any; // Replace with appropriate type
-    setUser: React.Dispatch<React.SetStateAction<any>>; // Replace with appropriate type
-    prodct: any; // Replace with appropriate type
-    setProdct: React.Dispatch<React.SetStateAction<any>>; // Replace with appropriate type
-    branches: any; // Replace with appropriate type
-    setBranches: React.Dispatch<React.SetStateAction<any>>; // Replace with appropriate type
+    user: UserDTO;
+    setUser: React.Dispatch<React.SetStateAction<UserDTO>>;
+    prodct: ProdctDTO;
+    setProdct: React.Dispatch<React.SetStateAction<ProdctDTO>>;
+    branches: BranchesDTO;
+    setBranches: React.Dispatch<React.SetStateAction<BranchesDTO>>;
   };
   engineResources: {
     isSmallScreen: boolean;
@@ -96,13 +99,10 @@ const SignUpOrSignIn: React.FC<SignUpOrSignInProps> = ({
       >
         <Box>
           <FormAuthRegtr
+            serverResources={serverResources}
+            engineResources={engineResources}
             visibleFormAuth={visibleFormAuth}
             ValidacionFormAuth={ValidacionFormAuth}
-            setStateLoading={engineResources.setStateLoading}
-            setAlertDialogs={engineResources.setAlertDialogs}
-            setUser={serverResources.setUser}
-            setProduct={serverResources.setProdct}
-            setBranches={serverResources.setBranches}
           />
         </Box>
       </Grid>

@@ -11,12 +11,12 @@ import Loading from "../../Common/Intercciones/Loading";
 
 interface InicioProps {
   serverResources: {
-    user: UserDTO[];
-    setUser: any;
-    prodct: ProdctDTO[];
-    setProdct: any;
-    branches: BranchesDTO[];
-    setBranches: any;
+    user: UserDTO;
+    setUser: React.Dispatch<React.SetStateAction<UserDTO>>;
+    prodct: ProdctDTO;
+    setProdct: React.Dispatch<React.SetStateAction<ProdctDTO>>;
+    branches: BranchesDTO;
+    setBranches: React.Dispatch<React.SetStateAction<BranchesDTO>>;
   };
   engineResources: {
     isSmallScreen: boolean;

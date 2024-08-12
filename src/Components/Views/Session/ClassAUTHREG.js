@@ -44,7 +44,7 @@ export default class ReqResDatos_auth_API {
   SendDatsAPI = async (proceso) => {
     let datos = await this.GetDatosAuth();
     const path_API =
-      await `${pages.remoteAPI}arcontroller/web/users/${proceso}`;
+      await `${pages.remoteApi}arcontroller/web/users/${proceso}`;
     const resultValideDatos = await this.ValideDatos(proceso, datos);
     console.log([datos, path_API, resultValideDatos]);
     if (resultValideDatos) {
@@ -79,7 +79,7 @@ export default class ReqResDatos_auth_API {
 
   GetAPP = async (user, token) => {
     console.log("enviando a la app ", token);
-    await fetch(`${pages.remoteAPI}arcontroller/web/app/dashboard`, {
+    await fetch(`${pages.remoteApi}arcontroller/web/app/dashboard`, {
       method: "GET",
       mode: "cors",
       headers: {

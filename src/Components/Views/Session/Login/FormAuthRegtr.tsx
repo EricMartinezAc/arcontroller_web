@@ -51,48 +51,45 @@ const FormAuthRegtr: React.FC<InicioProps> = ({
       // Configurar datos para registrar
       alert("try");
       console.log(serverResources, engineResources);
-      // await classAUTHREG.SetDatsToAPI(
-      //   serverResources.prodct[0].owner,
-      //   clav_prodct,
-      //   serverResources.user,
-      //   pswLogin,
-      //   PO_ ? "PO" : "PM"
-      // );
+      await classAUTHREG.SetDatsToAPI(
+        owner,
+        clav_prodct,
+        user,
+        pswLogin,
+        PO_ ? "PO" : "PM"
+      );
 
-      // // Enviar datos para guardar/registrar
-      // const proceso = visibleFormAuth ? "auth" : "regtr";
-      // const respAPI = await classAUTHREG.SendDatsAPI(proceso);
-      // console.log("respApi::::: ", respAPI);
+      // Enviar datos para guardar/registrar
+      const proceso = visibleFormAuth ? "auth" : "regtr";
+      const respAPI = await classAUTHREG.SendDatsAPI(proceso);
+      console.log(respAPI);
+      console.log("respApi::::: ", respAPI.statusCode);
 
-      // if (respAPI.statusCode === 200) {
-      //   // Asignar cookies
-      //   await AsigneCookies(
-      //     "token",
-      //     respAPI.datos.token,
-      //     engineResources.cookies
-      //   );
-      //   await AsigneCookies(
-      //     "user",
-      //     serverResources.user,
-      //     engineResources.cookies
-      //   );
-      //   await AsigneCookies("owner", serverResources.prodct[0].owner, engineResources.cookies);
+      if (respAPI.statusCode === 200) {
+        // Asignar cookies
+        await AsigneCookies(
+          "token",
+          respAPI.datos.token,
+          engineResources.cookies
+        );
+        await AsigneCookies("user", user, engineResources.cookies);
+        await AsigneCookies("owner", owner, engineResources.cookies);
 
-      //   // Redirigir al panel de la aplicación
-      //   await classAUTHREG.GetAPP(
-      //     engineResources.cookies.get("user"),
-      //     engineResources.cookies.get("token")
-      //   );
-      // } else {
-      //   console.log("---intenta denuevo....");
-      //   engineResources.setAlertDialogs([
-      //     "block",
-      //     "error",
-      //     "Respuesta de servidor",
-      //     "->",
-      //     `${respAPI.statusCode}-${respAPI.msj}`,
-      //   ]);
-      // }
+        // Redirigir al panel de la aplicación
+        await classAUTHREG.GetAPP(
+          engineResources.cookies.get("user"),
+          engineResources.cookies.get("token")
+        );
+      } else {
+        console.log("---intenta denuevo....");
+        engineResources.setAlertDialogs([
+          "block",
+          "error",
+          "Respuesta de servidor",
+          "->",
+          `${respAPI.statusCode}-${respAPI.msj}`,
+        ]);
+      }
     } catch (error) {
       console.error("Error enviando datos al servidor: ", error);
       alert("Error enviando datos al servidor, revise su conexión.");

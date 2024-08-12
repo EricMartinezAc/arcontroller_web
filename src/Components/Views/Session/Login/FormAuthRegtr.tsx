@@ -1,39 +1,12 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import Cookies from "universal-cookie";
 import { Box, FormControlLabel, Switch } from "@mui/material";
 import ClassAUTHREG from "../ClassAUTHREG";
 import AsigneCookies from "../../../Common/ModulosSis/AsigneCookies";
 import Logo from "../../../../Assets/Imgs/logos/logo_632x512.png";
 import "../../../../Assets/styles/FormAuthRegtr.css";
-import { UserDTO } from "@/dto/User.dto";
-import { ProdctDTO } from "@/dto/Prodct.dto";
-import { BranchesDTO } from "@/dto/Branches.dto";
+import { InicioProps } from "@/dto/InicioProps.dto";
 
 // Definir los tipos de las props
-interface InicioProps {
-  serverResources: {
-    user: UserDTO;
-    setUser: React.Dispatch<React.SetStateAction<UserDTO>>;
-    prodct: ProdctDTO;
-    setProdct: React.Dispatch<React.SetStateAction<ProdctDTO>>;
-    branches: BranchesDTO;
-    setBranches: React.Dispatch<React.SetStateAction<BranchesDTO>>;
-  };
-  engineResources: {
-    isSmallScreen: boolean;
-    pages: PagesDTO;
-    ValideCookies: any;
-    aceptLegacy: boolean;
-    setAceptLegacy: any;
-    AlertDialogs: string[];
-    setAlertDialogs: any;
-    stateLoading: string;
-    setStateLoading: any;
-    cookies: any;
-  };
-  visibleFormAuth: boolean;
-  ValidacionFormAuth: any;
-}
 
 const classAUTHREG = new ClassAUTHREG();
 
@@ -44,28 +17,30 @@ const FormAuthRegtr: React.FC<InicioProps> = ({
   ValidacionFormAuth,
 }) => {
   // Estado del formulario
-  const [owner, setOwner] = useState<string>("arcwebtest");
-  const [clav_prodct, setClavProdct] = useState<string>("clav_owner");
-  const [pswLogin, setPswLogin] = useState<string>("qwerty");
-  const [PO_, setPO_] = useState<boolean>(true);
+  const [owner, setOwner] = useState<string>(serverResources.prodct.owner);
+  const [clav_prodct, setclav_prodct] = useState<string>(
+    serverResources.prodct.clav_prodct
+  );
+  const [user, setUser] = useState<string>(serverResources.user[0].user);
+  const [pswLogin, setPswLogin] = useState<string>("");
+  const [PO_, setPO_] = useState<boolean>(false);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.name;
-    switch (input) {
-      case "owner":
-        setOwner(e.target.value);
-        break;
-      case "clav_prodct":
-        setClavProdct(e.target.value);
-        break;
-      case "user":
-        serverResources.setUser(e.target.value || []);
-        break;
-      case "pswLogin":
-        setPswLogin(e.target.value);
-        break;
-      default:
-        break;
+    const { name, value, checked } = e.target;
+    if (name === "owner") {
+      setOwner(value);
+    }
+    if (name === "clav_prodct") {
+      setclav_prodct(value);
+    }
+    if (name === "user") {
+      setUser(value);
+    }
+    if (name === "pswLogin") {
+      setPswLogin(value);
+    }
+    if (name === "PO_") {
+      setPO_(checked);
     }
   };
 
@@ -74,48 +49,50 @@ const FormAuthRegtr: React.FC<InicioProps> = ({
     engineResources.setStateLoading("block");
     try {
       // Configurar datos para registrar
-      await classAUTHREG.SetDatsToAPI(
-        owner,
-        clav_prodct,
-        serverResources.user,
-        pswLogin,
-        PO_ ? "PO" : "PM"
-      );
+      alert("try");
+      console.log(serverResources, engineResources);
+      // await classAUTHREG.SetDatsToAPI(
+      //   serverResources.prodct[0].owner,
+      //   clav_prodct,
+      //   serverResources.user,
+      //   pswLogin,
+      //   PO_ ? "PO" : "PM"
+      // );
 
-      // Enviar datos para guardar/registrar
-      const proceso = visibleFormAuth ? "auth" : "regtr";
-      const respAPI = await classAUTHREG.SendDatsAPI(proceso);
-      console.log("respApi::::: ", respAPI);
+      // // Enviar datos para guardar/registrar
+      // const proceso = visibleFormAuth ? "auth" : "regtr";
+      // const respAPI = await classAUTHREG.SendDatsAPI(proceso);
+      // console.log("respApi::::: ", respAPI);
 
-      if (respAPI.statusCode === 200) {
-        // Asignar cookies
-        await AsigneCookies(
-          "token",
-          respAPI.datos.token,
-          engineResources.cookies
-        );
-        await AsigneCookies(
-          "user",
-          serverResources.user,
-          engineResources.cookies
-        );
-        await AsigneCookies("owner", owner, engineResources.cookies);
+      // if (respAPI.statusCode === 200) {
+      //   // Asignar cookies
+      //   await AsigneCookies(
+      //     "token",
+      //     respAPI.datos.token,
+      //     engineResources.cookies
+      //   );
+      //   await AsigneCookies(
+      //     "user",
+      //     serverResources.user,
+      //     engineResources.cookies
+      //   );
+      //   await AsigneCookies("owner", serverResources.prodct[0].owner, engineResources.cookies);
 
-        // Redirigir al panel de la aplicación
-        await classAUTHREG.GetAPP(
-          engineResources.cookies.get("user"),
-          engineResources.cookies.get("token")
-        );
-      } else {
-        console.log("---intenta denuevo....");
-        engineResources.setAlertDialogs([
-          "block",
-          "error",
-          "Respuesta de servidor",
-          "->",
-          `${respAPI.statusCode}-${respAPI.msj}`,
-        ]);
-      }
+      //   // Redirigir al panel de la aplicación
+      //   await classAUTHREG.GetAPP(
+      //     engineResources.cookies.get("user"),
+      //     engineResources.cookies.get("token")
+      //   );
+      // } else {
+      //   console.log("---intenta denuevo....");
+      //   engineResources.setAlertDialogs([
+      //     "block",
+      //     "error",
+      //     "Respuesta de servidor",
+      //     "->",
+      //     `${respAPI.statusCode}-${respAPI.msj}`,
+      //   ]);
+      // }
     } catch (error) {
       console.error("Error enviando datos al servidor: ", error);
       alert("Error enviando datos al servidor, revise su conexión.");
@@ -169,7 +146,7 @@ const FormAuthRegtr: React.FC<InicioProps> = ({
           autoComplete="on"
           className="form-control input_text_index"
           placeholder="INGRESE SU USUARIO"
-          value={serverResources.user}
+          value={user}
           onChange={onChange}
         />
         <input
@@ -187,7 +164,7 @@ const FormAuthRegtr: React.FC<InicioProps> = ({
           control={
             <Switch
               checked={PO_}
-              onChange={() => setPO_(!PO_)}
+              onChange={onChange}
               name="PO_"
               color="primary"
             />

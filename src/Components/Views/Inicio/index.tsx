@@ -6,31 +6,10 @@ import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
 import { UserDTO } from "@/dto/User.dto";
 import { ProdctDTO } from "@/dto/Prodct.dto";
 import { BranchesDTO } from "@/dto/Branches.dto";
-import { PagesDTO } from "@/dto/PagesDTO";
+import { PagesDTO } from "@/dto/Pages.dto";
 import Loading from "../../Common/Intercciones/Loading";
+import { InicioProps } from "@/dto/InicioProps.dto";
 
-interface InicioProps {
-  serverResources: {
-    user: UserDTO;
-    setUser: React.Dispatch<React.SetStateAction<UserDTO>>;
-    prodct: ProdctDTO;
-    setProdct: React.Dispatch<React.SetStateAction<ProdctDTO>>;
-    branches: BranchesDTO;
-    setBranches: React.Dispatch<React.SetStateAction<BranchesDTO>>;
-  };
-  engineResources: {
-    isSmallScreen: boolean;
-    pages: PagesDTO;
-    ValideCookies: any;
-    aceptLegacy: boolean;
-    setAceptLegacy: any;
-    AlertDialogs: string[];
-    setAlertDialogs: any;
-    stateLoading: string;
-    setStateLoading: any;
-    cookies: any;
-  };
-}
 
 const Inicio: React.FC<InicioProps> = ({
   serverResources,

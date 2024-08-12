@@ -5,38 +5,16 @@ import {
   ValideInputPassword,
   ValideInputUsuario,
 } from "../../Common/ModulosSis/ValideInputREGEXP";
-import { PagesDTO } from "@/dto/PagesDTO";
+import { PagesDTO } from "@/dto/Pages.dto";
 import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
 import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
 import FormAuthRegtr from "./Login/FormAuthRegtr";
 import { UserDTO } from "@/dto/User.dto";
 import { ProdctDTO } from "@/dto/Prodct.dto";
 import { BranchesDTO } from "@/dto/Branches.dto";
+import { InicioProps } from "@/dto/InicioProps.dto";
 
-interface SignUpOrSignInProps {
-  serverResources: {
-    user: UserDTO;
-    setUser: React.Dispatch<React.SetStateAction<UserDTO>>;
-    prodct: ProdctDTO;
-    setProdct: React.Dispatch<React.SetStateAction<ProdctDTO>>;
-    branches: BranchesDTO;
-    setBranches: React.Dispatch<React.SetStateAction<BranchesDTO>>;
-  };
-  engineResources: {
-    isSmallScreen: boolean;
-    pages: PagesDTO;
-    ValideCookies: ResponseValideCookies;
-    aceptLegacy: boolean;
-    setAceptLegacy: React.Dispatch<React.SetStateAction<boolean>>;
-    AlertDialogs: string[];
-    setAlertDialogs: React.Dispatch<React.SetStateAction<string[]>>;
-    stateLoading: string;
-    setStateLoading: React.Dispatch<React.SetStateAction<string>>;
-    cookies: any;
-  };
-}
-
-const SignUpOrSignIn: React.FC<SignUpOrSignInProps> = ({
+const SignUpOrSignIn: React.FC<InicioProps> = ({
   serverResources,
   engineResources,
 }) => {

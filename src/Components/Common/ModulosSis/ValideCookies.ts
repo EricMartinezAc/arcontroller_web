@@ -1,4 +1,4 @@
-import { PagesDTO } from "@/dto/PagesDTO";
+import { PagesDTO } from "@/dto/Pages.dto";
 import DropCookies from "./DropCookies";
 import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
 

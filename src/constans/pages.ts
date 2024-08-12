@@ -1,4 +1,4 @@
-import { PagesDTO } from "@/dto/PagesDTO";
+import { PagesDTO } from "@/dto/Pages.dto";
 
 const pages: PagesDTO = {
   thisApp: "http://localhost:3000/", //

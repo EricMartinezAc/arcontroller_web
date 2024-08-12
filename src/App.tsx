@@ -19,9 +19,36 @@ import "./App.css";
 
 function App() {
   //server resources
-  const [user, setUser] = useState<UserDTO[]>([]);
-  const [prodct, setProdct] = useState<ProdctDTO[]>([]);
-  const [branches, setBranches] = useState<BranchesDTO[]>([]);
+  const [user, setUser] = useState<UserDTO[]>([
+    {
+      user: "",
+      pswLogin: "",
+      rol: "",
+    },
+  ]);
+  const [prodct, setProdct] = useState<ProdctDTO>({
+    owner: "",
+    clav_prodct: "",
+  });
+  const [branches, setBranches] = useState<BranchesDTO[]>([
+    {
+      sucursal: "",
+      ubicacion: [""],
+      centroCosto: "",
+      tipo: "",
+      clasificacion: "",
+      prioridad: "",
+      inicioOp: "",
+      contactos: [""],
+      team: [""],
+      imagen: [""],
+      areas: [""],
+      proveedores: "",
+      gerente: "",
+      id_user: "",
+      state: "",
+    },
+  ]);
   //local resources
   const [isSmallScreen, setSmallScreen] = useState<boolean>(
     window.innerWidth < 600

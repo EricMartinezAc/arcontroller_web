@@ -9,7 +9,7 @@ import { BranchesDTO } from "@/dto/Branches.dto";
 import { PagesDTO } from "@/dto/Pages.dto";
 import Loading from "../../Common/Intercciones/Loading";
 import { InicioProps } from "@/dto/InicioProps.dto";
-
+import Dashboard from "../Dashboard";
 
 const Inicio: React.FC<InicioProps> = ({
   serverResources,
@@ -68,10 +68,10 @@ const Inicio: React.FC<InicioProps> = ({
                 />
               }
             />
-            {/* <Route
-                path="/arcontroller/web/main/Dashboard"
-                element={<Dashboard_ />}
-              /> */}
+            <Route
+              path="/arcontroller/web/main/Dashboard"
+              element={<Dashboard />}
+            />
           </Routes>
         )}
       </div>

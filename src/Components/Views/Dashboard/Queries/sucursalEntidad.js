@@ -1,4 +1,4 @@
-const pages = require("../../../../constans/pages.js");
+const { pages } = require("../../../../constans");
 const { ValideDatosMiddle } = require("../../../Common/ModulosSis/Segurity.js");
 
 export default class sucursalEntidad {

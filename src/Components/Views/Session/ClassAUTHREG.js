@@ -1,4 +1,4 @@
-import pages from "../../../constans/pages";
+import { pages } from "../../../constans/";
 
 export default class ReqResDatos_auth_API {
   constructor() {
@@ -72,7 +72,7 @@ export default class ReqResDatos_auth_API {
     } else {
       alert("Datos ingresados no cumplen requerimientos");
       setTimeout(() => {
-        window.location = `${pages.this}/Singin`;
+        window.location = `${pages.thisApp}/Singin`;
       }, 5000);
     }
   };
@@ -91,7 +91,7 @@ export default class ReqResDatos_auth_API {
         console.log("respuesta api getapp ", data);
         setTimeout(() => {
           if (data.statusCode === 200) {
-            window.location = `${pages.this}arcontroller/web/main/Dashboard`;
+            window.location = `${pages.thisApp}arcontroller/web/main/Dashboard`;
           } else {
             alert(data.msj);
           }
@@ -101,7 +101,7 @@ export default class ReqResDatos_auth_API {
       .catch((err) => {
         alert("Error en generación de token:", err);
         setTimeout(() => {
-          console.log(`${pages.this}`);
+          console.log(`${pages.thisApp}`);
         }, 300);
         console.error("Error :", err);
       });

@@ -1,4 +1,4 @@
-const pages = require("../../../../constans/pages.js");
+const { pages } = require("../../../../constans");
 
 export default class User {
   constructor() {

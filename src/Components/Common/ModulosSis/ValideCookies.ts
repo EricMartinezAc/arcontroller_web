@@ -1,12 +1,10 @@
-import { PagesDTO } from "@/dto/Pages.dto";
-import DropCookies from "./DropCookies";
-import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
+import { ROUTES } from "@/dto";
 
 export default function ValideCookies(
   process: string,
   cookies: any,
-  pages: PagesDTO
-): ResponseValideCookies {
+  pages: ROUTES
+): any {
   try {
     // ---- Rules on sign-in
     if (

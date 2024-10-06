@@ -1,4 +1,4 @@
-export interface BranchesDTO {
+export interface BranchDTO {
   _id?: string;
   sucursal: string;
   ubicacion: string[];

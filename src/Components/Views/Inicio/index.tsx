@@ -1,55 +1,49 @@
 import React, { useEffect } from "react";
-import { Box } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import SignUpOrSignIn from "../Session/SignUpOrSignIn";
-import { ResponseValideCookies } from "@/dto/RespValideCookies.dto";
-import { UserDTO } from "@/dto/User.dto";
-import { ProdctDTO } from "@/dto/Prodct.dto";
-import { BranchesDTO } from "@/dto/Branches.dto";
-import { PagesDTO } from "@/dto/Pages.dto";
-import Loading from "../../Common/Intercciones/Loading";
-import { InicioProps } from "@/dto/InicioProps.dto";
-import Dashboard from "../Dashboard";
+import { Box } from "@mui/material";
 
-const Inicio: React.FC<InicioProps> = ({
-  serverResources,
-  engineResources,
-}) => {
+import { useGeneralContext } from "../../../Context/GeneralContext";
+
+import Home from "../Home";
+import { SignUpOrSignIn } from "../Session/SignUpOrSignIn";
+import { Dashboard } from "../Dashboard";
+
+import Loading from "../../../Components/Common/Intercciones/Loading";
+
+const Inicio: React.FC = () => {
+  const { engineResources } = useGeneralContext();
+
   // Validación de cookies
   useEffect(() => {
-    const rspValideCookies: ResponseValideCookies =
-      engineResources.ValideCookies(
-        "Singin",
-        engineResources.cookies,
-        engineResources.pages
-      );
+    engineResources.Loading[1]("none");
+    const rspValideCookies = engineResources.ValideCookies();
 
     // Verifica si rspValideCookies.getApp no es null antes de usarlo
     if (rspValideCookies.value && rspValideCookies.getApp) {
       window.location.href = rspValideCookies.getApp;
     } else {
-      engineResources.setStateLoading(false);
+      engineResources.IUComponets[1](false);
     }
   }, []);
 
   return (
-    <Router>
-      <div className="App">
-        <Box
-          sx={{
-            display: engineResources.stateLoading ? "flex" : "none",
-            backgroundColor: "rgba(238, 221, 238, 0.742)",
-            zIndex: 10,
-            position: "absolute",
-            width: "100%",
-            height: "125%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Loading />
-        </Box>
-        {engineResources.isSmallScreen ? (
+    <>
+      <Box
+        sx={{
+          display: engineResources.Loading[0],
+          backgroundColor: "rgba(238, 221, 238, 0.742)",
+          zIndex: 1000,
+          position: "absolute",
+          width: "100%",
+          height: "220%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loading />
+      </Box>
+      <Router>
+        {engineResources.mobile ? (
           <div className="noRenderable">
             <p>
               Tu dispositivo no cumple con las características necesarias.
@@ -59,23 +53,16 @@ const Inicio: React.FC<InicioProps> = ({
           </div>
         ) : (
           <Routes>
-            <Route
-              path="/"
-              element={
-                <SignUpOrSignIn
-                  serverResources={serverResources}
-                  engineResources={engineResources}
-                />
-              }
-            />
+            <Route path="/" element={<Home />} />
+            {/* <Route path="/Sesion" element={<SignUpOrSignIn />} />
             <Route
               path="/arcontroller/web/main/Dashboard"
               element={<Dashboard />}
-            />
+            /> */}
           </Routes>
         )}
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import pages from "../../../constans/pages";
+import pages from "../../../constans/Routes";
 
 export default class ReqResDatos_auth_API {
   constructor() {

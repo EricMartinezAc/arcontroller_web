@@ -1,1 +1,1 @@
-export { default as pages } from "./pages";
+export { Routes } from "./Routes";

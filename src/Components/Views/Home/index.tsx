@@ -2,38 +2,34 @@ import React, { Component, useEffect, useState } from "react";
 
 //recursos
 import axios from "axios";
-import Cookies from "universal-cookie";
-import { Box } from "@mui/material";
 import "../../../Assets/styles/Inicio.css";
-import pages from "../../../constans/pages";
+import { Routes as pages } from "../../../constans/Routes";
 
 //components
-import Loading from "../../Common/Intercciones/Loading";
 import Header from "./Partials/Header/Header";
 import Main from "./Partials/Main/Main";
 import Aside from "./Partials/Aside/Aside";
 import Footer from "../../Common/Interfaz/Footer";
 
 //funcionaidades
-import ValideCookies from "../../Common/ModulosSis/ValideCookies";
 import ReqResDatos_auth_API from "../Session/ClassAUTHREG";
 
-import DescriptionAlerts from "../../Common/Intercciones/DescriptionAlerts";
 import AlertCookies from "../../Common/Interfaz/modalAceptPolicy";
+import { useGeneralContext } from "../../../Context/GeneralContext";
 
-function Inicio(props) {
-  const cookies = new Cookies();
+const Inicio: React.FC = () => {
+  const { engineResources } = useGeneralContext();
   const reqResDatos_auth_API = new ReqResDatos_auth_API();
-  //window loading and alert
-  const [state_policy_cookies, setState_policy_cookies] = useState(false);
-  const [stateLoading, setStateLoading] = useState("none");
-  const [AlertDialogs, setAlertDialogs] = useState(["none", "", "", "", ""]);
 
   //on start
   useEffect(() => {
-    const respValideCookies = ValideCookies("Inicio", cookies, pages);
+    const respValideCookies = engineResources.ValideCookies(
+      "Inicio",
+      engineResources.cookies,
+      pages
+    );
     if (respValideCookies.getApp) {
-      setAlertDialogs([
+      engineResources.IUComponets[1]([
         "block",
         "success",
         "Respuesta de validación",
@@ -45,14 +41,13 @@ function Inicio(props) {
   }, []);
 
   const AceptacionCookies = async () => {
-    await setState_policy_cookies(true);
-    await cookies.set("aceptLegacy", true, {
+    await engineResources.cookies.set("aceptLegacy", true, {
       path: "/",
       secure: true,
       sameSite: "strict",
       maxAge: 360000,
     });
-    setAlertDialogs([
+    engineResources.IUComponets[1]([
       "block",
       "success",
       "Políticas de manejo de datos",
@@ -60,11 +55,11 @@ function Inicio(props) {
       "Da clic en inicio de seión para continuar",
     ]);
     setTimeout(() => {
-      setAlertDialogs(["none", "", "", "", ""]);
+      engineResources.IUComponets[1](["none", "", "", "", ""]);
     }, 6000);
   };
   const DenegarCookies = async () => {
-    setAlertDialogs([
+    engineResources.IUComponets[1]([
       true,
       "warning",
       "Políticas de manejo de datos",
@@ -75,49 +70,12 @@ function Inicio(props) {
 
   return (
     <>
-      <Box
-        sx={{
-          display: stateLoading,
-          backgroundColor: "rgba(238, 221, 238, 0.742)",
-          zIndex: 10,
-          position: "absolute",
-          width: "100%",
-          height: "125%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Loading />
-      </Box>
-      <Box
-        sx={{
-          display: AlertDialogs[0],
-          zIndex: 10,
-          width: "100%",
-          height: "auto",
-          position: "absolute",
-          top: "10%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <DescriptionAlerts
-          AlertSeverity={AlertDialogs[1]}
-          AlertTilte={AlertDialogs[2]}
-          AlertMsjLow={AlertDialogs[3]}
-          AlertMsjHight={AlertDialogs[4]}
-        />
-      </Box>
       <header>
-        <Header
-          setStateLoading={setStateLoading}
-          stateLoading={stateLoading}
-          state_permission_login={state_policy_cookies}
-        />
+        <Header state_permission_login={engineResources.Legacy[0]} />
       </header>
       <section
         className="section_alertCookies"
-        style={{ display: !state_policy_cookies ? "block" : "none" }}
+        style={{ display: !engineResources.Legacy[0] ? "block" : "none" }}
       >
         <AlertCookies
           AceptacionCookies={AceptacionCookies}
@@ -137,7 +95,7 @@ function Inicio(props) {
       </footer>
     </>
   );
-}
+};
 
 Inicio.propTypes = {};
 

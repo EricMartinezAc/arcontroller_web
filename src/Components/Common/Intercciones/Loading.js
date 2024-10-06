@@ -11,7 +11,7 @@ function Loading(props) {
       <Box
         sx={{
           width: "100%",
-          height: "min-content",
+          height: "max-content",
           position: "relative",
           top: "100px",
           textAlign: "center",

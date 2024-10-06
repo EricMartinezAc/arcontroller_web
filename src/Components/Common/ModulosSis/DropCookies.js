@@ -1,13 +1,13 @@
-const All = (cookies, path) => {
+export const DropAll = (cookies, path) => {
   const allCookies = cookies.getAll();
-  for (const key in allCookies) {
-    cookies.remove(key, { path });
-  }
+
+  console.log("drop");
+  Object.keys(allCookies).forEach((cookie) => {
+    cookies.remove(cookie, { path });
+  });
 };
-const Any = (cookies, keys, path) => {
+export const DropAny = (cookies, keys, path) => {
   keys.forEach((key) => {
     cookies.remove(key, { path });
   });
 };
-
-module.exports = { All, Any };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Divider, Link, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import LogoISE from "../../../../Assets/Imgs/logos/logo_632x512.png";
+import LogoISE from "../../../../Assets/Imgs/logos/climatecontrols/5-transp.png";
 
 // Definir los tipos de las propiedades que recibirá el componente
 interface AlertCookiesProps {
@@ -25,20 +25,14 @@ const AlertCookies: React.FC<AlertCookiesProps> = ({
           backgroundColor: "#4533B8",
           height: "auto",
           width: "100%",
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr",
+          display: "flex",
+          justifyContent: "left",
         }}
       >
-        <Typography
-          sx={{
-            margin: "auto 0",
-            padding: "0 0 0 70%",
-          }}
-        ></Typography>
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
+            gridTemplateColumns: "1fr 1fr",
           }}
         >
           <Typography
@@ -53,9 +47,8 @@ const AlertCookies: React.FC<AlertCookiesProps> = ({
           </Typography>
           <img
             style={{
-              width: "80px",
+              width: "110px",
               backgroundColor: "#cec",
-              borderRadius: "70%",
             }}
             src={LogoISE}
             alt="logo_ISE"

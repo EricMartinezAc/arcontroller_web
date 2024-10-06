@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface BranchDTO {
   _id?: string;
   sucursal: string;
@@ -15,4 +17,5 @@ export interface BranchDTO {
   gerente: string;
   id_user: string;
   state: string;
+  setSucursal?: Dispatch<SetStateAction<BranchDTO>>;
 }

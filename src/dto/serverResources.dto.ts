@@ -1,5 +1,7 @@
+import { BRANCH, PRODUCT, USER } from ".";
+
 export interface serverResourcesDTO {
-  user: any[];
-  prodct: any[];
-  branches: any[];
+  user: USER;
+  prodct: PRODUCT;
+  branches: BRANCH;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { Box } from "@mui/material";
@@ -20,8 +20,12 @@ const DescriptionAlerts: React.FC<DescriptionAlertsProps> = ({
   AlertMsjLow,
   AlertMsjHight,
 }) => {
+  useEffect(() => {
+    console.log([AlertSeverity, AlertTilte, AlertMsjLow, AlertMsjHight]);
+  }, []);
+
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", padding: "20px" }}>
       <Alert severity={AlertSeverity}>
         <AlertTitle>{AlertTilte}</AlertTitle>
         {AlertMsjLow}.<strong> {AlertMsjHight}</strong>

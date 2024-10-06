@@ -4,7 +4,7 @@ export interface engineResourcesDTO {
   mobile: boolean;
   Routes: ROUTES;
   Legacy: any[];
-  IUComponets: any[];
+  DescriptionAlerts: any[];
   Loading: any[];
   ValideCookies: any;
   cookies: any;

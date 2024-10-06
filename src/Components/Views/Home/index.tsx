@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 
 //recursos
 import axios from "axios";
-import "../../../Assets/styles/Inicio.css";
+import "../../../Assets/styles/home.css";
 import { Routes as pages } from "../../../constans/Routes";
 
 //components
@@ -12,7 +12,8 @@ import Aside from "./Partials/Aside/Aside";
 import Footer from "../../Common/Interfaz/Footer";
 
 //funcionaidades
-import ReqResDatos_auth_API from "../Session/ClassAUTHREG";
+import { DropAll as DropAllCookies } from "../../Common/ModulosSis/DropCookies";
+import ReqResDatos_auth_API from "../../Common/ModulosSis/auth/ClassAUTHREG";
 
 import AlertCookies from "../../Common/Interfaz/modalAceptPolicy";
 import { useGeneralContext } from "../../../Context/GeneralContext";
@@ -23,44 +24,28 @@ const Inicio: React.FC = () => {
 
   //on start
   useEffect(() => {
-    const respValideCookies = engineResources.ValideCookies(
-      "Inicio",
-      engineResources.cookies,
-      pages
-    );
-    if (respValideCookies.getApp) {
-      engineResources.IUComponets[1]([
-        "block",
-        "success",
-        "Respuesta de validación",
-        "Ahora puedes usar al aplicación. ",
-        respValideCookies.msj,
-      ]);
-      reqResDatos_auth_API.GetAPP(respValideCookies.token, axios);
-    }
+    DropAllCookies(engineResources.cookies, "/");
   }, []);
 
   const AceptacionCookies = async () => {
-    await engineResources.cookies.set("aceptLegacy", true, {
-      path: "/",
-      secure: true,
-      sameSite: "strict",
-      maxAge: 360000,
-    });
-    engineResources.IUComponets[1]([
+    engineResources.Legacy[1](!engineResources.Legacy[0]);
+    engineResources.DescriptionAlerts[1]([
       "block",
       "success",
       "Políticas de manejo de datos",
       "Ahora puedes usar al aplicación.",
       "Da clic en inicio de seión para continuar",
     ]);
+    console.log(1, engineResources.DescriptionAlerts[0]);
     setTimeout(() => {
-      engineResources.IUComponets[1](["none", "", "", "", ""]);
+      engineResources.DescriptionAlerts[1](["none", "", "", "", ""]);
+
+      console.log(2, engineResources.DescriptionAlerts[0]);
     }, 6000);
   };
   const DenegarCookies = async () => {
-    engineResources.IUComponets[1]([
-      true,
+    engineResources.DescriptionAlerts[1]([
+      "block",
       "warning",
       "Políticas de manejo de datos",
       "Lo sentimos, las cookies son necesarias para el funcionamiento del sistema",
@@ -70,7 +55,7 @@ const Inicio: React.FC = () => {
 
   return (
     <>
-      <header>
+      <header className="header">
         <Header state_permission_login={engineResources.Legacy[0]} />
       </header>
       <section
@@ -100,12 +85,3 @@ const Inicio: React.FC = () => {
 Inicio.propTypes = {};
 
 export default Inicio;
-
-// componentDidUpdate () {
-//   if (state.stateAlertDialogs)
-//     setTimeout(
-//       () => CambiarEstadoDescriptionAlerts(false, '', '', '', ''),
-//       4000
-//     )
-//   console.log(cookies.getAll())
-// }

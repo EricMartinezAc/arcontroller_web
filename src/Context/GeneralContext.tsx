@@ -12,36 +12,35 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   //server resources
-  const [user, setUser] = useState<USER[]>([
-    {
-      user: "invitado",
-      pswLogin: "",
-      rol: "NaN",
-    },
-  ]);
+  const [user, setUser] = useState<USER>({
+    user: "invitado",
+    pswLogin: "",
+    rol: "NaN",
+    setUser: (u) => setUser(u),
+  });
   const [prodct, setProdct] = useState<PRODUCT>({
     owner: "",
     clav_prodct: "",
+    setOwner: (p) => setProdct(p),
   });
-  const [branches, setBranches] = useState<BRANCH[]>([
-    {
-      sucursal: "",
-      ubicacion: [""],
-      centroCosto: "",
-      tipo: "",
-      clasificacion: "",
-      prioridad: "",
-      inicioOp: "",
-      contactos: [""],
-      team: [""],
-      imagen: [""],
-      areas: [""],
-      proveedores: "",
-      gerente: "",
-      id_user: "",
-      state: "",
-    },
-  ]);
+  const [branches, setBranches] = useState<BRANCH>({
+    sucursal: "",
+    ubicacion: [""],
+    centroCosto: "",
+    tipo: "",
+    clasificacion: "",
+    prioridad: "",
+    inicioOp: "",
+    contactos: [""],
+    team: [""],
+    imagen: [""],
+    areas: [""],
+    proveedores: "",
+    gerente: "",
+    id_user: "",
+    state: "",
+    setSucursal: (b) => setBranches(b),
+  });
 
   //engine resources
   const [isSmallScreen, setSmallScreen] = useState<boolean>(
@@ -50,13 +49,13 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   const [aceptLegacy, setAceptLegacy] = useState<boolean>(false);
   const [AlertDialogs, setAlertDialogs] = useState<string[]>([
     "none",
-    "",
-    "",
-    "",
-    "",
+    "error",
+    "error",
+    "error",
+    "error",
   ]);
   const [stateLoading, setStateLoading] = useState<string>("block");
-
+  const cookies = new Cookies();
   //for mobile app
   useEffect(() => {
     const handleResize = () => {
@@ -70,18 +69,18 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const serverResources: SRDTO = {
-    user: [user, setUser],
-    prodct: [prodct, setProdct],
-    branches: [branches, setBranches],
+    user,
+    prodct,
+    branches,
   };
   const engineResources: ERDTO = {
     mobile: false,
     Routes,
     Legacy: [aceptLegacy, setAceptLegacy],
-    IUComponets: [AlertDialogs, setAlertDialogs],
+    DescriptionAlerts: [AlertDialogs, setAlertDialogs],
     Loading: [stateLoading, setStateLoading],
     ValideCookies,
-    cookies: () => new Cookies(),
+    cookies,
   };
   return (
     <CreateGeneralContext.Provider

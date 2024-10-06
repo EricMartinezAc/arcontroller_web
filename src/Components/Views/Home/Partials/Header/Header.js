@@ -18,7 +18,7 @@ import "./Header.css";
 
 import Loading from "../../../../Common/Intercciones/Loading";
 
-import LogoARC from "../../../../../Assets/Imgs/logos/rueda_tubos_142x78.png";
+import LogoARC from "../../../../../Assets/Imgs/logos/logo_632x512.png";
 import Logck from "../../../../../Assets/Imgs/icos/logck.png";
 
 const pages = ["Asesorías", "Productos", "Contacto", "Nosotros"];
@@ -44,7 +44,7 @@ function ResponsiveAppBar(props) {
   };
 
   const RedirectSigin = () => {
-    window.location = "/Singin";
+    window.location = "/Sesion";
   };
 
   return (
@@ -54,32 +54,34 @@ function ResponsiveAppBar(props) {
           <Box
             sx={{
               gridTemplateColumns: "1fr 1fr",
-              display: { xs: "none", md: "grid" },
-              mr: 1,
+              margin: "20px",
+              display: "grid",
+              width: "100%",
             }}
           >
-            <img className="img_logo" alt="LogoARC" src={LogoARC} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                width: "max-content",
-                height: "max-content",
-                margin: "30% 0",
-                padding: "0",
-                display: { xs: "none", md: "flex" },
-                fontFamily: "sans-serif",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              ARController |
-            </Typography>
+            <img width={130} alt="LogoARC" src={LogoARC} />
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          {/* MENU */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+
+          {/* MOBILE MENU */}
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -109,61 +111,34 @@ function ResponsiveAppBar(props) {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  sx={{
+                    bgcolor: "coral",
+                    width: "100vh",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                >
+                  <Button
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      padding: 0,
+                      margin: 0,
+                      my: 2,
+                      color: "blue",
+                      display: "block",
+                    }}
+                  >
+                    {page}
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
-
-          <Box sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
-            <img alt="LogoARC" src={LogoARC} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "Verdana",
-                fontWeight: 700,
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              ARController
-            </Typography>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "fantasy",
-              fontWeight: 700,
-              letterSpacing: ".1rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            ARController
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
           </Box>
 
           <Box

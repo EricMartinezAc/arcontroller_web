@@ -36,6 +36,9 @@
 }
 
 @media (max-width: 1200px) {
+    .header{
+        
+    }
     .authContent {
         width: 50%;
     }

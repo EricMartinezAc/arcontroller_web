@@ -5,10 +5,11 @@ import { Box } from "@mui/material";
 import { useGeneralContext } from "../../../Context/GeneralContext";
 
 import Home from "../Home";
-import { SignUpOrSignIn } from "../Session/SignUpOrSignIn";
+import SignUpOrSignIn from "../Session/SignUpOrSignIn";
 import { Dashboard } from "../Dashboard";
 
 import Loading from "../../../Components/Common/Intercciones/Loading";
+import DescriptionAlerts from "../../../Components/Common/Intercciones/DescriptionAlerts";
 
 const Inicio: React.FC = () => {
   const { engineResources } = useGeneralContext();
@@ -16,13 +17,14 @@ const Inicio: React.FC = () => {
   // Validación de cookies
   useEffect(() => {
     engineResources.Loading[1]("none");
+    console.log(engineResources.DescriptionAlerts[0][1]);
     const rspValideCookies = engineResources.ValideCookies();
 
     // Verifica si rspValideCookies.getApp no es null antes de usarlo
     if (rspValideCookies.value && rspValideCookies.getApp) {
       window.location.href = rspValideCookies.getApp;
     } else {
-      engineResources.IUComponets[1](false);
+      engineResources.Loading[1]("none");
     }
   }, []);
 
@@ -42,6 +44,24 @@ const Inicio: React.FC = () => {
       >
         <Loading />
       </Box>
+      <Box
+        sx={{
+          display: engineResources.DescriptionAlerts[0][0],
+          zIndex: 2000,
+          position: "absolute",
+          width: "75%",
+          top: "30%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <DescriptionAlerts
+          AlertSeverity={engineResources.DescriptionAlerts[0][1]}
+          AlertTilte={engineResources.DescriptionAlerts[0][2]}
+          AlertMsjLow={engineResources.DescriptionAlerts[0][3]}
+          AlertMsjHight={engineResources.DescriptionAlerts[0][4]}
+        />
+      </Box>
       <Router>
         {engineResources.mobile ? (
           <div className="noRenderable">
@@ -54,11 +74,11 @@ const Inicio: React.FC = () => {
         ) : (
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/Sesion" element={<SignUpOrSignIn />} />
+            <Route path="/Sesion" element={<SignUpOrSignIn />} />
             <Route
               path="/arcontroller/web/main/Dashboard"
               element={<Dashboard />}
-            /> */}
+            />
           </Routes>
         )}
       </Router>

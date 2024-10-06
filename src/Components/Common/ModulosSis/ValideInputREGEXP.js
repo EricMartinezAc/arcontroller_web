@@ -1,19 +1,26 @@
 const ExprRegulares = {
-  password: /^.{4,12}$/, // 4 a 12 digitos.
+  product: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+  clav_prodct: /^(?=.*[A-Z])(?=.*[*.@_-])[a-zA-Z0-9*.@_-]{4,16}$/,
+  usuario: /^(?=.*[A-Z])(?=.*[*.@_-])[a-zA-Z0-9*.@_-]{4,30}$/,
+  password: /^(?=.*[A-Z])(?=.*[*.@_-])[a-zA-Z0-9*.@_-]{4,12}$/,
   correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-  usuario: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, // /^[a-zA-Z]{4,16}$/, // Letras entre 4 a 16,
-  extCorreo: /^([^]+)@(\w+).(\w+)$/, // para extraer correo
+  rol: /^[POM]{2}$/,
 };
 
-export const ValideInputPassword = (password_) => {
-  return ExprRegulares.password.test(password_) ? true : false;
+export const ValideInputProduct = (product) => {
+  return ExprRegulares.product.test(product) ? true : false;
 };
-export const ValideInputEmail = (email_) => {
-  return ExprRegulares.correo.test(email_) ? true : false;
+export const ValideInputClavProduct = (clav_prodct) => {
+  return ExprRegulares.clav_prodct.test(clav_prodct) ? true : false;
 };
+
 export const ValideInputUsuario = (usuario_) => {
   return ExprRegulares.usuario.test(usuario_) ? true : false;
 };
-export const ValideInputExtraerEmail = (email_) => {
-  return ExprRegulares.extCorreo.test(email_);
+export const ValideInputPassword = (password_) => {
+  return ExprRegulares.password.test(password_) ? true : false;
+};
+
+export const ValideRol = (rol) => {
+  return ExprRegulares.rol.test(rol) ? true : false;
 };

@@ -78,31 +78,31 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
       // Respuesta del servidor
       console.log("respApi::::: ", respAPI);
       // resolver
-      if (respAPI.statusCode === 200) {
-        // Asignar cookies
-        await AsigneCookies(
-          "token",
-          respAPI.datos.token,
-          engineResources.cookies
-        );
-        await AsigneCookies("user", user, engineResources.cookies);
-        await AsigneCookies("owner", owner, engineResources.cookies);
+      // if (respAPI.statusCode === 200) {
+      //   // Asignar cookies
+      //   await AsigneCookies(
+      //     "token",
+      //     respAPI.datos.token,
+      //     engineResources.cookies
+      //   );
+      //   await AsigneCookies("user", user, engineResources.cookies);
+      //   await AsigneCookies("owner", owner, engineResources.cookies);
 
-        // Redirigir al panel de la aplicación
-        await classAUTHREG.GetAPP(
-          engineResources.cookies.get("user"),
-          engineResources.cookies.get("token")
-        );
-      } else {
-        console.log("---intenta denuevo....");
-        engineResources.DescriptionAlerts[1]([
-          "block",
-          "error",
-          "Respuesta de servidor",
-          "->",
-          `${respAPI.statusCode}-${respAPI.msj}`,
-        ]);
-      }
+      //   // Redirigir al panel de la aplicación
+      //   await classAUTHREG.GetAPP(
+      //     engineResources.cookies.get("user"),
+      //     engineResources.cookies.get("token")
+      //   );
+      // } else {
+      //   console.log("---intenta denuevo....");
+      //   engineResources.DescriptionAlerts[1]([
+      //     "block",
+      //     "error",
+      //     "Respuesta de servidor",
+      //     "->",
+      //     `${respAPI.statusCode}-${respAPI.msj}`,
+      //   ]);
+      // }
     } catch (error) {
       engineResources.Loading[1]("none");
       console.error("Error enviando datos al servidor: ", error);

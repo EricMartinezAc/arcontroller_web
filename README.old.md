@@ -1,6 +1,5 @@
 # arcontroller_web
 #here
-Reglas de datos:
 - Auth and Register:
     * nombre del producto: El dirección email con que se aquirió el producto. Use 'arcontroller@climatecontrolsing.com' como modo prueba.
     Validación de datos: '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/' 
@@ -8,8 +7,9 @@ Reglas de datos:
         2. Tipo email.
         3. Solo alfanumericos despues del @.
         4. Dominio superior como .net, .com, almenos 2 caracteres alfanumericos.
+        (recuerda que no permite correos con dominio gmail.com, outlook.com, etc, solo dominios personalizados. estos son requisitos del backend)
 
-    * Clave del producto: El codigo enviado a su dirección email una vez comprado el producto. Use 'ARController' como modo prueba.
+    * Clave del producto: El codigo enviado a su dirección email una vez comprado el producto. Use 'Arc2025*' como modo prueba.
     Validación de datos: '/^(?=.*[A-Z])(?=.*[*.@_-])[a-zA-Z0-9*.@_-]{4,16}$/'
         1. No puede ser vacío ni tener espacios..
         2. Tipo Alfanumérico, entre 4 y 16 caracteres.
@@ -41,4 +41,6 @@ Reglas de datos:
         1. Permite solo 2 caracteres.
         2. Solo permite letras P, O y M. 
         3. No permite espacios.
+
+Los datos son enviados a un backend privado, App queda en espera de respuesta
 

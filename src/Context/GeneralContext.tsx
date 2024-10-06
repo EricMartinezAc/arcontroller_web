@@ -13,14 +13,14 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
 }) => {
   //server resources
   const [user, setUser] = useState<USER>({
-    user: "invitado",
-    pswLogin: "",
-    rol: "NaN",
+    user: "ArturoMartinez1992*",
+    pswLogin: "Arc2025*",
+    rol: "PO",
     setUser: (u) => setUser(u),
   });
   const [prodct, setProdct] = useState<PRODUCT>({
-    owner: "",
-    clav_prodct: "",
+    owner: "arcontroller@climatecontrolsing.com",
+    clav_prodct: "Arc2025*",
     setOwner: (p) => setProdct(p),
   });
   const [branches, setBranches] = useState<BRANCH>({

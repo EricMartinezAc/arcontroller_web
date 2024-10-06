@@ -94,7 +94,6 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           engineResources.cookies.get("token")
         );
       } else {
-        console.log("---intenta denuevo....");
         engineResources.DescriptionAlerts[1]([
           "block",
           "error",
@@ -102,6 +101,9 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           "->",
           `${respAPI.statusCode}-${respAPI.msj}`,
         ]);
+        setTimeout(() => {
+          window.location.reload()
+        }, 5000);
       }
     } catch (error) {
       engineResources.Loading[1]("none");

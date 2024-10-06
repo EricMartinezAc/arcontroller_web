@@ -22,6 +22,7 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
     "recharts": "^2.9.3",
+    "redux": "^5.0.1",
     "universal-cookie": "^7.1.4",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.6.0",
@@ -61,5 +62,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^4.9.5"
   }
 }

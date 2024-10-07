@@ -6,7 +6,7 @@ import { useGeneralContext } from "../../../Context/GeneralContext";
 
 import Home from "../Home";
 import SignUpOrSignIn from "../Session/SignUpOrSignIn";
-import { Dashboard } from "../Dashboard";
+import Dashboard from "../Dashboard";
 
 import Loading from "../../../Components/Common/Intercciones/Loading";
 import DescriptionAlerts from "../../../Components/Common/Intercciones/DescriptionAlerts";

@@ -18,12 +18,6 @@ function Toolbar_dashboard({
   openDrawer,
   CerrarApp,
 }) {
-  // const MonstrarNotificaiones = () => {
-  //   return true;
-  // };
-  // const MostrarMensajes = () => {
-  //   return true;
-  // };
   return (
     <>
       <Toolbar
@@ -58,7 +52,8 @@ function Toolbar_dashboard({
               variant="h6"
               noWrap
             >
-              {owner || "Modeo de prueba"} /{user || "Sin user"}
+              {owner.split("@")[0] || "Modo de prueba"} /
+              {user.replace(/[^a-zA-Z]/g, "") || "Sin user"}
             </Typography>
           </Grid>
           {/* barra de Notificaciones */}

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 //components views
 import Inicio from "./Components/Views/Inicio";
-import { Dashboard } from "./Components/Views/Dashboard";
 
 //resources
 import "./App.css";

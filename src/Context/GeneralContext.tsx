@@ -16,12 +16,10 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     user: "ArturoMartinez1992*",
     pswLogin: "Arc2025*",
     rol: "PO",
-    setUser: (u) => setUser(u),
   });
   const [prodct, setProdct] = useState<PRODUCT>({
     owner: "arcontroller@climatecontrolsing.com",
     clav_prodct: "Arc2025*",
-    setOwner: (p) => setProdct(p),
   });
   const [branches, setBranches] = useState<BRANCH>({
     sucursal: "",
@@ -39,7 +37,6 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     gerente: "",
     id_user: "",
     state: "",
-    setSucursal: (b) => setBranches(b),
   });
 
   //engine resources
@@ -82,11 +79,14 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     ValideCookies,
     cookies,
   };
+  const serverResourcesSetters: any = [setUser, setProdct, setBranches];
+
   return (
     <CreateGeneralContext.Provider
       value={{
         serverResources,
         engineResources,
+        serverResourcesSetters,
       }}
     >
       {children}

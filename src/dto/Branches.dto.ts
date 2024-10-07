@@ -17,5 +17,4 @@ export interface BranchDTO {
   gerente: string;
   id_user: string;
   state: string;
-  setSucursal?: Dispatch<SetStateAction<BranchDTO>>;
 }

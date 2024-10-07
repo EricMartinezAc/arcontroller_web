@@ -18,7 +18,8 @@ const classAUTHREG = new ClassAUTHREG();
 
 const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
   // Estado del formulario
-  const { engineResources, serverResources } = useGeneralContext();
+  const { engineResources, serverResources, serverResourcesSetters } =
+    useGeneralContext();
   const [owner, setOwner] = useState<string>(serverResources.prodct.owner);
   const [clav_prodct, setclav_prodct] = useState<string>(
     serverResources.prodct.clav_prodct
@@ -88,6 +89,15 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
         await AsigneCookies("user", user, engineResources.cookies);
         await AsigneCookies("owner", owner, engineResources.cookies);
 
+        serverResourcesSetters[0]({
+          user,
+          rol: respAPI.datos.rol,
+          id_prodct: respAPI.datos.id_prodct,
+        });
+        respAPI.datos.rol === "PO"
+          ? serverResourcesSetters[2]([respAPI.branchesLoad])
+          : serverResourcesSetters[2](respAPI.branchesLoad);
+
         // Redirigir al panel de la aplicación
         await classAUTHREG.GetAPP(
           engineResources.cookies.get("user"),
@@ -102,7 +112,7 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           `${respAPI.statusCode}-${respAPI.msj}`,
         ]);
         setTimeout(() => {
-          window.location.reload()
+          window.location.reload();
         }, 5000);
       }
     } catch (error) {

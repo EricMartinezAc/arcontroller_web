@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // Recursos
 import "../../../Assets/styles/Dashboard.css";
-import FindUserActive from "./Queries/FindUserActive";
+import { loadData } from "./Queries/handleData";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import TabContext from "@mui/lab/TabContext";
 import TabPanel from "@mui/lab/TabPanel";
@@ -40,15 +40,22 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = () => {
   const { engineResources, serverResources } = useGeneralContext();
 
+  // Estados y funciones
+  const [openDrawer, setOpenDrawer] = useState<string>("none");
+  const [valueWindows, setValueWindows] = useState<string>("0");
+  const [modeStrict, setModeStrict] = useState<boolean>(true);
+  const [actions, setActions] = useState<number[]>([3, 11]);
+
   // Cargar la aplicación
   useEffect(() => {
-    console.log("-----", engineResources.cookies.getAll());
+    console.log(engineResources.cookies.getAll());
     // Paso uno: validación de permanencia en la APP
     if (
       !engineResources.cookies.get("aceptLegacy") ||
       !engineResources.cookies.get("user") ||
       !engineResources.cookies.get("token") ||
-      !engineResources.cookies.get("owner")
+      !engineResources.cookies.get("owner") ||
+      !engineResources.cookies.get("_id")
     ) {
       engineResources.DescriptionAlerts[1]([
         "block",
@@ -64,31 +71,25 @@ const Dashboard: React.FC<DashboardProps> = () => {
     }
 
     // Paso dos: carga de datos en API
-    findUserActive.SetDatos(
-      null,
-      engineResources.cookies.get("user"),
-      null,
+    loadData(
+      //por ahora, solo carga branches
+      engineResources.cookies.get("owner"),
       engineResources.cookies.get("token"),
-      null,
-      null
-    );
-
-    findUserActive
-      .loadData(engineResources.cookies.get("owner"))
-      .then(async (data) => {
-        console.log("resp API ---------", await data.datos);
-        await setModeStrict(data.datos.userReq.rol === "PM" ? true : false);
-        await setUsersOwner(
-          data.datos.userReq.rol === "PO" ? data.datos.usersOfOwner : "PM"
-        );
-        await setUser(data.datos.userReq);
-        await setSucursales(data.datos.branch);
+      engineResources.cookies.get("_id")
+    )
+      .then(async (data: any) => {
+        console.log("resp API ---------", [
+          data.datos,
+          serverResources.user.rol,
+        ]);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
       });
+
+    //paso tres: modo estricto
+    setModeStrict(serverResources.user.rol === "PO" ? false : true);
   }, []);
-  const findUserActive = new FindUserActive();
 
   // Variables globales
   const fecha = {
@@ -96,15 +97,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
     mes: String(new Date(Date.now()).getMonth() + 1),
     anio: String(new Date(Date.now()).getFullYear()),
   };
-
-  // Estados y funciones
-  const [openDrawer, setOpenDrawer] = useState<string>("none");
-  const [valueWindows, setValueWindows] = useState<string>("0");
-  const [modeStrict, setModeStrict] = useState<boolean>(true);
-  const [user, setUser] = useState<any>(undefined); // Cambiado a `any` para mayor flexibilidad
-  const [usersOwner, setUsersOwner] = useState<any>(null); // Cambiado a `any` para mayor flexibilidad
-  const [sucursales, setSucursales] = useState<any>(undefined); // Cambiado a `any` para mayor flexibilidad
-  const [actions, setActions] = useState<number[]>([3, 11]);
 
   // Relación entre el menú de la izquierda y las ventanas
   useEffect(() => {
@@ -122,7 +114,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
   useEffect(() => {
     modeStrict
       ? console.log("App con restricciones")
-      : console.log("Usuario root");
+      : console.log("Usuario root"); //si es Product Owner
   }, [modeStrict]);
 
   const CerrarApp = () => {
@@ -136,6 +128,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
       <Box className={"AppContainer"}>
         <header>
           <ToolbarDashboard
+            modeStrict={modeStrict}
             fecha={fecha}
             user={engineResources.cookies.get("user") || "ArturoMartinez1992*"}
             owner={engineResources.cookies.get("owner") || "nullo@gmail"}
@@ -186,12 +179,12 @@ const Dashboard: React.FC<DashboardProps> = () => {
                   <ViewDashboardMtto />
                 </TabPanel>
                 <TabPanel value="3">
-                  <ViewSucursal
+                  {/* <ViewSucursal
                     owner={engineResources.cookies.get("owner")}
                     user={user}
                     usersOwner={usersOwner}
                     sucursales={sucursales}
-                  />
+                  /> */}
                 </TabPanel>
                 <TabPanel value="4">
                   <ViewRRHH />

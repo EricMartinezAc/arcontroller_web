@@ -17,7 +17,6 @@ const Inicio: React.FC = () => {
   // Validación de cookies
   useEffect(() => {
     engineResources.Loading[1]("none");
-    console.log(engineResources.DescriptionAlerts[0][1]);
     const rspValideCookies = engineResources.ValideCookies();
 
     // Verifica si rspValideCookies.getApp no es null antes de usarlo

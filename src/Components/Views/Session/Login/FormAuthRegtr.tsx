@@ -80,6 +80,12 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
       console.log("respApi::::: ", respAPI);
       // resolver
       if (respAPI.statusCode === 200) {
+        serverResourcesSetters[0]({
+          user,
+          rol: respAPI.datos.rol,
+          id_prodct: respAPI.datos.id_prodct,
+        });
+
         // Asignar cookies
         await AsigneCookies(
           "token",
@@ -88,15 +94,11 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
         );
         await AsigneCookies("user", user, engineResources.cookies);
         await AsigneCookies("owner", owner, engineResources.cookies);
-
-        serverResourcesSetters[0]({
-          user,
-          rol: respAPI.datos.rol,
-          id_prodct: respAPI.datos.id_prodct,
-        });
-        respAPI.datos.rol === "PO"
-          ? serverResourcesSetters[2]([respAPI.branchesLoad])
-          : serverResourcesSetters[2](respAPI.branchesLoad);
+        await AsigneCookies(
+          "_id",
+          respAPI.datos._id.toString(),
+          engineResources.cookies
+        );
 
         // Redirigir al panel de la aplicación
         await classAUTHREG.GetAPP(

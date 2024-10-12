@@ -8,11 +8,12 @@ export interface BranchDTO {
   tipo: string;
   clasificacion: string;
   prioridad: string;
+  politica: object[];
   inicioOp: string;
   contactos: string[];
   team: string[];
   imagen: string[];
-  areas: string[];
+  areas: object[];
   proveedores: string;
   gerente: string;
   id_user: string;

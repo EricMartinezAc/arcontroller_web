@@ -8,4 +8,5 @@ export interface engineResourcesDTO {
   Loading: any[];
   ValideCookies: any;
   cookies: any;
+  currentYear?: number;
 }

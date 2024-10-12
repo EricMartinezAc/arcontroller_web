@@ -27,12 +27,86 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     centroCosto: "",
     tipo: "",
     clasificacion: "",
+    politica: [
+      {
+        metodologia: "ITIL", //important
+      },
+    ],
     prioridad: "",
     inicioOp: "",
     contactos: [""],
     team: [""],
     imagen: [""],
-    areas: [""],
+    areas: [
+      {
+        _id: "A1",
+        name: "costa",
+        ci: [
+          //hojas de vida
+          {
+            _id: "EQ000001",
+            clase: "HVAC",
+            familia: "climatizacion",
+            tipo: "minisplit",
+            serie: "single",
+            id_zona: "Z1",
+            hd: ["LG electronics", "ARNU18GTPC2", "{despiece aquí}"],
+          },
+          {
+            _id: "EQ000002",
+            clase: "HVAC",
+            familia: "climatizacion",
+            tipo: "minisplit",
+            serie: "single",
+            id_zona: "Z1",
+            hd: ["LG electronics", "ARNU18GTPC2", "{despiece aquí}"],
+          },
+        ],
+        inc: [
+          {
+            _id: "INC-202402201",
+            fecha: "2024-01-20",
+            id_ci: "EQ000001-A001",
+          },
+          {
+            _id: "INC-202402202",
+            fecha: "2024-01-20",
+          },
+          {
+            _id: "INC001-EQ000002-20240220",
+            fecha: "2024-01-20",
+          },
+          { _id: "hv03", fecha: "2024-01-20" },
+          { _id: "hv01", fecha: "2024-01-20" },
+          { _id: "hv02", fecha: "2024-01-20" },
+          { _id: "hv03", fecha: "2024-01-20" },
+        ],
+      },
+      {
+        _id: "",
+        name: "pacifico",
+        activos: [
+          {
+            _id: "",
+            name: "",
+            hv: [{ _id: "" }],
+            ot: [{ _id: "", fecha: "2024-01-20" }],
+          },
+        ],
+      },
+      {
+        _id: "",
+        name: "andina",
+        activos: [
+          {
+            _id: "",
+            name: "",
+            hv: [{ _id: "" }],
+            ot: [{ _id: "", fecha: "2024-01-20" }],
+          },
+        ],
+      },
+    ],
     proveedores: "",
     gerente: "",
     id_user: "",
@@ -40,6 +114,7 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   });
 
   //engine resources
+  const [currentYear, setCurrentYear] = useState<number>();
   const [isSmallScreen, setSmallScreen] = useState<boolean>(
     window.innerWidth < 600
   );
@@ -78,8 +153,10 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     Loading: [stateLoading, setStateLoading],
     ValideCookies,
     cookies,
+    currentYear,
   };
   const serverResourcesSetters: any = [setUser, setProdct, setBranches];
+  const engineResourcesSetters: any = [setCurrentYear];
 
   return (
     <CreateGeneralContext.Provider
@@ -87,6 +164,7 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
         serverResources,
         engineResources,
         serverResourcesSetters,
+        engineResourcesSetters,
       }}
     >
       {children}

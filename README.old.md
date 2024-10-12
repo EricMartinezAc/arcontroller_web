@@ -42,5 +42,8 @@
         2. Solo permite letras P, O y M. 
         3. No permite espacios.
 
+
+- Dashboard:
+    * Modelo de desempeño: usa modelo híbrido, combinando KPI, BSC, NPS (del lado del cliente)
 Los datos son enviados a un backend privado, App queda en espera de respuesta
 

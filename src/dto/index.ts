@@ -5,3 +5,5 @@ export { type ProdctDTO as PRODUCT } from "./Prodct.dto";
 export { type RoutesDTO as ROUTES } from "./Routes.dto";
 export { type UserDTO as USER } from "./User.dto";
 export { type serverResourcesDTO as SRDTO } from "./serverResources.dto";
+export { type PersonaDTO as PERSONA } from "./Personas.dto";
+export { type RRHHDTO as RRHH } from "./Rrhh.dto";

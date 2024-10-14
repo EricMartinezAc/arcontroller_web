@@ -6,7 +6,7 @@ import Cookies from "universal-cookie";
 //server resources
 import { Routes } from "../constans";
 import ValideCookies from "../Components/Common/ModulosSis/ValideCookies";
-import { USER, PRODUCT, BRANCH, ERDTO, SRDTO } from "@/dto";
+import { USER, PRODUCT, BRANCH, ERDTO, SRDTO, PERSONA } from "@/dto";
 
 export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   children,
@@ -148,6 +148,7 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     id_user: "",
     state: "",
   });
+  const [personas, setPersonas] = useState<PERSONA>();
 
   //engine resources
   const [currentYear, setCurrentYear] = useState<number>();

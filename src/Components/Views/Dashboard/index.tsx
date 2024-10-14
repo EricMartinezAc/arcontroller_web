@@ -179,12 +179,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
                   <ViewDashboardMtto />
                 </TabPanel>
                 <TabPanel value="3">
-                  {/* <ViewSucursal
-                    owner={engineResources.cookies.get("owner")}
-                    user={user}
-                    usersOwner={usersOwner}
-                    sucursales={sucursales}
-                  /> */}
+                  <ViewSucursal />
                 </TabPanel>
                 <TabPanel value="4">
                   <ViewRRHH />

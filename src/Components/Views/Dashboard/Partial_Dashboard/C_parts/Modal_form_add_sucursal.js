@@ -39,6 +39,7 @@ import { Stack } from "@mui/system";
 import ImgInic from "../../../../../Assets/Imgs/logos/logo_153x124.png";
 import SucursalEntidad from "../../Queries/sucursalEntidad";
 import "./stylesCParts.css";
+import { useGeneralContext } from "../../../../../Context/GeneralContext";
 
 const style = {
   position: "absolute",
@@ -55,9 +56,7 @@ const style = {
 };
 
 export default function BasicModal(props) {
-  useEffect(() => {
-    console.log(props, "model");
-  }, []);
+  const { serverResources } = useGeneralContext();
 
   const visibleModalAdd = props.visibleModalAdd;
 
@@ -69,6 +68,7 @@ export default function BasicModal(props) {
 
   //fomrs general
   const [sucursal, setSucursal] = useState("");
+  const [metodologia, setMetodologia] = useState("")
   const [ubicacion, setUbicacion] = useState([]);
   const [centroCosto, setCentroCosto] = useState("");
   const [tipo, setTipo] = useState("Seleccione un tipo");
@@ -79,7 +79,7 @@ export default function BasicModal(props) {
     await setInicioOp(JSON.stringify(dateObj));
   };
   const [contactos, setContactos] = useState([]);
-  const team = props.owner;
+  const team = serverResources.owner;
   const [imagen, setImagen] = useState(ImgInic);
   const handle_fileImgSucursales = (e) => {
     if (e.target.files.length > 0) {
@@ -192,8 +192,8 @@ export default function BasicModal(props) {
     });
     const respSendDats = await sucursalEntidad.QueryAPI(
       "branch/add/any",
-      props.owner,
-      props.user
+      serverResources.prodct.owner,
+      serverResources.user.user
     );
     console.log(await respSendDats, "---------------");
   };
@@ -201,7 +201,7 @@ export default function BasicModal(props) {
   return (
     <>
       <Modal
-        open={props.open}
+        open={true}
         onClose={visibleModalAdd}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -535,13 +535,13 @@ export default function BasicModal(props) {
                       }}
                     >
                       <MenuItem value="Gerente">Gerente</MenuItem>
-                      {props.usersOwner.map((item, index) => {
+                      {/* {props.usersOwner.map((item, index) => {
                         return (
                           <MenuItem key={index} value={item.user}>
                             {item.user}
                           </MenuItem>
                         );
-                      })}
+                      })} */}
                     </Select>
                   </FormControl>
                 </Stack>

@@ -1,3 +1,5 @@
+import { AREA, RRHH } from "..";
+
 export interface BranchDTO {
   _id?: string;
   sucursal: string;
@@ -11,9 +13,9 @@ export interface BranchDTO {
   contactos: string[];
   team?: string[];
   imagen?: string[];
-  areas?: object[];
+  areas?: AREA[];
   proveedores?: string;
-  gerente: string;
+  rrhh: RRHH[];
   id_user: string;
   state: string;
 }

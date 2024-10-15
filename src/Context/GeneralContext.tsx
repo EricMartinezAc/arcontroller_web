@@ -6,12 +6,13 @@ import Cookies from "universal-cookie";
 //server resources
 import { Routes } from "../constans";
 import ValideCookies from "../Components/Common/ModulosSis/ValideCookies";
-import { USER, PRODUCT, BRANCH, ERDTO, SRDTO, PERSONA } from "@/dto";
+import { USER, PRODUCT, BRANCH, ERDTO, SRDTO, PERSONA, AREA, RRHH } from "../dto";
 
 export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   //server resources
+  // --> entidades
   const [user, setUser] = useState<USER>({
     user: "ArturoMartinez1992*",
     pswLogin: "Arc2025*",
@@ -21,137 +22,18 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     owner: "arcontroller@climatecontrolsing.com",
     clav_prodct: "Arc2025*",
   });
-  const [branches, setBranches] = useState<BRANCH>({
-    sucursal: "",
-    ubicacion: [""],
-    centroCosto: "",
-    tipo: "",
-    clasificacion: "",
-    politica: [
-      {
-        metodologia: "ITIL", //important
-      },
-    ],
-    prioridad: "",
-    inicioOp: "",
-    contactos: [""],
-    team: [""],
-    imagen: [""],
-    areas: [
-      {
-        _id: "A1",
-        name: "costa",
-        ci: [
-          //hojas de vida
-          {
-            _id: "CI000001",
-            clase: "HVAC",
-            familia: "climatizacion",
-            tipo: "minisplit",
-            serie: "single",
-            id_zona: "Z1",
-            ds: ["LG electronics", "ARNU18GTPC2", "{despiece aquí}"],
-            estado: "operativo",
-            hs: ["INC-20240220001", "INC-20240220002"],
-          },
-          {
-            _id: "CI000002",
-            clase: "HVAC",
-            familia: "climatizacion",
-            tipo: "minisplit",
-            serie: "single",
-            id_zona: "Z1",
-            ds: ["LG electronics", "ARNU18GTPC2", "{despiece aquí}"],
-            estado: "operativo",
-            hs: ["INC-20240220002"],
-          },
-          {
-            _id: "CI000003",
-            clase: "IT",
-            familia: "red",
-            tipo: "switch",
-            serie: "capa2",
-            id_zona: "Z4",
-            ds: ["Cisco", "C2690", "{despiece aquí}"],
-            estado: "operativo",
-            hs: [],
-          },
-        ],
-        inc: [
-          //degrado de calidad o paro de servicio no planificado
-          {
-            _id: "INC-20240220001",
-            fecha: "2024-01-20",
-            id_ci: "CI000001",
-            descrip: "describa interrupción o disminución de calidad",
-          },
-          {
-            _id: "INC-20240220002",
-            fecha: "2024-01-20",
-            id_ci: "CI000002",
-            descrip: "describa interrupción o disminución de calidad",
-          },
-          {
-            _id: "INC-20240221001",
-            fecha: "2024-01-21",
-            id_ci: "CI000001",
-            descrip: "describa interrupción o disminución de calidad",
-          },
-        ],
-        sr: [
-          //peticion de un usuario
-          {
-            _id: "SR-20240101001",
-            descripcion: "Solicitud de acceso",
-            estado: "pendiente",
-            usuario_solicita: "maria.lopez@spt.com",
-            servicio_solicitado: "ERP",
-            fecha_creacion: "2024-10-10T10:00:00Z",
-            fecha_cierre: null,
-            tareas: [
-              {
-                task_id: "TASK002",
-                descripcion: "Crear usuario en ERP",
-                estado: "pendiente",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        _id: "",
-        name: "pacifico",
-        activos: [
-          {
-            _id: "",
-            name: "",
-            hv: [{ _id: "" }],
-            ot: [{ _id: "", fecha: "2024-01-20" }],
-          },
-        ],
-      },
-      {
-        _id: "",
-        name: "andina",
-        activos: [
-          {
-            _id: "",
-            name: "",
-            hv: [{ _id: "" }],
-            ot: [{ _id: "", fecha: "2024-01-20" }],
-          },
-        ],
-      },
-    ],
-    proveedores: "",
-    gerente: "",
-    id_user: "",
-    state: "",
-  });
-  const [personas, setPersonas] = useState<PERSONA>();
+  const [areas, setAreas] = useState<AREA[] | null | undefined>(null)
+  const [branches, setBranches] = useState<BRANCH[] | null | undefined>(null);
+  const [personas, setPersonas] = useState<PERSONA[] | null | undefined>(null);
+  const [rrhh, setRRHH] = useState<RRHH[] | null | undefined>(null)
 
   //engine resources
-  const [currentYear, setCurrentYear] = useState<number>();
+  const [currentDate, setCurrentDate] = useState<object>({
+    dia: new Date(Date.now()).getDate(),
+    mes: new Date(Date.now()).getMonth() + 1,
+    anio: new Date(Date.now()).getFullYear(),
+  });
+  const [modeStrict, setModeStrict] = useState<boolean>(false)
   const [isSmallScreen, setSmallScreen] = useState<boolean>(
     window.innerWidth < 600
   );
@@ -181,6 +63,9 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     user,
     prodct,
     branches,
+    areas,
+    personas,
+    rrhh
   };
   const engineResources: ERDTO = {
     mobile: false,
@@ -190,10 +75,11 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     Loading: [stateLoading, setStateLoading],
     ValideCookies,
     cookies,
-    currentYear,
+    currentDate,
+    modeStrict
   };
-  const serverResourcesSetters: any = [setUser, setProdct, setBranches];
-  const engineResourcesSetters: any = [setCurrentYear];
+  const serverResourcesSetters: any = [setUser, setProdct, setBranches, setAreas, setRRHH, setPersonas];
+  const engineResourcesSetters: any = [setCurrentDate, setAlertDialogs, setStateLoading, setModeStrict];
 
   return (
     <CreateGeneralContext.Provider
@@ -217,3 +103,47 @@ export const useGeneralContext = () => {
   }
   return context;
 };
+
+// {
+//   sucursal: "Principal",
+//   ubicacion: ["Colombia", "Atlántico", "calle 55 #43-43", "Soledad"],
+//   centroCosto: "501",
+//   tipo: "IT",
+//   clasificacion: "N/A",
+//   politica: [
+//     {
+//       metodologia: "ITIL", //important
+//     },
+//   ],
+//   prioridad: "1",
+//   inicioOp: "2024-10-23",
+//   contactos: ["arcontroller@climatecontrolsing.com", "3009858518"],
+//   team: [""],
+//   imagen: [""],
+//   areas: [{ _id: "A001", name: "Funcionarios" }],
+//   proveedores: "",
+//   id_user: "",
+//   state: "",
+//   rrhh: [
+//     {
+//       _id: "string",
+//       persona: {
+//         _id: "string",
+//         nombres: "string",
+//         apellidos: "string",
+//         genero: "string",
+//         fecha_natal: "string",
+//       },
+//       emai: "string@climatecontrolsing.com",
+//       telefono: 0,
+//       direccion: "string",
+//       fecha_contratacion: "string",
+//       id_departamento: "string",
+//       id_posicion: "string",
+//       estado: "string",
+//       salario: 0,
+//       tipo_contrato: "string",
+//       documento_contrato: "string",
+//     },
+//   ],
+// }

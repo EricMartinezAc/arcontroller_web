@@ -1,4 +1,4 @@
-import { ROUTES } from "./index";
+import { ROUTES } from "../index";
 
 export interface engineResourcesDTO {
   mobile: boolean;
@@ -8,5 +8,6 @@ export interface engineResourcesDTO {
   Loading: any[];
   ValideCookies: any;
   cookies: any;
-  currentYear?: number;
+  modeStrict: boolean;
+  currentDate?: object;
 }

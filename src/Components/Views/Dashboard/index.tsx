@@ -38,7 +38,12 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {
-  const { engineResources, serverResources } = useGeneralContext();
+  const {
+    engineResources,
+    engineResourcesSetters,
+    serverResources,
+    serverResourcesSetters,
+  } = useGeneralContext();
 
   // Estados y funciones
   const [openDrawer, setOpenDrawer] = useState<string>("none");
@@ -70,7 +75,8 @@ const Dashboard: React.FC<DashboardProps> = () => {
       }, 6000);
     }
 
-    // Paso dos: carga de datos en API
+    // Paso dos: carga de datos API
+
     loadData(
       //por ahora, solo carga branches
       engineResources.cookies.get("owner"),
@@ -91,13 +97,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
     setModeStrict(serverResources.user.rol === "PO" ? false : true);
   }, []);
 
-  // Variables globales
-  const fecha = {
-    dia: String(new Date(Date.now()).getDate()),
-    mes: String(new Date(Date.now()).getMonth() + 1),
-    anio: String(new Date(Date.now()).getFullYear()),
-  };
-
   // Relación entre el menú de la izquierda y las ventanas
   useEffect(() => {
     setOpenDrawer("none");
@@ -112,6 +111,8 @@ const Dashboard: React.FC<DashboardProps> = () => {
   };
 
   useEffect(() => {
+    console.log(engineResources.currentDate);
+
     modeStrict
       ? console.log("App con restricciones")
       : console.log("Usuario root"); //si es Product Owner
@@ -128,10 +129,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
       <Box className={"AppContainer"}>
         <header>
           <ToolbarDashboard
-            modeStrict={modeStrict}
-            fecha={fecha}
-            user={engineResources.cookies.get("user") || "ArturoMartinez1992*"}
-            owner={engineResources.cookies.get("owner") || "nullo@gmail"}
             actions={actions}
             setActions={setActions}
             handleDrawer={handleDrawer}

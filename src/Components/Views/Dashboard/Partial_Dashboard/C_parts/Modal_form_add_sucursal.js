@@ -37,9 +37,10 @@ import DetailsIcon from "@mui/icons-material/Details";
 import { Stack } from "@mui/system";
 
 import ImgInic from "../../../../../Assets/Imgs/logos/logo_153x124.png";
-import SucursalEntidad from "../../Queries/sucursalEntidad";
+import QueriesSucursalEntidad from "../../Queries/sucursalEntidad";
 import "./stylesCParts.css";
 import { useGeneralContext } from "../../../../../Context/GeneralContext";
+import { Label } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -60,17 +61,18 @@ export default function BasicModal(props) {
 
   const visibleModalAdd = props.visibleModalAdd;
 
-  const sucursalEntidad = new SucursalEntidad();
+  const queriesSucursalEntidad = new QueriesSucursalEntidad();
 
   const [visbleGeneralForm, setvisbleGeneralForm] = useState("flex");
   const [visibleAreas, setvisibleAreas] = useState("none");
   const [visibleProveedores, setvisibleProveedores] = useState("none");
 
   //fomrs general
-  const [sucursal, setSucursal] = useState("");
-  const [metodologia, setMetodologia] = useState("")
-  const [ubicacion, setUbicacion] = useState([]);
   const [centroCosto, setCentroCosto] = useState("");
+  const [sucursal, setSucursal] = useState("");
+  const [ubicacion, setUbicacion] = useState([]);
+  const [contactos, setContactos] = useState([]);
+  const [metodologia, setMetodologia] = useState("");
   const [tipo, setTipo] = useState("Seleccione un tipo");
   const [clasificacion, setClasificacion] = useState("Clasifique sucursal");
   const [prioridad, setPrioridad] = useState("Seleccione nivel de prioridad");
@@ -78,18 +80,16 @@ export default function BasicModal(props) {
   const handle_fileInputDate = async (dateObj) => {
     await setInicioOp(JSON.stringify(dateObj));
   };
-  const [contactos, setContactos] = useState([]);
   const team = serverResources.owner;
   const [imagen, setImagen] = useState(ImgInic);
   const handle_fileImgSucursales = (e) => {
-    if (e.target.files.length > 0) {
-      if (e.target.files[0].type.includes("image")) {
-        const reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = function load() {
-          setImagen(reader.result);
-        };
-      }
+    const file = e.target.files[0];
+
+    if (file && file.type.includes("image")) {
+      const reader = new FileReader();
+      reader.onload = () => setImagen(reader.result);
+      reader.readAsDataURL(file);
+      console.log("1. test add branch: ", [file, reader]);
     }
   };
   const [areas, setAreas] = useState({});
@@ -175,7 +175,7 @@ export default function BasicModal(props) {
 
   const BtnEnviarFormAddSucursales = async () => {
     console.log("go");
-    await sucursalEntidad.SetDatos({
+    await queriesSucursalEntidad.SetDatos({
       sucursal,
       ubicacion,
       centroCosto,
@@ -190,7 +190,7 @@ export default function BasicModal(props) {
       proveedores,
       gerente,
     });
-    const respSendDats = await sucursalEntidad.QueryAPI(
+    const respSendDats = await queriesSucursalEntidad.QueryAPI(
       "branch/add/any",
       serverResources.prodct.owner,
       serverResources.user.user
@@ -457,13 +457,18 @@ export default function BasicModal(props) {
                       label="Tipo"
                       onChange={(e) => {
                         setTipo(e.target.value);
+                        console.log("test type: ", tipo);
                       }}
                     >
                       <MenuItem value="Seleccione un tipo">
-                        Seleccione un tipo
+                        Seleccione jerarquía
                       </MenuItem>
                       <MenuItem value="Matriz">Matriz</MenuItem>
-                      <MenuItem value="Satelite">Satelite</MenuItem>
+                      <MenuItem value="Satélite">Satelite</MenuItem>
+                      <MenuItem value="CDI">CDI</MenuItem>
+                      <MenuItem value="Oficina">Oficina</MenuItem>
+                      <MenuItem value="Almacén">Almacen</MenuItem>
+                      <MenuItem value="Bodega">Bodega</MenuItem>
                     </Select>
                   </FormControl>
                 </Stack>

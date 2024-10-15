@@ -1,7 +1,7 @@
 const { pages } = require("../../../../constans");
 const { ValideDatosMiddle } = require("../../../Common/ModulosSis/Segurity.js");
 
-export default class sucursalEntidad {
+export default class queriesSucursalEntidad {
   constructor() {
     this._id = null;
     this.sucursal = null;

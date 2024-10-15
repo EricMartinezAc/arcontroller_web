@@ -17,7 +17,7 @@ import { useGeneralContext } from "../../../../../Context/GeneralContext";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { MenuItem } from "@mui/material";
+import { FormHelperText, MenuItem } from "@mui/material";
 
 function createData(name, calories, fat, carbs, protein, price, valen) {
   return {
@@ -138,43 +138,6 @@ const rows = [
 export default function CollapsibleTable() {
   const { serverResources, engineResources, engineResourcesSetters } =
     useGeneralContext();
-  React.useEffect(() => {
-    console.log(serverResources.branches.areas);
-  }, []);
-
-  const [headerColumnHistorial, setHeaderColumnHistorial] = React.useState(
-    new Date().getFullYear()
-  );
-  const [openHeaderColumnHistorial, setOpenHeaderColumnHistorial] =
-    React.useState(false);
-
-  const [age, setAge] = React.useState("Rendimiento");
-  const [open, setOpen] = React.useState(false);
-
-  React.useEffect(() => {}, [age, headerColumnHistorial]);
-
-  const handleChangeHeaderColumnHistorial = (event) => {
-    setHeaderColumnHistorial(event.target.value);
-  };
-  const handleCloseHeaderColumnHistorial = () => {
-    setOpenHeaderColumnHistorial(false);
-  };
-
-  const handleOpenHeaderColumnHistorial = () => {
-    setOpenHeaderColumnHistorial(true);
-  };
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   return (
     <TableContainer
@@ -192,46 +155,10 @@ export default function CollapsibleTable() {
             <TableCell />
             <TableCell>SUCURSALES</TableCell>
 
-            <TableCell align="right">
+            <TableCell sx={{ border: "none" }} align="right">
               <FormControl sx={{ m: 1, minWidth: 100 }}>
-                <InputLabel id="demo-controlled-open-select-label-HeaderColumnHistorial">
-                  Registro
-                </InputLabel>
-                <Select
-                  variant="standard"
-                  sx={{
-                    height: "70px",
-                    borderRadius: "3%",
-                    font: "14px",
-                    padding: 0,
-                    margin: 0,
-                    position: "relative",
-                    top: "-9px",
-                  }}
-                  labelId="demo-controlled-open-select-label-HeaderColumnHistorial"
-                  id="demo-controlled-open-select-HeaderColumnHistorial"
-                  open={openHeaderColumnHistorial}
-                  onClose={handleCloseHeaderColumnHistorial}
-                  onOpen={handleOpenHeaderColumnHistorial}
-                  value={headerColumnHistorial}
-                  label="headerColumnHeaderColumnHistorial"
-                  onChange={handleChangeHeaderColumnHistorial}
-                  disableUnderline
-                >
-                  <MenuItem value={headerColumnHistorial}>
-                    <em>Histórico</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </TableCell>
-
-            <TableCell align="right">
-              <FormControl sx={{ m: 1, minWidth: 100 }}>
-                <InputLabel id="demo-controlled-open-select-label">
-                  KPIs
+                <InputLabel id="demo-simple-select-helper-label-historico">
+                  Histórico
                 </InputLabel>
                 <Select
                   variant="standard"
@@ -245,28 +172,51 @@ export default function CollapsibleTable() {
                     top: "-9px",
                   }}
                   disableUnderline
-                  labelId="demo-controlled-open-select-label"
-                  id="demo-controlled-open-select"
-                  open={open}
-                  onClose={handleClose}
-                  onOpen={handleOpen}
-                  value={age}
-                  label="age"
-                  onChange={handleChange}
+                  labelId="demo-simple-select-helper-label-historico"
+                  id="demo-simple-select-helper-historico"
+                  value={null}
+                  label="historico"
                 >
-                  <MenuItem value={age}>
-                    <em>Rendimiento</em>
+                  <MenuItem value="">
+                    <em></em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
                 </Select>
               </FormControl>
             </TableCell>
 
-            {serverResources.branches.areas.map((area) => (
-              <TableCell align="right">{area.name}</TableCell>
-            ))}
+            <TableCell sx={{ border: "none" }} align="right">
+              <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <InputLabel id="demo-simple-select-helper-label-kpi">
+                  KPI
+                </InputLabel>
+                <Select
+                  variant="standard"
+                  sx={{
+                    height: "70px",
+                    borderRadius: "3%",
+                    font: "14px",
+                    padding: 0,
+                    margin: 0,
+                    position: "relative",
+                    top: "-9px",
+                  }}
+                  disableUnderline
+                  labelId="demo-simple-select-helper-label-kpi"
+                  id="demo-simple-select-helper-kpi"
+                  value={null}
+                  label="kpi"
+                >
+                  <MenuItem value="">
+                    <em></em>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </TableCell>
+
+            {serverResources.areas !== null &&
+              serverResources.areas.map((area) => (
+                <TableCell align="right">{area.name}</TableCell>
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>

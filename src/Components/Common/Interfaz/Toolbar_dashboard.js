@@ -10,23 +10,21 @@ import PropTypes from "prop-types";
 import { useGeneralContext } from "../../../Context/GeneralContext";
 
 function Toolbar_dashboard({
-  modeStrict,
-  fecha,
-  user,
-  owner,
   actions,
   setActions,
   handleDrawer,
   openDrawer,
   CerrarApp,
 }) {
-  const { serverResources } = useGeneralContext();
+  const { serverResources, engineResources } = useGeneralContext();
 
   return (
     <>
       <Toolbar
         sx={{
-          background: modeStrict ? Colores.gris_tenue : Colores.grosella_negra,
+          background: engineResources.modeStrict
+            ? Colores.gris_tenue
+            : Colores.grosella_negra,
         }}
       >
         {/* boton de menu icono */}
@@ -60,8 +58,9 @@ function Toolbar_dashboard({
               variant="h6"
               noWrap
             >
-              {owner.split("@")[0] || "Modo de prueba"} /
-              {user.replace(/[^a-zA-Z]/g, "") || "Sin user"}
+              {serverResources.prodct.owner.split("@")[0] || "Modo de prueba"} /
+              {serverResources.user.user.replace(/[^a-zA-Z]/g, "") ||
+                "Sin user"}
             </Typography>
           </Grid>
           {/* barra de Notificaciones */}

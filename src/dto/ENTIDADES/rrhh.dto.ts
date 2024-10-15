@@ -1,4 +1,4 @@
-import { PERSONA } from ".";
+import { PERSONA } from "..";
 
 export interface RRHHDTO {
   _id: string;

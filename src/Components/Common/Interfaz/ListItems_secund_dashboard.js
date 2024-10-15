@@ -20,12 +20,6 @@ function ListItems_secund_dashboard({ handleWindow, modeStrict }) {
   return (
     <>
       <ListSubheader inset>Gestión de activos</ListSubheader>
-      <ListItem button onClick={() => handleWindow("4")}>
-        <ListItemIcon>
-          <ManageAccountsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Recursos humanos" />
-      </ListItem>
       <ListItem
         style={{ display: modeStrict && "none" }}
         button
@@ -35,6 +29,12 @@ function ListItems_secund_dashboard({ handleWindow, modeStrict }) {
           <FactoryIcon />
         </ListItemIcon>
         <ListItemText primary="Sucursales" />
+      </ListItem>
+      <ListItem button onClick={() => handleWindow("4")}>
+        <ListItemIcon>
+          <ManageAccountsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Recursos humanos" />
       </ListItem>
       <ListItem button onClick={() => handleWindow("5")}>
         <ListItemIcon>

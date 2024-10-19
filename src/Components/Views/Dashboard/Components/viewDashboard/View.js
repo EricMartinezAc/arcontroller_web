@@ -12,9 +12,6 @@ function View(props) {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={12}>
-          <CollapsibleTable />
-        </Grid>
         <Grid className="GridCard" item xs={12} md={4}>
           <CardSingleData />
         </Grid>
@@ -33,6 +30,9 @@ function View(props) {
         </Grid>
         <Grid className="GridCard" item xs={12} md={4}>
           <CardChartDonus />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <CollapsibleTable />
         </Grid>
       </Grid>
     </>

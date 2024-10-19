@@ -1,3 +1,5 @@
+export { type ConfigBranchDTO as CONFIGB } from "./SISTEMA/configBranch.dto";
+
 export { type GeneralContextDTO as GCDTO } from "./SISTEMA/generalContext.dto";
 export { type engineResourcesDTO as ERDTO } from "./SISTEMA/engineResources.dto";
 export { type serverResourcesDTO as SRDTO } from "./SISTEMA/serverResources.dto";
@@ -5,6 +7,7 @@ export { type serverResourcesDTO as SRDTO } from "./SISTEMA/serverResources.dto"
 export { type ProdctDTO as PRODUCT } from "./ENTIDADES/prodct.dto";
 export { type UserDTO as USER } from "./ENTIDADES/user.dto";
 export { type PersonaDTO as PERSONA } from "./ENTIDADES/personas.dto";
+export { type ProveedoresDTO as PROVEEDORESDTO } from "./ENTIDADES/proveedores.dto";
 
 export { type RoutesDTO as ROUTES } from "./SISTEMA/routes.dto";
 

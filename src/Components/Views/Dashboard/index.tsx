@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // Recursos
 import "../../../Assets/styles/Dashboard.css";
-import { loadData } from "./Queries/handleData";
+import { loadData } from "./Queries/loadData";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import TabContext from "@mui/lab/TabContext";
 import TabPanel from "@mui/lab/TabPanel";
@@ -119,6 +119,14 @@ const Dashboard: React.FC<DashboardProps> = () => {
   }, [modeStrict]);
 
   const CerrarApp = () => {
+    engineResources.Loading[1]("block");
+    engineResources.DescriptionAlerts[1]([
+      "block",
+      "success",
+      "hasta pronto",
+      "Todos los datos están seguros",
+      "no olvides hacer copia de seguridad",
+    ]);
     setTimeout(() => {
       window.location.href = `${pages.thisApp}`;
     }, 5000);

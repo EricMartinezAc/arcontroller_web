@@ -2,10 +2,11 @@ import { CI, TICKET } from "..";
 
 export interface AreasDTO {
   _id: string;
-  name: string;
+  nombre: string;
+  centroCosto: string;
   wi?: CI[];
   tickets?: TICKET[];
-
+}
   //   inc: [
   //     //degrado de calidad o paro de servicio no planificado
   //     {
@@ -71,4 +72,3 @@ export interface AreasDTO {
   //     },
   //   ],
   // },
-}

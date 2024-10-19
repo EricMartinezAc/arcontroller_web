@@ -127,12 +127,12 @@ Row.propTypes = {
 };
 
 const rows = [
-  createData("ballena vacia", 212, 11.0, 29, 2, 1.1, 110),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99, 110),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99, 110),
-  createData("Eclair", 262, 16.0, 24, 6.0, 3.79, 110),
-  createData("Cupcake", 305, 3.7, 67, 4.3, 2.5, 110),
-  createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5, 110),
+  // createData("ballena vacia", 212, 11.0, 29, 2, 1.1, 110),
+  // createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99, 110),
+  // createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99, 110),
+  // createData("Eclair", 262, 16.0, 24, 6.0, 3.79, 110),
+  // createData("Cupcake", 305, 3.7, 67, 4.3, 2.5, 110),
+  // createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5, 110),
 ];
 
 export default function CollapsibleTable() {

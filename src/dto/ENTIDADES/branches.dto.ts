@@ -12,12 +12,12 @@ export interface BranchDTO {
   tipo: string;
   clasificacion: string;
   prioridad: string;
-  politica?: object[];
+  politica?: object;
   inicioOp: string;
   contacto: string; //4
-  email: string;
+  email?: string;
   team?: string[];
-  imagen?: string[]; //0
+  imagen?: string; //0
   areas?: AREA[];
   proveedores?: PROVEEDORESDTO[];
   rrhh?: RRHH[];

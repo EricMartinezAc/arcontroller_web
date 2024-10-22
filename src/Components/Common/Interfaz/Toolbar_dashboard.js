@@ -8,6 +8,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Colores from "../ModulosGen/Colores";
 import PropTypes from "prop-types";
 import { useGeneralContext } from "../../../Context/GeneralContext";
+import { MenuBook, MenuSharp } from "@mui/icons-material";
 
 function Toolbar_dashboard({
   actions,
@@ -33,6 +34,7 @@ function Toolbar_dashboard({
           aria-label="open drawer"
           onClick={handleDrawer}
           className={clsx(openDrawer)}
+          sx={{ color: Colores.marfil }}
         >
           <img
             alt="logo"
@@ -44,10 +46,11 @@ function Toolbar_dashboard({
             }}
             src={rutaImgLogoPNG}
           />
+          <MenuSharp />
         </IconButton>
-        <Grid direction="row" justifyContent="flex-end" container spacing={1}>
+        <Grid direction="row" justifyContent="flex-end" container spacing={0}>
           {/* //tittle */}
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8}>
             <Typography
               style={{
                 fontFamily: "Poppins",
@@ -63,8 +66,9 @@ function Toolbar_dashboard({
                 "Sin user"}
             </Typography>
           </Grid>
+          <Grid xs={3} md={1}></Grid>
           {/* barra de Notificaciones */}
-          <Grid item lg={1}>
+          <Grid item xs={3} md={1}>
             <IconButton sx={{ color: Colores.marfil }}>
               <Badge badgeContent={actions[0]} color="info">
                 <NotificationsIcon />
@@ -72,7 +76,7 @@ function Toolbar_dashboard({
             </IconButton>
           </Grid>
           {/* barra de mensajes */}
-          <Grid item lg={1}>
+          <Grid item xs={3} md={1}>
             <IconButton sx={{ color: Colores.marfil }}>
               <Badge badgeContent={actions[1]} color="info">
                 <MessageIcon />
@@ -80,7 +84,7 @@ function Toolbar_dashboard({
             </IconButton>
           </Grid>
           {/* Boton apagado */}
-          <Grid item lg={1}>
+          <Grid item xs={3} md={1}>
             <IconButton sx={{ color: Colores.rosa }} onClick={CerrarApp}>
               <PowerSettingsNewIcon />
             </IconButton>

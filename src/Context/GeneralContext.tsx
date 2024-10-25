@@ -76,10 +76,22 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     ValideCookies,
     cookies,
     currentDate,
-    modeStrict
+    modeStrict,
+    isSmallScreen,
   };
-  const serverResourcesSetters: any = [setUser, setProdct, setBranches, setAreas, setRRHH, setPersonas];
-  const engineResourcesSetters: any = [setCurrentDate, setAlertDialogs, setStateLoading, setModeStrict];
+  const serverResourcesSetters: any = [
+    setUser,
+    setProdct,
+    setBranches,
+    setAreas,
+    setRRHH,
+    setPersonas,
+  ];
+  const engineResourcesSetters: any = [
+    setCurrentDate,
+    setSmallScreen,
+    setModeStrict,
+  ];
 
   return (
     <CreateGeneralContext.Provider

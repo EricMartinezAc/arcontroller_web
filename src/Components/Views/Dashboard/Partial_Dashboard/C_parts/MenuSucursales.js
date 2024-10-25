@@ -144,6 +144,7 @@ function MenuSucursal() {
       </Box>
       <ModalFormAddSucursal
         open={openModalAdd}
+        openModalAdd={openModalAdd}
         visibleModalAdd={visibleModalAdd}
       />
       <ModalFormEditSucursal

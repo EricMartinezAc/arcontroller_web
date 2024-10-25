@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { Box, FormControlLabel, Switch } from "@mui/material";
 import ClassAUTHREG from "../../../Common/ModulosSis/auth/ClassAUTHREG";
 import AsigneCookies from "../../../Common/ModulosSis/AsigneCookies";
@@ -27,7 +27,9 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
   const [user, setUser] = useState<string>(serverResources.user.user);
   const [pswLogin, setPswLogin] = useState<string>("");
   const [PO_, setPO_] = useState<boolean>(false);
-
+  useEffect(() => {
+    console.log(PO_);
+  }, [PO_]);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
     if (name === "owner") {
@@ -92,8 +94,6 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           respAPI.datos.token,
           engineResources.cookies
         );
-        await AsigneCookies("user", user, engineResources.cookies);
-        await AsigneCookies("owner", owner, engineResources.cookies);
         await AsigneCookies(
           "_id",
           respAPI.datos._id.toString(),

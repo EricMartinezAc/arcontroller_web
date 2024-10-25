@@ -10,4 +10,5 @@ export interface engineResourcesDTO {
   cookies: any;
   modeStrict: boolean;
   currentDate?: object;
+  isSmallScreen?: boolean;
 }

@@ -4,7 +4,6 @@ const { Routes } = require("../../../../constans");
 const { ValideDatosMiddle } = require("../../../Common/ModulosSis/Segurity.js");
 
 export default class queriesSucursalEntidad {
-  private _id: string | null = null;
   public sucursal: string | null = null;
   public pais: string | null = null;
   public ciudad: string | null = null;
@@ -32,7 +31,6 @@ export default class queriesSucursalEntidad {
 
   GetDatos = async (): Promise<BRANCH> => {
     return {
-      _id: this._id || "",
       sucursal: this.sucursal || "",
       pais: this.pais || "",
       ciudad: this.ciudad || "",

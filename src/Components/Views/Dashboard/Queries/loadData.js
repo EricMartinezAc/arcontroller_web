@@ -15,7 +15,6 @@ export const loadData = async (owner, token, _id) => {
     })
       .then((res) => res.json())
       .catch((err) => console.error(err));
-    console.log(respSendDats);
     return await respSendDats;
   } catch (error) {
     alert(`no se pudo realizar envio de datos: ${error}`);

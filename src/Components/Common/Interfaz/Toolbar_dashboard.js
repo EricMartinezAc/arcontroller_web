@@ -15,7 +15,7 @@ function Toolbar_dashboard({
   setActions,
   handleDrawer,
   openDrawer,
-  CerrarApp,
+  RestartApp,
 }) {
   const { serverResources, engineResources } = useGeneralContext();
 
@@ -85,7 +85,22 @@ function Toolbar_dashboard({
           </Grid>
           {/* Boton apagado */}
           <Grid item xs={3} md={1}>
-            <IconButton sx={{ color: Colores.rosa }} onClick={CerrarApp}>
+            <IconButton
+              sx={{ color: Colores.rosa }}
+              onClick={() =>
+                RestartApp(
+                  engineResources.cookies,
+                  engineResources.DescriptionAlerts,
+                  [
+                    "block",
+                    "info",
+                    "Salida segura",
+                    "Aplicación desconectada ",
+                    "Todos sus datos están seguros ahora",
+                  ]
+                )
+              }
+            >
               <PowerSettingsNewIcon />
             </IconButton>
           </Grid>

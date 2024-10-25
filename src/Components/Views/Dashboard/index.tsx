@@ -32,7 +32,9 @@ import Footer from "../../Common/Interfaz/Footer";
 import { Routes as pages } from "../../../constans";
 import { useGeneralContext } from "../../../Context/GeneralContext";
 import Colores from "../../../Components/Common/ModulosGen/Colores";
-import { ChevronRight } from "@mui/icons-material";
+import { ChevronRight, Description } from "@mui/icons-material";
+import RestartApp from "../../../Components/Common/ModulosSis/RestartApp";
+import DescriptionAlerts from "../../../Components/Common/Intercciones/DescriptionAlerts";
 
 // Definir los tipos para las props del componente
 interface DashboardProps {
@@ -55,49 +57,37 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
   // Cargar la aplicación
   useEffect(() => {
-    console.log(engineResources.cookies.getAll());
-    // Paso uno: validación de permanencia en la APP
+    console.log(1, [serverResources, engineResources.cookies.getAll()]);
     if (
       !engineResources.cookies.get("aceptLegacy") ||
-      !engineResources.cookies.get("user") ||
       !engineResources.cookies.get("token") ||
-      !engineResources.cookies.get("owner") ||
       !engineResources.cookies.get("_id")
     ) {
-      engineResources.DescriptionAlerts[1]([
+      RestartApp(engineResources.cookies, DescriptionAlerts, [
         "block",
         "error",
         "Alerta de seguridad",
         "SECUREAPP value: ",
         "no cuenta con credenciales suficientes",
       ]);
-      console.log(engineResources.cookies.getAll());
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 6000);
     }
-
-    // Paso dos: carga de datos API
-
+    setModeStrict(serverResources.user.rol === "PO" ? false : true);
     loadData(
-      //por ahora, solo carga branches
-      engineResources.cookies.get("owner"),
+      serverResources.prodct.owner,
       engineResources.cookies.get("token"),
       engineResources.cookies.get("_id")
     )
       .then(async (data: any) => {
-        console.log("resp API ---------", [
-          data.datos,
-          serverResources.user.rol,
-        ]);
+        data.statusCode === 200 &&
+          serverResourcesSetters[2](data.datos.branchResp);
       })
       .catch((err: any) => {
         console.log(err);
       });
-
-    //paso tres: modo estricto
-    setModeStrict(serverResources.user.rol === "PO" ? false : true);
   }, []);
+  useEffect(() => {
+    console.log(3, serverResources.branches);
+  }, [serverResources.branches]);
 
   // Relación entre el menú de la izquierda y las ventanas
   useEffect(() => {
@@ -120,20 +110,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
       : console.log("Usuario root"); //si es Product Owner
   }, [modeStrict]);
 
-  const CerrarApp = () => {
-    engineResources.Loading[1]("block");
-    engineResources.DescriptionAlerts[1]([
-      "block",
-      "success",
-      "hasta pronto",
-      "Todos los datos están seguros",
-      "no olvides hacer copia de seguridad",
-    ]);
-    setTimeout(() => {
-      window.location.href = `${pages.thisApp}`;
-    }, 5000);
-  };
-
   return (
     <>
       <Box className={"AppContainer"}>
@@ -143,7 +119,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
             setActions={setActions}
             handleDrawer={handleDrawer}
             openDrawer={openDrawer}
-            CerrarApp={CerrarApp}
+            RestartApp={RestartApp}
           />
         </header>
         <Grid container spacing={0}>

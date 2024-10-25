@@ -49,6 +49,7 @@ import {
 } from "@mui/icons-material";
 import { AREA, BRANCH, CONFIGB, PROVEEDORESDTO } from "../../../../../dto";
 import { LabelList } from "recharts";
+import Colores from "../../../../../Components/Common/ModulosGen/Colores";
 
 const style = {
   position: "absolute",
@@ -64,8 +65,8 @@ const style = {
   overflowY: "scroll",
 };
 
-export default function BasicModal({ visibleModalAdd }: any) {
-  const { serverResources } = useGeneralContext();
+export default function BasicModal({ openModalAdd, visibleModalAdd }: any) {
+  const { serverResources, engineResources } = useGeneralContext();
 
   const queriesSucursalEntidad = new QueriesSucursalEntidad();
 
@@ -184,9 +185,9 @@ export default function BasicModal({ visibleModalAdd }: any) {
   //       : console.log("okk");
   //   });
   // };
+  // Estado para manejar los errores de los campos
 
   const BtnEnviarFormAddSucursales = async () => {
-    console.log("go");
     const datosEnvio: BRANCH = {
       sucursal,
       pais,
@@ -207,18 +208,37 @@ export default function BasicModal({ visibleModalAdd }: any) {
       state: true,
     };
     await queriesSucursalEntidad.SetDatos(datosEnvio);
-    const respSendDats = await queriesSucursalEntidad.QueryAPI(
+    await queriesSucursalEntidad.QueryAPI(
       "branch/add/any",
       serverResources.prodct.owner,
       serverResources.user.user
     );
-    console.log(await respSendDats, "---------------");
+    engineResources.DescriptionAlerts[1](
+      "block",
+      "info",
+      "datos almacenados",
+      "",
+      "",
+      ""
+    );
+    setTimeout(() => {
+      engineResources.DescriptionAlerts[1](
+        "none",
+        "info",
+        "datos almacenados",
+        "",
+        "",
+        ""
+      );
+
+      visibleModalAdd();
+    }, 1000);
   };
 
   return (
     <>
       <Modal
-        open={true}
+        open={openModalAdd}
         onClose={visibleModalAdd}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -329,8 +349,7 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     onChange={(e) => setCentroCosto(e.target.value)}
                     name={"centroCosto"}
                     id={"centroCosto"}
-                    label="# centro de costo."
-                    defaultValue="AX-00"
+                    label="Centro de costo"
                   />
                 </Stack>
               </Grid>
@@ -347,7 +366,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"sucursal"}
                     id={"sucursal"}
                     label="Nombre de sucursal"
-                    defaultValue="xxxx xxxxx"
                   />
                 </Stack>
               </Grid>
@@ -360,7 +378,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"pais"}
                     id={"pais"}
                     label="Pais"
-                    defaultValue="xxxxxxxxx"
                   />
                 </Stack>
               </Grid>
@@ -378,8 +395,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"ciudad"}
                     id="ciudad"
                     label="ciudad o municipio"
-                    defaultValue="xxxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -396,8 +411,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"dpto"}
                     id={"dpto"}
                     label="Dpto"
-                    defaultValue="xxxx xxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -410,8 +423,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"direccion"}
                     id={"direccion"}
                     label="Dirección"
-                    defaultValue="xxxx xxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -424,7 +435,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"contacto"}
                     id={"contacto"}
                     label="# contacto"
-                    defaultValue="00"
                   />
                 </Stack>
               </Grid>
@@ -436,8 +446,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"email"}
                     id={"email"}
                     label="e-mail"
-                    defaultValue="xxxx xxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -577,8 +585,6 @@ export default function BasicModal({ visibleModalAdd }: any) {
                     name={"team"}
                     id={"team"}
                     label="Equipo de trabajo"
-                    defaultValue=""
-                    helperText=""
                   />
                 </Stack>
               </Grid> */}

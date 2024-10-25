@@ -17,9 +17,7 @@ import ModalFormEditSucursal from "./Modal_form_editar_sucursal";
 import ModalFormPrintSucursal from "./Modal_form_imprimir_sucursal";
 import ModalFormDropSucursal from "./Modal_form_borrar_sucursal";
 
-import PropTypes from "prop-types";
-
-function MenuSucursal(props) {
+function MenuSucursal() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -146,9 +144,7 @@ function MenuSucursal(props) {
       </Box>
       <ModalFormAddSucursal
         open={openModalAdd}
-        owner={props.owner}
-        user={props.user}
-        usersOwner={props.usersOwner}
+        openModalAdd={openModalAdd}
         visibleModalAdd={visibleModalAdd}
       />
       <ModalFormEditSucursal

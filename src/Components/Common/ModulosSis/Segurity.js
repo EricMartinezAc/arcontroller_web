@@ -1,6 +1,6 @@
 const ValideDatosMiddle = (proceso, datos) => {
   if (proceso === "branch/add/any") {
-    console.log([proceso, datos]);
+    console.log("validacion de datos", [proceso, datos]);
   }
   return true;
 };

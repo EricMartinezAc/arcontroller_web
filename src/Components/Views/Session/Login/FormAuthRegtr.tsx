@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { Box, FormControlLabel, Switch } from "@mui/material";
 import ClassAUTHREG from "../../../Common/ModulosSis/auth/ClassAUTHREG";
 import AsigneCookies from "../../../Common/ModulosSis/AsigneCookies";
@@ -18,7 +18,8 @@ const classAUTHREG = new ClassAUTHREG();
 
 const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
   // Estado del formulario
-  const { engineResources, serverResources } = useGeneralContext();
+  const { engineResources, serverResources, serverResourcesSetters } =
+    useGeneralContext();
   const [owner, setOwner] = useState<string>(serverResources.prodct.owner);
   const [clav_prodct, setclav_prodct] = useState<string>(
     serverResources.prodct.clav_prodct
@@ -26,7 +27,9 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
   const [user, setUser] = useState<string>(serverResources.user.user);
   const [pswLogin, setPswLogin] = useState<string>("");
   const [PO_, setPO_] = useState<boolean>(false);
-
+  useEffect(() => {
+    console.log(PO_);
+  }, [PO_]);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
     if (name === "owner") {
@@ -79,14 +82,23 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
       console.log("respApi::::: ", respAPI);
       // resolver
       if (respAPI.statusCode === 200) {
+        serverResourcesSetters[0]({
+          user,
+          rol: respAPI.datos.rol,
+          id_prodct: respAPI.datos.id_prodct,
+        });
+
         // Asignar cookies
         await AsigneCookies(
           "token",
           respAPI.datos.token,
           engineResources.cookies
         );
-        await AsigneCookies("user", user, engineResources.cookies);
-        await AsigneCookies("owner", owner, engineResources.cookies);
+        await AsigneCookies(
+          "_id",
+          respAPI.datos._id.toString(),
+          engineResources.cookies
+        );
 
         // Redirigir al panel de la aplicación
         await classAUTHREG.GetAPP(
@@ -94,7 +106,6 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           engineResources.cookies.get("token")
         );
       } else {
-        console.log("---intenta denuevo....");
         engineResources.DescriptionAlerts[1]([
           "block",
           "error",
@@ -102,6 +113,9 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           "->",
           `${respAPI.statusCode}-${respAPI.msj}`,
         ]);
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
       }
     } catch (error) {
       engineResources.Loading[1]("none");

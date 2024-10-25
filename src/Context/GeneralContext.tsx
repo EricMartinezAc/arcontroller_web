@@ -6,43 +6,34 @@ import Cookies from "universal-cookie";
 //server resources
 import { Routes } from "../constans";
 import ValideCookies from "../Components/Common/ModulosSis/ValideCookies";
-import { USER, PRODUCT, BRANCH, ERDTO, SRDTO } from "@/dto";
+import { USER, PRODUCT, BRANCH, ERDTO, SRDTO, PERSONA, AREA, RRHH } from "../dto";
 
 export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   //server resources
+  // --> entidades
   const [user, setUser] = useState<USER>({
-    user: "invitado",
-    pswLogin: "",
-    rol: "NaN",
-    setUser: (u) => setUser(u),
+    user: "ArturoMartinez1992*",
+    pswLogin: "Arc2025*",
+    rol: "PO",
   });
   const [prodct, setProdct] = useState<PRODUCT>({
-    owner: "",
-    clav_prodct: "",
-    setOwner: (p) => setProdct(p),
+    owner: "arcontroller@climatecontrolsing.com",
+    clav_prodct: "Arc2025*",
   });
-  const [branches, setBranches] = useState<BRANCH>({
-    sucursal: "",
-    ubicacion: [""],
-    centroCosto: "",
-    tipo: "",
-    clasificacion: "",
-    prioridad: "",
-    inicioOp: "",
-    contactos: [""],
-    team: [""],
-    imagen: [""],
-    areas: [""],
-    proveedores: "",
-    gerente: "",
-    id_user: "",
-    state: "",
-    setSucursal: (b) => setBranches(b),
-  });
+  const [areas, setAreas] = useState<AREA[] | null | undefined>(null)
+  const [branches, setBranches] = useState<BRANCH[] | null | undefined>(null);
+  const [personas, setPersonas] = useState<PERSONA[] | null | undefined>(null);
+  const [rrhh, setRRHH] = useState<RRHH[] | null | undefined>(null)
 
   //engine resources
+  const [currentDate, setCurrentDate] = useState<object>({
+    dia: new Date(Date.now()).getDate(),
+    mes: new Date(Date.now()).getMonth() + 1,
+    anio: new Date(Date.now()).getFullYear(),
+  });
+  const [modeStrict, setModeStrict] = useState<boolean>(false)
   const [isSmallScreen, setSmallScreen] = useState<boolean>(
     window.innerWidth < 600
   );
@@ -72,6 +63,9 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     user,
     prodct,
     branches,
+    areas,
+    personas,
+    rrhh
   };
   const engineResources: ERDTO = {
     mobile: false,
@@ -81,12 +75,31 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     Loading: [stateLoading, setStateLoading],
     ValideCookies,
     cookies,
+    currentDate,
+    modeStrict,
+    isSmallScreen,
   };
+  const serverResourcesSetters: any = [
+    setUser,
+    setProdct,
+    setBranches,
+    setAreas,
+    setRRHH,
+    setPersonas,
+  ];
+  const engineResourcesSetters: any = [
+    setCurrentDate,
+    setSmallScreen,
+    setModeStrict,
+  ];
+
   return (
     <CreateGeneralContext.Provider
       value={{
         serverResources,
         engineResources,
+        serverResourcesSetters,
+        engineResourcesSetters,
       }}
     >
       {children}
@@ -102,3 +115,47 @@ export const useGeneralContext = () => {
   }
   return context;
 };
+
+// {
+//   sucursal: "Principal",
+//   ubicacion: ["Colombia", "Atlántico", "calle 55 #43-43", "Soledad"],
+//   centroCosto: "501",
+//   tipo: "IT",
+//   clasificacion: "N/A",
+//   politica: [
+//     {
+//       metodologia: "ITIL", //important
+//     },
+//   ],
+//   prioridad: "1",
+//   inicioOp: "2024-10-23",
+//   contactos: ["arcontroller@climatecontrolsing.com", "3009858518"],
+//   team: [""],
+//   imagen: [""],
+//   areas: [{ _id: "A001", name: "Funcionarios" }],
+//   proveedores: "",
+//   id_user: "",
+//   state: "",
+//   rrhh: [
+//     {
+//       _id: "string",
+//       persona: {
+//         _id: "string",
+//         nombres: "string",
+//         apellidos: "string",
+//         genero: "string",
+//         fecha_natal: "string",
+//       },
+//       emai: "string@climatecontrolsing.com",
+//       telefono: 0,
+//       direccion: "string",
+//       fecha_contratacion: "string",
+//       id_departamento: "string",
+//       id_posicion: "string",
+//       estado: "string",
+//       salario: 0,
+//       tipo_contrato: "string",
+//       documento_contrato: "string",
+//     },
+//   ],
+// }

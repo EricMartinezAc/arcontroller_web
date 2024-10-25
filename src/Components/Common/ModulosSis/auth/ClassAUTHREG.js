@@ -31,6 +31,7 @@ export default class ReqResDatos_auth_API {
     let datos = await this.GetDatosAuth();
     const path_API =
       await `${pages.remoteApi}arcontroller/web/users/${proceso}`;
+
     try {
       const respSendDats = await fetch(path_API, {
         method: "POST",

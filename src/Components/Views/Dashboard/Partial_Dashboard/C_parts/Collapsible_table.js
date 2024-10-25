@@ -13,8 +13,13 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { useGeneralContext } from "../../../../../Context/GeneralContext";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { FormHelperText, MenuItem } from "@mui/material";
 
-function createData(name, calories, fat, carbs, protein, price) {
+function createData(name, calories, fat, carbs, protein, price, valen) {
   return {
     name,
     calories,
@@ -22,15 +27,16 @@ function createData(name, calories, fat, carbs, protein, price) {
     carbs,
     protein,
     price,
+    valen,
     history: [
       {
-        date: '2020-01-05',
-        customerId: '11091700',
+        date: "2020-01-05",
+        customerId: "11091700",
         amount: 3,
       },
       {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
+        date: "2020-01-02",
+        customerId: "Anonymous",
         amount: 1,
       },
     ],
@@ -42,8 +48,8 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+    <>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -60,6 +66,7 @@ function Row(props) {
         <TableCell align="right">{row.fat}</TableCell>
         <TableCell align="right">{row.carbs}</TableCell>
         <TableCell align="right">{row.protein}</TableCell>
+        <TableCell align="right">{row.valen}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -96,7 +103,7 @@ function Row(props) {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </>
   );
 }
 
@@ -110,34 +117,106 @@ Row.propTypes = {
         amount: PropTypes.number.isRequired,
         customerId: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-      }),
+      })
     ).isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     protein: PropTypes.number.isRequired,
+    valen: PropTypes.number.isRequired,
   }).isRequired,
 };
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
+  // createData("ballena vacia", 212, 11.0, 29, 2, 1.1, 110),
+  // createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99, 110),
+  // createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99, 110),
+  // createData("Eclair", 262, 16.0, 24, 6.0, 3.79, 110),
+  // createData("Cupcake", 305, 3.7, 67, 4.3, 2.5, 110),
+  // createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5, 110),
 ];
 
 export default function CollapsibleTable() {
+  const { serverResources, engineResources, engineResourcesSetters } =
+    useGeneralContext();
+
   return (
-    <TableContainer style={{ height: 'max-content' }} component={Paper}>
+    <TableContainer
+      style={{
+        padding: 0,
+        margin: 0,
+        height: "max-content",
+        overflowX: "scroll",
+      }}
+      component={Paper}
+    >
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>SUCURSALES</TableCell>
+
+            <TableCell sx={{ border: "none" }} align="right">
+              <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <InputLabel id="demo-simple-select-helper-label-historico">
+                  Histórico
+                </InputLabel>
+                <Select
+                  variant="standard"
+                  sx={{
+                    height: "70px",
+                    borderRadius: "3%",
+                    font: "14px",
+                    padding: 0,
+                    margin: 0,
+                    position: "relative",
+                    top: "-9px",
+                  }}
+                  disableUnderline
+                  labelId="demo-simple-select-helper-label-historico"
+                  id="demo-simple-select-helper-historico"
+                  value={null}
+                  label="historico"
+                >
+                  <MenuItem value="">
+                    <em></em>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </TableCell>
+
+            <TableCell sx={{ border: "none" }} align="right">
+              <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <InputLabel id="demo-simple-select-helper-label-kpi">
+                  KPI
+                </InputLabel>
+                <Select
+                  variant="standard"
+                  sx={{
+                    height: "70px",
+                    borderRadius: "3%",
+                    font: "14px",
+                    padding: 0,
+                    margin: 0,
+                    position: "relative",
+                    top: "-9px",
+                  }}
+                  disableUnderline
+                  labelId="demo-simple-select-helper-label-kpi"
+                  id="demo-simple-select-helper-kpi"
+                  value={null}
+                  label="kpi"
+                >
+                  <MenuItem value="">
+                    <em></em>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </TableCell>
+
+            {serverResources.areas !== null &&
+              serverResources.areas.map((area) => (
+                <TableCell align="right">{area.name}</TableCell>
+              ))}
           </TableRow>
         </TableHead>
         <TableBody>

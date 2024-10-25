@@ -6,7 +6,7 @@ import { useGeneralContext } from "../../../Context/GeneralContext";
 
 import Home from "../Home";
 import SignUpOrSignIn from "../Session/SignUpOrSignIn";
-import { Dashboard } from "../Dashboard";
+import Dashboard from "../Dashboard";
 
 import Loading from "../../../Components/Common/Intercciones/Loading";
 import DescriptionAlerts from "../../../Components/Common/Intercciones/DescriptionAlerts";
@@ -17,7 +17,6 @@ const Inicio: React.FC = () => {
   // Validación de cookies
   useEffect(() => {
     engineResources.Loading[1]("none");
-    console.log(engineResources.DescriptionAlerts[0][1]);
     const rspValideCookies = engineResources.ValideCookies();
 
     // Verifica si rspValideCookies.getApp no es null antes de usarlo

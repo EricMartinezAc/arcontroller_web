@@ -3,10 +3,31 @@ import { Box, Grid, Link, Typography } from "@mui/material";
 import { useGeneralContext } from "../../../Context/GeneralContext";
 import FormAuthRegtr from "./Login/FormAuthRegtr";
 
+
+import ClassAUTHREG from "../../Common/ModulosSis/auth/ClassAUTHREG";
+
 const SignUpOrSignIn: React.FC<any> = () => {
-  const { engineResources, serverResources } = useGeneralContext();
+  const { engineResources } = useGeneralContext();
+
+  const classAUTHREG = new ClassAUTHREG();
 
   const [visibleFormAuth, setVisibleFormAuth] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (!engineResources.cookies.get("aceptLegacy")) {
+      window.location.href = "/";
+    }
+
+    if (
+      engineResources.cookies.get("token") ||
+      engineResources.cookies.get("user")
+    ) {
+      classAUTHREG.GetAPP(
+        engineResources.cookies.get("user"),
+        engineResources.cookies.get("token")
+      );
+    }
+  }, []);
 
   return (
     <Grid

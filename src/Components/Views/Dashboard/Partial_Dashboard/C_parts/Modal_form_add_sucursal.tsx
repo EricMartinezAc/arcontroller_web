@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { useState } from "react";
 
 import XLSX from "xlsx";
 
@@ -17,6 +17,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
   FormControl,
+  FormHelperText,
+  FormLabel,
   Grid,
   Input,
   InputLabel,
@@ -37,8 +39,17 @@ import DetailsIcon from "@mui/icons-material/Details";
 import { Stack } from "@mui/system";
 
 import ImgInic from "../../../../../Assets/Imgs/logos/logo_153x124.png";
-import SucursalEntidad from "../../Queries/sucursalEntidad";
+import QueriesSucursalEntidad from "../../Queries/sucursalEntidad";
 import "./stylesCParts.css";
+import { useGeneralContext } from "../../../../../Context/GeneralContext";
+import {
+  Label,
+  LabelImportant,
+  LabelImportantSharp,
+} from "@mui/icons-material";
+import { AREA, BRANCH, CONFIGB, PROVEEDORESDTO } from "../../../../../dto";
+import { LabelList } from "recharts";
+import Colores from "../../../../../Components/Common/ModulosGen/Colores";
 
 const style = {
   position: "absolute",
@@ -54,46 +65,47 @@ const style = {
   overflowY: "scroll",
 };
 
-export default function BasicModal(props) {
-  useEffect(() => {
-    console.log(props, "model");
-  }, []);
+export default function BasicModal({ openModalAdd, visibleModalAdd }: any) {
+  const { serverResources, engineResources } = useGeneralContext();
 
-  const visibleModalAdd = props.visibleModalAdd;
-
-  const sucursalEntidad = new SucursalEntidad();
+  const queriesSucursalEntidad = new QueriesSucursalEntidad();
 
   const [visbleGeneralForm, setvisbleGeneralForm] = useState("flex");
   const [visibleAreas, setvisibleAreas] = useState("none");
   const [visibleProveedores, setvisibleProveedores] = useState("none");
 
   //fomrs general
-  const [sucursal, setSucursal] = useState("");
-  const [ubicacion, setUbicacion] = useState([]);
-  const [centroCosto, setCentroCosto] = useState("");
-  const [tipo, setTipo] = useState("Seleccione un tipo");
-  const [clasificacion, setClasificacion] = useState("Clasifique sucursal");
-  const [prioridad, setPrioridad] = useState("Seleccione nivel de prioridad");
+  const [centroCosto, setCentroCosto] = useState<string>("");
+  const [sucursal, setSucursal] = useState<string>("");
+  const [pais, setPais] = useState<string>("");
+  const [ciudad, setCiudad] = useState<string>("");
+  const [dpto, setDpto] = useState<string>("");
+  const [direccion, setDireccion] = useState<string>("");
+  const [contacto, setContacto] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [tipo, setTipo] = useState("Matriz");
+  const [jerarquia, setJerarquia] = useState<string>("");
+  const [prioridad, setPrioridad] = useState("Default");
+  const [clasificacion, setClasificacion] = useState("Predeterminado");
   const [inicioOp, setInicioOp] = useState("16-06-1992");
-  const handle_fileInputDate = async (dateObj) => {
+  const handle_fileInputDate = async (dateObj: object) => {
     await setInicioOp(JSON.stringify(dateObj));
   };
-  const [contactos, setContactos] = useState([]);
-  const team = props.owner;
-  const [imagen, setImagen] = useState(ImgInic);
-  const handle_fileImgSucursales = (e) => {
-    if (e.target.files.length > 0) {
-      if (e.target.files[0].type.includes("image")) {
-        const reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = function load() {
-          setImagen(reader.result);
-        };
-      }
+  const team = [serverResources.prodct.owner];
+  const [imagen, setImagen] = useState<any>(ImgInic);
+  const handle_fileImgSucursales = (e: any) => {
+    const file = e.target.files[0];
+
+    if (file && file.type.includes("image")) {
+      const reader = new FileReader();
+      reader.onload = () => setImagen(reader.result);
+      reader.readAsDataURL(file);
+      console.log("1. test add branch: ", [file, reader]);
     }
   };
-  const [areas, setAreas] = useState({});
-  const handle_fileInputAreas = async (file) => {
+  const [areas, setAreas] = useState<AREA[] | undefined>([]);
+
+  const handle_fileInputAreas = async (file: any) => {
     const fileReader = new FileReader();
     await fileReader.readAsArrayBuffer(file);
     fileReader.onload = async (e) => {
@@ -101,32 +113,33 @@ export default function BasicModal(props) {
       const wb = XLSX.read(bufferArray, { type: "buffer" });
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
-      const data = XLSX.utils.sheet_to_json(ws);
-      setAreas(JSON.stringify(data));
+      setAreas(XLSX.utils.sheet_to_json(ws));
     };
 
     fileReader.onerror = (error) => {
       console.error(error);
     };
   };
-  const [proveedores, setProveedores] = useState({});
-  const handle_fileInputProveedores = async (file) => {
+  const [proveedores, setProveedores] = useState<PROVEEDORESDTO[] | undefined>(
+    []
+  );
+
+  const handle_fileInputProveedores = async (file: any) => {
     const fileReader = new FileReader();
     await fileReader.readAsArrayBuffer(file);
-    fileReader.onload = async (e) => {
+    fileReader.onload = async () => {
       const bufferArray = await fileReader.result;
       const wb = XLSX.read(bufferArray, { type: "buffer" });
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
-      const data = XLSX.utils.sheet_to_json(ws);
-      setProveedores(JSON.stringify(data));
+      //console.log(data);
+      setProveedores(await XLSX.utils.sheet_to_json(ws));
     };
 
     fileReader.onerror = (error) => {
       console.error(error);
     };
   };
-  const [gerente, setGerente] = useState("Gerente");
 
   const setVisible1 = () => {
     setvisbleGeneralForm("flex");
@@ -172,36 +185,60 @@ export default function BasicModal(props) {
   //       : console.log("okk");
   //   });
   // };
+  // Estado para manejar los errores de los campos
 
   const BtnEnviarFormAddSucursales = async () => {
-    console.log("go");
-    await sucursalEntidad.SetDatos({
+    const datosEnvio: BRANCH = {
       sucursal,
-      ubicacion,
+      pais,
+      ciudad,
+      dpto,
+      direccion,
       centroCosto,
       tipo,
       clasificacion,
       prioridad,
       inicioOp,
-      contactos,
+      contacto,
+      email,
       team,
       imagen,
       areas,
       proveedores,
-      gerente,
-    });
-    const respSendDats = await sucursalEntidad.QueryAPI(
+      state: true,
+    };
+    await queriesSucursalEntidad.SetDatos(datosEnvio);
+    await queriesSucursalEntidad.QueryAPI(
       "branch/add/any",
-      props.owner,
-      props.user
+      serverResources.prodct.owner,
+      serverResources.user.user
     );
-    console.log(await respSendDats, "---------------");
+    engineResources.DescriptionAlerts[1](
+      "block",
+      "info",
+      "datos almacenados",
+      "",
+      "",
+      ""
+    );
+    setTimeout(() => {
+      engineResources.DescriptionAlerts[1](
+        "none",
+        "info",
+        "datos almacenados",
+        "",
+        "",
+        ""
+      );
+
+      visibleModalAdd();
+    }, 1000);
   };
 
   return (
     <>
       <Modal
-        open={props.open}
+        open={openModalAdd}
         onClose={visibleModalAdd}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -312,9 +349,7 @@ export default function BasicModal(props) {
                     onChange={(e) => setCentroCosto(e.target.value)}
                     name={"centroCosto"}
                     id={"centroCosto"}
-                    label="# centro de costo."
-                    defaultValue="00"
-                    helperText="Numero de inventario"
+                    label="Centro de costo"
                   />
                 </Stack>
               </Grid>
@@ -331,7 +366,6 @@ export default function BasicModal(props) {
                     name={"sucursal"}
                     id={"sucursal"}
                     label="Nombre de sucursal"
-                    defaultValue="xxxx xxxxx"
                   />
                 </Stack>
               </Grid>
@@ -340,11 +374,10 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setPais(e.target.value)}
                     name={"pais"}
                     id={"pais"}
                     label="Pais"
-                    defaultValue="xxxxxxxxx"
                   />
                 </Stack>
               </Grid>
@@ -358,12 +391,10 @@ export default function BasicModal(props) {
                 >
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setCiudad(e.target.value)}
                     name={"ciudad"}
                     id="ciudad"
                     label="ciudad o municipio"
-                    defaultValue="xxxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -376,12 +407,10 @@ export default function BasicModal(props) {
                 >
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setDpto(e.target.value)}
                     name={"dpto"}
                     id={"dpto"}
                     label="Dpto"
-                    defaultValue="xxxx xxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -390,12 +419,10 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setUbicacion([...e.target.value])}
+                    onChange={(e) => setDireccion(e.target.value)}
                     name={"direccion"}
                     id={"direccion"}
                     label="Dirección"
-                    defaultValue="xxxx xxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -404,12 +431,10 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setContactos([...e.target.value])}
+                    onChange={(e) => setContacto(e.target.value)}
                     name={"contacto"}
                     id={"contacto"}
                     label="# contacto"
-                    defaultValue="00"
-                    helperText="numero de celular o teléfono"
                   />
                 </Stack>
               </Grid>
@@ -417,12 +442,10 @@ export default function BasicModal(props) {
                 <Stack component="form" noValidate autoComplete="on">
                   <TextField
                     autoComplete="true"
-                    onChange={(e) => setContactos([...e.target.value])}
+                    onChange={(e) => setEmail(e.target.value)}
                     name={"email"}
                     id={"email"}
                     label="e-mail"
-                    defaultValue="xxxx xxxxx"
-                    helperText=""
                   />
                 </Stack>
               </Grid>
@@ -430,7 +453,7 @@ export default function BasicModal(props) {
             {/* //detalles */}
             <Grid p={2} sx={{ display: visibleAreas }} container xs={12} md={7}>
               <Grid m={1} item xs={12} md={10}>
-                <label className="form-label" for="fileInputAreas">
+                <label className="form-label" htmlFor="fileInputAreas">
                   Agrege areas pertenecientes a esta sucursal
                 </label>
                 <br />
@@ -439,7 +462,9 @@ export default function BasicModal(props) {
                   type="file"
                   id="fileInputAreas"
                   className="form-control "
-                  onChange={(e) => handle_fileInputAreas(e.target.files[0])}
+                  onChange={(e: any) =>
+                    handle_fileInputAreas(e.target.files[0])
+                  }
                 />
               </Grid>
               <Grid m={1} item xs={12} md={5}>
@@ -450,20 +475,23 @@ export default function BasicModal(props) {
                   autoComplete="on"
                 >
                   <FormControl>
+                    <FormHelperText>Tipo</FormHelperText>
                     <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
+                      labelId="demo-simple-select-label-1"
+                      id="demo-simple-select-1"
                       value={tipo}
-                      label="Tipo"
+                      label="type"
                       onChange={(e) => {
                         setTipo(e.target.value);
+                        console.log("test type: ", tipo);
                       }}
                     >
-                      <MenuItem value="Seleccione un tipo">
-                        Seleccione un tipo
-                      </MenuItem>
                       <MenuItem value="Matriz">Matriz</MenuItem>
-                      <MenuItem value="Satelite">Satelite</MenuItem>
+                      <MenuItem value="Satélite">Satelite</MenuItem>
+                      <MenuItem value="CDI">CDI</MenuItem>
+                      <MenuItem value="Oficina">Oficina</MenuItem>
+                      <MenuItem value="Almacén">Almacen</MenuItem>
+                      <MenuItem value="Bodega">Bodega</MenuItem>
                     </Select>
                   </FormControl>
                 </Stack>
@@ -476,18 +504,19 @@ export default function BasicModal(props) {
                   autoComplete="on"
                 >
                   <FormControl>
+                    <FormHelperText id="demo-simple-select-label-2">
+                      Prioridad
+                    </FormHelperText>
                     <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
+                      labelId="demo-simple-select-label-2"
+                      id="demo-simple-select-2"
                       value={prioridad}
                       label={"Prioridad"}
                       onChange={(e) => {
                         setPrioridad(e.target.value);
                       }}
                     >
-                      <MenuItem value="Seleccione nivel de prioridad">
-                        Seleccione nivel de prioridad
-                      </MenuItem>
+                      <MenuItem value="Default">Default</MenuItem>
                       <MenuItem value="Premium">Premium</MenuItem>
                       <MenuItem value="Alta">Alta</MenuItem>
                       <MenuItem value="Media">Media</MenuItem>
@@ -499,18 +528,19 @@ export default function BasicModal(props) {
               <Grid m={1} item xs={12} md={10}>
                 <Stack component="form" noValidate autoComplete="on">
                   <FormControl>
+                    <FormHelperText id="demo-simple-select-label-3">
+                      Clasificación
+                    </FormHelperText>
                     <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
+                      labelId="demo-simple-select-label-3"
+                      id="demo-simple-select-3"
                       value={clasificacion}
                       label="Clasificacion"
                       onChange={(e) => {
                         setClasificacion(e.target.value);
                       }}
                     >
-                      <MenuItem value={"Clasifique sucursal"}>
-                        Clasifique sucursal
-                      </MenuItem>
+                      <MenuItem value="Predeterminado">Predeterminado</MenuItem>
                       <MenuItem value="Edificio">Edifico</MenuItem>
                       <MenuItem value="Oficina">Oficina</MenuItem>
                       <MenuItem value="Publico">Publico</MenuItem>
@@ -524,31 +554,10 @@ export default function BasicModal(props) {
               </Grid>
               <Grid m={1} item xs={12} md={10}>
                 <Stack component="form" noValidate autoComplete="on">
-                  <FormControl>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={gerente}
-                      label="Gerente"
-                      onChange={(e) => {
-                        setGerente(e.target.value);
-                      }}
-                    >
-                      <MenuItem value="Gerente">Gerente</MenuItem>
-                      {props.usersOwner.map((item, index) => {
-                        return (
-                          <MenuItem key={index} value={item.user}>
-                            {item.user}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Stack>
-              </Grid>
-              <Grid m={1} item xs={12} md={10}>
-                <Stack component="form" noValidate autoComplete="on">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <FormHelperText>
+                      Fecha de inicio de operación
+                    </FormHelperText>
                     <DemoContainer
                       components={[
                         "DatePicker",
@@ -557,9 +566,9 @@ export default function BasicModal(props) {
                         "StaticDatePicker",
                       ]}
                     >
-                      <DemoItem label="Fecha de inicio de operaciones">
+                      <DemoItem key={1}>
                         <DesktopDatePicker
-                          onChange={(e) => handle_fileInputDate(e)}
+                          onChange={(e: any) => handle_fileInputDate(e)}
                           defaultValue={dayjs(inicioOp)}
                         />
                       </DemoItem>
@@ -576,8 +585,6 @@ export default function BasicModal(props) {
                     name={"team"}
                     id={"team"}
                     label="Equipo de trabajo"
-                    defaultValue=""
-                    helperText=""
                   />
                 </Stack>
               </Grid> */}
@@ -591,7 +598,7 @@ export default function BasicModal(props) {
               md={7}
             >
               <Box>
-                <label className="form-label" for="fileInputProveedores">
+                <label className="form-label" htmlFor="fileInputProveedores">
                   Agrege la relación de proveedores según área de conocimiento
                 </label>
                 <br />
@@ -600,7 +607,7 @@ export default function BasicModal(props) {
                   id="fileInputProveedores"
                   type="file"
                   className="form-control"
-                  onChange={(e) =>
+                  onChange={(e: any) =>
                     handle_fileInputProveedores(e.target.files[0])
                   }
                 />

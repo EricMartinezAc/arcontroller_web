@@ -17,6 +17,7 @@ import ReqResDatos_auth_API from "../../Common/ModulosSis/auth/ClassAUTHREG";
 
 import AlertCookies from "../../Common/Interfaz/modalAceptPolicy";
 import { useGeneralContext } from "../../../Context/GeneralContext";
+import AsigneCookies from "../../../Components/Common/ModulosSis/AsigneCookies";
 
 const Inicio: React.FC = () => {
   const { engineResources } = useGeneralContext();
@@ -27,6 +28,14 @@ const Inicio: React.FC = () => {
     DropAllCookies(engineResources.cookies, "/");
   }, []);
 
+  useEffect(() => {
+    AsigneCookies(
+      "aceptLegacy",
+      engineResources.Legacy[0],
+      engineResources.cookies
+    );
+  }, [engineResources.Legacy[0]]);
+
   const AceptacionCookies = async () => {
     engineResources.Legacy[1](!engineResources.Legacy[0]);
     engineResources.DescriptionAlerts[1]([
@@ -36,7 +45,6 @@ const Inicio: React.FC = () => {
       "Ahora puedes usar al aplicación.",
       "Da clic en inicio de seión para continuar",
     ]);
-    console.log(1, engineResources.DescriptionAlerts[0]);
     setTimeout(() => {
       engineResources.DescriptionAlerts[1](["none", "", "", "", ""]);
 

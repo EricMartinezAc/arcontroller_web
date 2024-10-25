@@ -7,28 +7,25 @@ import MessageIcon from "@mui/icons-material/Message";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Colores from "../ModulosGen/Colores";
 import PropTypes from "prop-types";
+import { useGeneralContext } from "../../../Context/GeneralContext";
+import { MenuBook, MenuSharp } from "@mui/icons-material";
 
 function Toolbar_dashboard({
-  fecha,
-  user,
-  owner,
   actions,
   setActions,
   handleDrawer,
   openDrawer,
-  CerrarApp,
+  RestartApp,
 }) {
-  // const MonstrarNotificaiones = () => {
-  //   return true;
-  // };
-  // const MostrarMensajes = () => {
-  //   return true;
-  // };
+  const { serverResources, engineResources } = useGeneralContext();
+
   return (
     <>
       <Toolbar
         sx={{
-          background: Colores.azul,
+          background: engineResources.modeStrict
+            ? Colores.gris_tenue
+            : Colores.grosella_negra,
         }}
       >
         {/* boton de menu icono */}
@@ -37,6 +34,7 @@ function Toolbar_dashboard({
           aria-label="open drawer"
           onClick={handleDrawer}
           className={clsx(openDrawer)}
+          sx={{ color: Colores.marfil }}
         >
           <img
             alt="logo"
@@ -48,38 +46,61 @@ function Toolbar_dashboard({
             }}
             src={rutaImgLogoPNG}
           />
+          <MenuSharp />
         </IconButton>
-        <Grid direction="row" justifyContent="flex-end" container spacing={1}>
+        <Grid direction="row" justifyContent="flex-end" container spacing={0}>
           {/* //tittle */}
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8}>
             <Typography
-              style={{ fontFamily: "Poppins" }}
+              style={{
+                fontFamily: "Poppins",
+                color: Colores.blanco,
+                textAlign: "right",
+              }}
               component="h1"
               variant="h6"
               noWrap
             >
-              {owner || "Modeo de prueba"} /{user || "Sin user"}
+              {serverResources.prodct.owner.split("@")[0] || "Modo de prueba"} /
+              {serverResources.user.user.replace(/[^a-zA-Z]/g, "") ||
+                "Sin user"}
             </Typography>
           </Grid>
+          <Grid xs={3} md={1}></Grid>
           {/* barra de Notificaciones */}
-          <Grid item lg={1}>
-            <IconButton>
-              <Badge badgeContent={actions[0]} color="secondary">
+          <Grid item xs={3} md={1}>
+            <IconButton sx={{ color: Colores.marfil }}>
+              <Badge badgeContent={actions[0]} color="info">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
           </Grid>
           {/* barra de mensajes */}
-          <Grid item lg={1}>
-            <IconButton>
-              <Badge badgeContent={actions[1]} color="secondary">
+          <Grid item xs={3} md={1}>
+            <IconButton sx={{ color: Colores.marfil }}>
+              <Badge badgeContent={actions[1]} color="info">
                 <MessageIcon />
               </Badge>
             </IconButton>
           </Grid>
           {/* Boton apagado */}
-          <Grid item lg={1}>
-            <IconButton onClick={CerrarApp}>
+          <Grid item xs={3} md={1}>
+            <IconButton
+              sx={{ color: Colores.rosa }}
+              onClick={() =>
+                RestartApp(
+                  engineResources.cookies,
+                  engineResources.DescriptionAlerts,
+                  [
+                    "block",
+                    "info",
+                    "Salida segura",
+                    "Aplicación desconectada ",
+                    "Todos sus datos están seguros ahora",
+                  ]
+                )
+              }
+            >
               <PowerSettingsNewIcon />
             </IconButton>
           </Grid>

@@ -5,7 +5,6 @@ export const CreateGeneralContext = createContext<
   | {
       serverResources: SRDTO;
       engineResources: ERDTO;
-      serverResourcesSetters: any;
       engineResourcesSetters: any;
     }
   | undefined

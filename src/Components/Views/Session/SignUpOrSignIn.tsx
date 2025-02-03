@@ -22,10 +22,7 @@ const SignUpOrSignIn: React.FC<any> = () => {
       engineResources.cookies.get("token") ||
       engineResources.cookies.get("user")
     ) {
-      classAUTHREG.GetAPP(
-        engineResources.cookies.get("user"),
-        engineResources.cookies.get("token")
-      );
+      classAUTHREG.GetAPP();
     }
   }, []);
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 
 import dayjs from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";

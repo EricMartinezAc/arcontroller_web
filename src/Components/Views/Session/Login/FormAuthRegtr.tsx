@@ -18,43 +18,50 @@ const classAUTHREG = new ClassAUTHREG();
 
 const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
   // Estado del formulario
-  const { engineResources, serverResources, serverResourcesSetters } =
-    useGeneralContext();
-  const [owner, setOwner] = useState<string>(serverResources.prodct.owner);
-  const [clav_prodct, setclav_prodct] = useState<string>(
-    serverResources.prodct.clav_prodct
-  );
-  const [user, setUser] = useState<string>(serverResources.user.user);
-  const [pswLogin, setPswLogin] = useState<string>("");
-  const [PO_, setPO_] = useState<boolean>(false);
-  useEffect(() => {
-    console.log(PO_);
-  }, [PO_]);
+  const { engineResources, serverResources } = useGeneralContext();
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
+    const { name, value } = e.target;
     if (name === "owner") {
-      setOwner(value);
+      serverResources.setProdct((prev: any) => ({
+        ...prev,
+        owner: value,
+      }));
     }
     if (name === "clav_prodct") {
-      setclav_prodct(value);
+      serverResources.setProdct((prev: any) => ({
+        ...prev,
+        clav_prodct: value,
+      }));
+    }
+    if (name === "id") {
+      serverResources.setID(value);
     }
     if (name === "user") {
-      setUser(value);
+      serverResources.setUser((prev: any) => ({
+        ...prev,
+      }));
     }
     if (name === "pswLogin") {
-      setPswLogin(value);
-    }
-    if (name === "PO_") {
-      setPO_(checked);
+      serverResources.setUser((prev: any) => ({
+        ...prev,
+        pswLogin: value,
+      }));
     }
   };
 
   const enviarDatosReg = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const RespValideProduct = await ValideInputProduct(owner);
-      const RespValideUser = await ValideInputUsuario(user);
-      const RespValidePsw = await ValideInputPassword(pswLogin);
+      const RespValideProduct = await ValideInputProduct(
+        serverResources.prodct.owner
+      );
+      const RespValideUser = await ValideInputUsuario(
+        serverResources.user.user
+      );
+      const RespValidePsw = await ValideInputPassword(
+        serverResources.user.pswLogin
+      );
 
       if (!RespValideProduct || !RespValidePsw || !RespValideUser) {
         console.error("Valores no cumplen con politicas.", [
@@ -68,43 +75,29 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
       // Configurar datos para registrar\
       engineResources.Loading[1]("block");
       await classAUTHREG.SetDatsToAPI(
-        owner,
-        clav_prodct,
-        user,
-        pswLogin,
-        PO_ ? "PO" : "PM"
+        serverResources.prodct.owner,
+        serverResources.prodct.clav_prodct,
+        serverResources.id,
+        serverResources.user.user,
+        serverResources.user.pswLogin
       );
 
       // Enviar datos para guardar/registrar
-      const proceso = visibleFormAuth ? "auth" : "regtr";
-      const respAPI = await classAUTHREG.SendDatsAPI(proceso);
+
+      const respAPI = visibleFormAuth
+        ? await classAUTHREG.AuthUser()
+        : classAUTHREG.RegtrUser();
       // Respuesta del servidor
       console.log("respApi::::: ", respAPI);
       // resolver
       if (respAPI.statusCode === 200) {
-        serverResourcesSetters[0]({
-          user,
-          rol: respAPI.datos.rol,
-          id_prodct: respAPI.datos.id_prodct,
-        });
+        console.log(127, serverResources.user);
 
         // Asignar cookies
-        await AsigneCookies(
-          "token",
-          respAPI.datos.token,
-          engineResources.cookies
-        );
-        await AsigneCookies(
-          "_id",
-          respAPI.datos._id.toString(),
-          engineResources.cookies
-        );
+        await AsigneCookies("token", respAPI.token, engineResources.cookies);
 
         // Redirigir al panel de la aplicación
-        await classAUTHREG.GetAPP(
-          engineResources.cookies.get("user"),
-          engineResources.cookies.get("token")
-        );
+        await classAUTHREG.GetAPP();
       } else {
         engineResources.DescriptionAlerts[1]([
           "block",
@@ -140,7 +133,7 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
       </h3>
 
       <form className="FormAuth" onSubmit={enviarDatosReg}>
-        <Box>
+        <Box sx={{ display: visibleFormAuth ? "none" : "inherit" }}>
           <input
             type="text"
             name="owner"
@@ -148,7 +141,7 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
             className="form-control input_text_index"
             autoComplete="on"
             placeholder="INGRESE NOMBRE DE PRODUCTO"
-            value={owner}
+            value={serverResources.prodct.owner}
             onChange={onChange}
           />
         </Box>
@@ -160,7 +153,19 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
             className="form-control input_text_index"
             autoComplete="on"
             placeholder="INGRESE CLAVE DE PRODUCTO"
-            value={clav_prodct}
+            value={serverResources.prodct.clav_prodct}
+            onChange={onChange}
+          />
+        </Box>
+        <Box sx={{ display: visibleFormAuth ? "inherit" : "none" }}>
+          <input
+            type="text"
+            name="id"
+            id="id"
+            className="form-control input_text_index"
+            autoComplete="on"
+            placeholder="INGRESE ID DE PRODUCTO"
+            value={serverResources.id}
             onChange={onChange}
           />
         </Box>
@@ -171,7 +176,7 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           autoComplete="on"
           className="form-control input_text_index"
           placeholder="INGRESE SU USUARIO"
-          value={user}
+          value={serverResources.user.user}
           onChange={onChange}
         />
         <input
@@ -179,22 +184,10 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
           name="pswLogin"
           id="pswLogin"
           className="form-control input_text_index"
-          autoComplete="off"
+          autoComplete="on"
           placeholder="INGRESA TU CONTRASEÑA"
-          value={pswLogin}
+          value={serverResources.user.pswLogin}
           onChange={onChange}
-        />
-        <FormControlLabel
-          sx={{ display: visibleFormAuth ? "none" : "inherit" }}
-          control={
-            <Switch
-              checked={PO_}
-              onChange={onChange}
-              name="PO_"
-              color="primary"
-            />
-          }
-          label="Product Owner"
         />
         <br />
         <br />

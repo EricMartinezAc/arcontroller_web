@@ -6,7 +6,16 @@ import Cookies from "universal-cookie";
 //server resources
 import { Routes } from "../constans";
 import ValideCookies from "../Components/Common/ModulosSis/ValideCookies";
-import { USER, PRODUCT, BRANCH, ERDTO, SRDTO, PERSONA, AREA, RRHH } from "../dto";
+import {
+  USER,
+  PRODUCT,
+  BRANCH,
+  ERDTO,
+  SRDTO,
+  PERSONA,
+  AREA,
+  RRHH,
+} from "../dto";
 
 export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   children,
@@ -14,18 +23,18 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   //server resources
   // --> entidades
   const [user, setUser] = useState<USER>({
-    user: "ArturoMartinez1992*",
-    pswLogin: "Arc2025*",
-    rol: "PO",
+    user: "User1*",
+    pswLogin: "",
   });
   const [prodct, setProdct] = useState<PRODUCT>({
     owner: "arcontroller@climatecontrolsing.com",
     clav_prodct: "Arc2025*",
   });
-  const [areas, setAreas] = useState<AREA[] | null | undefined>(null)
+  const [id, setID] = useState<string>("67736988a5da74e14a20da90");
+  const [areas, setAreas] = useState<AREA[] | null | undefined>(null);
   const [branches, setBranches] = useState<BRANCH[] | null | undefined>(null);
   const [personas, setPersonas] = useState<PERSONA[] | null | undefined>(null);
-  const [rrhh, setRRHH] = useState<RRHH[] | null | undefined>(null)
+  const [rrhh, setRRHH] = useState<RRHH[] | null | undefined>(null);
 
   //engine resources
   const [currentDate, setCurrentDate] = useState<object>({
@@ -33,7 +42,7 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     mes: new Date(Date.now()).getMonth() + 1,
     anio: new Date(Date.now()).getFullYear(),
   });
-  const [modeStrict, setModeStrict] = useState<boolean>(false)
+  const [modeStrict, setModeStrict] = useState<boolean>(false);
   const [isSmallScreen, setSmallScreen] = useState<boolean>(
     window.innerWidth < 600
   );
@@ -61,11 +70,19 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
 
   const serverResources: SRDTO = {
     user,
+    setUser,
     prodct,
+    setProdct,
+    id,
+    setID,
     branches,
+    setBranches,
     areas,
+    setAreas,
     personas,
-    rrhh
+    setPersonas,
+    rrhh,
+    setRRHH,
   };
   const engineResources: ERDTO = {
     mobile: false,
@@ -79,26 +96,18 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     modeStrict,
     isSmallScreen,
   };
-  const serverResourcesSetters: any = [
-    setUser,
-    setProdct,
-    setBranches,
-    setAreas,
-    setRRHH,
-    setPersonas,
-  ];
-  const engineResourcesSetters: any = [
+
+  const engineResourcesSetters: any = {
     setCurrentDate,
     setSmallScreen,
     setModeStrict,
-  ];
+  };
 
   return (
     <CreateGeneralContext.Provider
       value={{
         serverResources,
         engineResources,
-        serverResourcesSetters,
         engineResourcesSetters,
       }}
     >

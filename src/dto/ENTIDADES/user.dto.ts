@@ -5,6 +5,5 @@ export interface UserDTO {
   user: string;
   pswLogin?: string;
   token?: string;
-  rol: string;
   id_prodct?: string;
 }

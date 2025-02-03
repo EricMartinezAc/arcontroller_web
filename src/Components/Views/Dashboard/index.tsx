@@ -34,7 +34,6 @@ import { useGeneralContext } from "../../../Context/GeneralContext";
 import Colores from "../../../Components/Common/ModulosGen/Colores";
 import { ChevronRight, Description } from "@mui/icons-material";
 import RestartApp from "../../../Components/Common/ModulosSis/RestartApp";
-import DescriptionAlerts from "../../../Components/Common/Intercciones/DescriptionAlerts";
 
 // Definir los tipos para las props del componente
 interface DashboardProps {
@@ -42,12 +41,8 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {
-  const {
-    engineResources,
-    engineResourcesSetters,
-    serverResources,
-    serverResourcesSetters,
-  } = useGeneralContext();
+  const { engineResources, engineResourcesSetters, serverResources } =
+    useGeneralContext();
 
   // Estados y funciones
   const [openDrawer, setOpenDrawer] = useState<string>("none");
@@ -59,27 +54,34 @@ const Dashboard: React.FC<DashboardProps> = () => {
   useEffect(() => {
     console.log(1, [serverResources, engineResources.cookies.getAll()]);
     if (
-      !engineResources.cookies.get("aceptLegacy") ||
-      !engineResources.cookies.get("token") ||
-      !engineResources.cookies.get("_id")
+      engineResources.cookies.get("aceptLegacy") ||
+      engineResources.cookies.get("token")
     ) {
-      RestartApp(engineResources.cookies, DescriptionAlerts, [
-        "block",
-        "error",
-        "Alerta de seguridad",
-        "SECUREAPP value: ",
-        "no cuenta con credenciales suficientes",
-      ]);
+      console.log("noneee");
+
+      RestartApp(
+        engineResources.cookies,
+        engineResources.DescriptionAlerts[1],
+        [
+          "block",
+          "error",
+          "Alerta de seguridad",
+          "SECUREAPP value: ",
+          "no cuenta con credenciales suficientes",
+        ]
+      );
     }
-    setModeStrict(serverResources.user.rol === "PO" ? false : true);
+
     loadData(
       serverResources.prodct.owner,
       engineResources.cookies.get("token"),
       engineResources.cookies.get("_id")
     )
       .then(async (data: any) => {
+        if (!serverResources.setBranches) throw new Error("errir");
+
         data.statusCode === 200 &&
-          serverResourcesSetters[2](data.datos.branchResp);
+          serverResources.setBranches(data.datos.branchResp);
       })
       .catch((err: any) => {
         console.log(err);

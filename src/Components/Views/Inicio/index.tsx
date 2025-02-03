@@ -74,10 +74,7 @@ const Inicio: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/Sesion" element={<SignUpOrSignIn />} />
-            <Route
-              path="/arcontroller/web/main/Dashboard"
-              element={<Dashboard />}
-            />
+            <Route path="/Dashboard" element={<Dashboard />} />
           </Routes>
         )}
       </Router>

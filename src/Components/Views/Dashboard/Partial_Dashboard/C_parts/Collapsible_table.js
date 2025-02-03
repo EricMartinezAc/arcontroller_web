@@ -213,8 +213,8 @@ export default function CollapsibleTable() {
               </FormControl>
             </TableCell>
 
-            {serverResources.areas !== null &&
-              serverResources.areas.map((area) => (
+            {serverResources.areas[0] !== null &&
+              serverResources.areas[0].map((area) => (
                 <TableCell align="right">{area.name}</TableCell>
               ))}
           </TableRow>

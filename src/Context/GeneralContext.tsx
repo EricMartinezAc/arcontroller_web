@@ -1,11 +1,9 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { CreateGeneralContext } from "./Index";
 
-import Cookies from "universal-cookie";
 
 //server resources
 import { Routes } from "../constans";
-import ValideCookies from "../Components/Common/ModulosSis/ValideCookies";
 import {
   USER,
   PRODUCT,
@@ -23,14 +21,15 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
   //server resources
   // --> entidades
   const [user, setUser] = useState<USER>({
-    user: "User1*",
+    user: "User1*", //User1*,
     pswLogin: "",
+    token: "",
   });
   const [prodct, setProdct] = useState<PRODUCT>({
-    owner: "arcontroller@climatecontrolsing.com",
-    clav_prodct: "Arc2025*",
+    owner: "arcontroller@climatecontrolsing.com", //arcontroller@climatecontrolsing.com",
+    clav_prodct: "Arc2025*", //Arc2025*",
   });
-  const [id, setID] = useState<string>("67736988a5da74e14a20da90");
+  const [id, setID] = useState<string>("67030fd9b36e8dbba989e549");
   const [areas, setAreas] = useState<AREA[] | null | undefined>(null);
   const [branches, setBranches] = useState<BRANCH[] | null | undefined>(null);
   const [personas, setPersonas] = useState<PERSONA[] | null | undefined>(null);
@@ -55,7 +54,6 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     "error",
   ]);
   const [stateLoading, setStateLoading] = useState<string>("block");
-  const cookies = new Cookies();
   //for mobile app
   useEffect(() => {
     const handleResize = () => {
@@ -90,8 +88,6 @@ export const GeneralContext: React.FC<{ children: ReactNode }> = ({
     Legacy: [aceptLegacy, setAceptLegacy],
     DescriptionAlerts: [AlertDialogs, setAlertDialogs],
     Loading: [stateLoading, setStateLoading],
-    ValideCookies,
-    cookies,
     currentDate,
     modeStrict,
     isSmallScreen,

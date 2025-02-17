@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, FormControlLabel, Switch } from "@mui/material";
 import ClassAUTHREG from "../../../Common/ModulosSis/auth/ClassAUTHREG";
-import AsigneCookies from "../../../Common/ModulosSis/AsigneCookies";
 import Logo from "../../../../Assets/Imgs/logos/logo_632x512.png";
 import "../../../../Assets/styles/FormAuthRegtr.css";
 import { useGeneralContext } from "../../../../Context/GeneralContext";
@@ -17,7 +17,7 @@ import {
 const classAUTHREG = new ClassAUTHREG();
 
 const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
-  // Estado del formulario
+  const navigate = useNavigate();
   const { engineResources, serverResources } = useGeneralContext();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +40,7 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
     if (name === "user") {
       serverResources.setUser((prev: any) => ({
         ...prev,
+        user: value,
       }));
     }
     if (name === "pswLogin") {
@@ -86,18 +87,28 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
 
       const respAPI = visibleFormAuth
         ? await classAUTHREG.AuthUser()
-        : classAUTHREG.RegtrUser();
+        : await classAUTHREG.RegtrUser();
       // Respuesta del servidor
       console.log("respApi::::: ", respAPI);
       // resolver
-      if (respAPI.statusCode === 200) {
-        console.log(127, serverResources.user);
+      if (respAPI.statusCode === 200 || respAPI.statusCode === 201) {
+        console.log(127, [serverResources.user, respAPI.token]);
 
-        // Asignar cookies
-        await AsigneCookies("token", respAPI.token, engineResources.cookies);
+        // Asignar token
+        await serverResources.setUser((prev) => ({
+          ...prev,
+          token: respAPI.token,
+        }));
+
+        //Restringir App
+        await serverResources.setProdct({ owner: "", clav_prodct: "" });
+        await serverResources.setUser((prev) => ({
+          ...prev,
+          pswLogin: "********",
+        }));
 
         // Redirigir al panel de la aplicación
-        await classAUTHREG.GetAPP();
+        navigate("/Dashboard");
       } else {
         engineResources.DescriptionAlerts[1]([
           "block",

@@ -6,8 +6,6 @@ export interface engineResourcesDTO {
   Legacy: any[];
   DescriptionAlerts: any[];
   Loading: any[];
-  ValideCookies: any;
-  cookies: any;
   modeStrict: boolean;
   currentDate?: object;
   isSmallScreen?: boolean;

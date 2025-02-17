@@ -68,16 +68,11 @@ export default class ReqResDatos_auth_API {
       })
         .then((res) => res.json())
         .catch((err) => console.err);
-      console.log(respSendDats);
+      console.log("register success", respSendDats);
       return await respSendDats;
     } catch (error) {
       alert(`no se pudo realizar envio de datos: ${error}`);
       return { statusCode: 403, error: error };
     }
-  };
-
-  GetAPP = async () => {
-    console.log("enviando a la app ");
-    window.location = `${pages.thisApp}/Dashboard`;
   };
 }

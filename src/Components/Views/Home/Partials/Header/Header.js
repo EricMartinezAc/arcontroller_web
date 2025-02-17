@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,6 +26,7 @@ const pages = ["Asesorías", "Productos", "Contacto", "Nosotros"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar(props) {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -44,7 +46,7 @@ function ResponsiveAppBar(props) {
   };
 
   const RedirectSigin = () => {
-    window.location = "/Sesion";
+    navigate("/Sesion");
   };
 
   return (

@@ -1,8 +1,7 @@
 import { Routes as pages } from "../../../../constans";
 
-export const loadData = async (owner, token, _id) => {
+export const loadData = async (user) => {
   const path_API = await `${pages.remoteApi}arcontroller/web/loadAllData`;
-  console.log(path_API);
   try {
     const respSendDats = await fetch(path_API, {
       method: "POST",
@@ -11,7 +10,7 @@ export const loadData = async (owner, token, _id) => {
         "Content-Type": "application/json",
         "access-control-allow-origin": "*",
       },
-      body: JSON.stringify({ owner, token, _id }),
+      body: JSON.stringify(user),
     })
       .then((res) => res.json())
       .catch((err) => console.error(err));

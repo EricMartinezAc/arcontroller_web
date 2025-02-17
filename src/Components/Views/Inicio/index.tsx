@@ -12,19 +12,13 @@ import Loading from "../../../Components/Common/Intercciones/Loading";
 import DescriptionAlerts from "../../../Components/Common/Intercciones/DescriptionAlerts";
 
 const Inicio: React.FC = () => {
-  const { engineResources } = useGeneralContext();
+  const { engineResources, serverResources } = useGeneralContext();
 
   // Validación de cookies
   useEffect(() => {
-    engineResources.Loading[1]("none");
-    const rspValideCookies = engineResources.ValideCookies();
-
-    // Verifica si rspValideCookies.getApp no es null antes de usarlo
-    if (rspValideCookies.value && rspValideCookies.getApp) {
-      window.location.href = rspValideCookies.getApp;
-    } else {
+    setTimeout(() => {
       engineResources.Loading[1]("none");
-    }
+    }, 1000);
   }, []);
 
   return (

@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, Link, Typography } from "@mui/material";
 import { useGeneralContext } from "../../../Context/GeneralContext";
 import FormAuthRegtr from "./Login/FormAuthRegtr";
 
-
 import ClassAUTHREG from "../../Common/ModulosSis/auth/ClassAUTHREG";
 
 const SignUpOrSignIn: React.FC<any> = () => {
-  const { engineResources } = useGeneralContext();
+  const navigate = useNavigate();
+  const { engineResources, serverResources } = useGeneralContext();
 
   const classAUTHREG = new ClassAUTHREG();
 
   const [visibleFormAuth, setVisibleFormAuth] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!engineResources.cookies.get("aceptLegacy")) {
+    if (!engineResources.Legacy[0]) {
       window.location.href = "/";
     }
 
     if (
-      engineResources.cookies.get("token") ||
-      engineResources.cookies.get("user")
+      serverResources.user.token !== undefined &&
+      serverResources.user.token?.length > 3
     ) {
-      classAUTHREG.GetAPP();
+      navigate("/Dashboard");
     }
   }, []);
 

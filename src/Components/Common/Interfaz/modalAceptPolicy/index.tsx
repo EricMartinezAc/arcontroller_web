@@ -5,13 +5,13 @@ import LogoISE from "../../../../Assets/Imgs/logos/climatecontrols/5-transp.png"
 
 // Definir los tipos de las propiedades que recibirá el componente
 interface AlertCookiesProps {
-  AceptacionCookies: () => void;
-  DenegarCookies: () => void;
+  Aceptacion: () => void;
+  Denegacion: () => void;
 }
 
-const AlertCookies: React.FC<AlertCookiesProps> = ({
-  AceptacionCookies,
-  DenegarCookies,
+const ModalAceptLegacy: React.FC<AlertCookiesProps> = ({
+  Aceptacion,
+  Denegacion,
 }) => {
   return (
     <Box
@@ -112,14 +112,10 @@ const AlertCookies: React.FC<AlertCookiesProps> = ({
         </Link>
 
         <Stack sx={{ p: 2, zIndex: 100 }} direction="row" spacing={2}>
-          <Button
-            onClick={AceptacionCookies}
-            variant="contained"
-            color="primary"
-          >
+          <Button onClick={Aceptacion} variant="contained" color="primary">
             Aceptar
           </Button>
-          <Button onClick={DenegarCookies} variant="outlined">
+          <Button onClick={Denegacion} variant="outlined">
             No aceptar
           </Button>
         </Stack>
@@ -128,4 +124,4 @@ const AlertCookies: React.FC<AlertCookiesProps> = ({
   );
 };
 
-export default AlertCookies;
+export default ModalAceptLegacy;

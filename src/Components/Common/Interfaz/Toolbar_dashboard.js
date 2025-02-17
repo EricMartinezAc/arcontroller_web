@@ -10,14 +10,20 @@ import PropTypes from "prop-types";
 import { useGeneralContext } from "../../../Context/GeneralContext";
 import { MenuBook, MenuSharp } from "@mui/icons-material";
 
-function Toolbar_dashboard({
-  actions,
-  setActions,
-  handleDrawer,
-  openDrawer,
-  RestartApp,
-}) {
+function Toolbar_dashboard({ actions, setActions, handleDrawer, openDrawer }) {
   const { serverResources, engineResources } = useGeneralContext();
+  const RestartApp = () => {
+    engineResources.DescriptionAlerts[1]([
+      "block",
+      "info",
+      "Salida segura",
+      "Aplicación desconectada ",
+      "Todos sus datos están seguros ahora",
+    ]);
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 3000);
+  };
 
   return (
     <>
@@ -87,19 +93,7 @@ function Toolbar_dashboard({
           <Grid item xs={3} md={1}>
             <IconButton
               sx={{ color: Colores.rosa }}
-              onClick={() =>
-                RestartApp(
-                  engineResources.cookies,
-                  engineResources.DescriptionAlerts,
-                  [
-                    "block",
-                    "info",
-                    "Salida segura",
-                    "Aplicación desconectada ",
-                    "Todos sus datos están seguros ahora",
-                  ]
-                )
-              }
+              onClick={() => RestartApp()}
             >
               <PowerSettingsNewIcon />
             </IconButton>

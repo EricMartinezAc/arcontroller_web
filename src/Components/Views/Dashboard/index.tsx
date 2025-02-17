@@ -33,7 +33,6 @@ import { Routes as pages } from "../../../constans";
 import { useGeneralContext } from "../../../Context/GeneralContext";
 import Colores from "../../../Components/Common/ModulosGen/Colores";
 import { ChevronRight, Description } from "@mui/icons-material";
-import RestartApp from "../../../Components/Common/ModulosSis/RestartApp";
 
 // Definir los tipos para las props del componente
 interface DashboardProps {
@@ -41,8 +40,7 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {
-  const { engineResources, engineResourcesSetters, serverResources } =
-    useGeneralContext();
+  const { engineResources, serverResources } = useGeneralContext();
 
   // Estados y funciones
   const [openDrawer, setOpenDrawer] = useState<string>("none");
@@ -52,31 +50,25 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
   // Cargar la aplicación
   useEffect(() => {
-    console.log(1, [serverResources, engineResources.cookies.getAll()]);
+    console.log("todos los datos: ", [serverResources, engineResources]);
     if (
-      engineResources.cookies.get("aceptLegacy") ||
-      engineResources.cookies.get("token")
+      serverResources.user.token === undefined ||
+      serverResources.user.token?.length < 3
     ) {
-      console.log("noneee");
-
-      RestartApp(
-        engineResources.cookies,
-        engineResources.DescriptionAlerts[1],
-        [
-          "block",
-          "error",
-          "Alerta de seguridad",
-          "SECUREAPP value: ",
-          "no cuenta con credenciales suficientes",
-        ]
-      );
+      console.log("sesión no válida", serverResources.user.token);
+      engineResources.DescriptionAlerts[1]([
+        "block",
+        "error",
+        "Alerta de seguridad",
+        "SECUREAPP value: ",
+        "no cuenta con credenciales suficientes",
+      ]);
+      //window.location.href = "/";
+    } else {
+      console.log("sesion válida: ", serverResources.user);
     }
 
-    loadData(
-      serverResources.prodct.owner,
-      engineResources.cookies.get("token"),
-      engineResources.cookies.get("_id")
-    )
+    loadData(serverResources.user)
       .then(async (data: any) => {
         if (!serverResources.setBranches) throw new Error("errir");
 
@@ -87,8 +79,9 @@ const Dashboard: React.FC<DashboardProps> = () => {
         console.log(err);
       });
   }, []);
+
   useEffect(() => {
-    console.log(3, serverResources.branches);
+    console.log("edit branches", serverResources.branches);
   }, [serverResources.branches]);
 
   // Relación entre el menú de la izquierda y las ventanas
@@ -105,11 +98,11 @@ const Dashboard: React.FC<DashboardProps> = () => {
   };
 
   useEffect(() => {
-    console.log(engineResources.currentDate);
+    console.log("actually: ", engineResources.currentDate);
 
     modeStrict
       ? console.log("App con restricciones")
-      : console.log("Usuario root"); //si es Product Owner
+      : console.log("Usuario root");
   }, [modeStrict]);
 
   return (
@@ -121,7 +114,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
             setActions={setActions}
             handleDrawer={handleDrawer}
             openDrawer={openDrawer}
-            RestartApp={RestartApp}
           />
         </header>
         <Grid container spacing={0}>

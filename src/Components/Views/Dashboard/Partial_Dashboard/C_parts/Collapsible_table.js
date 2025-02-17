@@ -1,18 +1,18 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useGeneralContext } from "../../../../../Context/GeneralContext";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
@@ -213,9 +213,13 @@ export default function CollapsibleTable() {
               </FormControl>
             </TableCell>
 
-            {serverResources.areas[0] !== null &&
+            {Array.isArray(serverResources.areas) &&
+              serverResources.areas.length > 0 &&
+              serverResources.areas[0] !== null &&
               serverResources.areas[0].map((area) => (
-                <TableCell align="right">{area.name}</TableCell>
+                <TableCell align="right" key={area.id || area.name}>
+                  {area.name}
+                </TableCell>
               ))}
           </TableRow>
         </TableHead>

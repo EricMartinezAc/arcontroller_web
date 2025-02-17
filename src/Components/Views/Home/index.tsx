@@ -12,31 +12,16 @@ import Aside from "./Partials/Aside/Aside";
 import Footer from "../../Common/Interfaz/Footer";
 
 //funcionaidades
-import { DropAll as DropAllCookies } from "../../Common/ModulosSis/DropCookies";
 import ReqResDatos_auth_API from "../../Common/ModulosSis/auth/ClassAUTHREG";
 
-import AlertCookies from "../../Common/Interfaz/modalAceptPolicy";
+import ModalAceptPolicy from "../../Common/Interfaz/modalAceptPolicy";
 import { useGeneralContext } from "../../../Context/GeneralContext";
-import AsigneCookies from "../../../Components/Common/ModulosSis/AsigneCookies";
 
 const Inicio: React.FC = () => {
   const { engineResources } = useGeneralContext();
   const reqResDatos_auth_API = new ReqResDatos_auth_API();
 
-  //on start
-  useEffect(() => {
-    DropAllCookies(engineResources.cookies, "/");
-  }, []);
-
-  useEffect(() => {
-    AsigneCookies(
-      "aceptLegacy",
-      engineResources.Legacy[0],
-      engineResources.cookies
-    );
-  }, [engineResources.Legacy[0]]);
-
-  const AceptacionCookies = async () => {
+  const Aceptacion = async () => {
     engineResources.Legacy[1](!engineResources.Legacy[0]);
     engineResources.DescriptionAlerts[1]([
       "block",
@@ -51,12 +36,12 @@ const Inicio: React.FC = () => {
       console.log(2, engineResources.DescriptionAlerts[0]);
     }, 6000);
   };
-  const DenegarCookies = async () => {
+  const Denegacion = async () => {
     engineResources.DescriptionAlerts[1]([
       "block",
       "warning",
       "Políticas de manejo de datos",
-      "Lo sentimos, las cookies son necesarias para el funcionamiento del sistema",
+      "Lo sentimos. la aceptación de políticas son necesarias para el funcionamiento del sistema",
       "Puedes ver y usar otros servicios",
     ]);
   };
@@ -70,9 +55,9 @@ const Inicio: React.FC = () => {
         className="section_alertCookies"
         style={{ display: !engineResources.Legacy[0] ? "block" : "none" }}
       >
-        <AlertCookies
-          AceptacionCookies={AceptacionCookies}
-          DenegarCookies={DenegarCookies}
+        <ModalAceptPolicy
+          Aceptacion={Aceptacion}
+          Denegacion={Denegacion}
         />
       </section>
       <section className="section_inicio">

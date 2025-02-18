@@ -89,14 +89,15 @@ const FormAuthRegtr: React.FC<any> = ({ visibleFormAuth }) => {
         ? await classAUTHREG.AuthUser()
         : await classAUTHREG.RegtrUser();
       // Respuesta del servidor
-      console.log("respApi::::: ", respAPI);
+      //console.log("respApi::::: ", respAPI);
       // resolver
       if (respAPI.statusCode === 200 || respAPI.statusCode === 201) {
         console.log(127, [serverResources.user, respAPI.token]);
 
-        // Asignar token
+        // Asignar key data user
         await serverResources.setUser((prev) => ({
           ...prev,
+          _id: respAPI._id,
           token: respAPI.token,
         }));
 

@@ -20,10 +20,6 @@ const DescriptionAlerts: React.FC<DescriptionAlertsProps> = ({
   AlertMsjLow,
   AlertMsjHight,
 }) => {
-  useEffect(() => {
-    console.log([AlertSeverity, AlertTilte, AlertMsjLow, AlertMsjHight]);
-  }, []);
-
   return (
     <Box sx={{ width: "100%", padding: "20px" }}>
       <Alert severity={AlertSeverity}>

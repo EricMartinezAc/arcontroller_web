@@ -48,37 +48,42 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const [modeStrict, setModeStrict] = useState<boolean>(true);
   const [actions, setActions] = useState<number[]>([3, 11]);
 
-  // Cargar la aplicación
+  // Valide sesion
   useEffect(() => {
-    console.log("todos los datos: ", [serverResources, engineResources]);
+    engineResources.Loading[1]("none");
     if (
       serverResources.user.token === undefined ||
       serverResources.user.token?.length < 3
     ) {
       console.log("sesión no válida", serverResources.user.token);
-      engineResources.DescriptionAlerts[1]([
-        "block",
-        "error",
-        "Alerta de seguridad",
-        "SECUREAPP value: ",
-        "no cuenta con credenciales suficientes",
-      ]);
+      // engineResources.DescriptionAlerts[1]([
+      //   "block",
+      //   "error",
+      //   "Alerta de seguridad",
+      //   "SECUREAPP value: ",
+      //   "no cuenta con credenciales suficientes",
+      // ]);
       //window.location.href = "/";
-    } else {
-      console.log("sesion válida: ", serverResources.user);
     }
+  }, []);
 
-    loadData(serverResources.user)
+  // Cargar datos
+  useEffect(() => {
+    loadData(
+      serverResources.user.user,
+      serverResources.prodct.owner,
+      serverResources.user.token
+    )
       .then(async (data: any) => {
         if (!serverResources.setBranches) throw new Error("errir");
-
+        console.log(data);
         data.statusCode === 200 &&
           serverResources.setBranches(data.datos.branchResp);
       })
       .catch((err: any) => {
         console.log(err);
       });
-  }, []);
+  }, [serverResources.branches]);
 
   useEffect(() => {
     console.log("edit branches", serverResources.branches);
@@ -96,14 +101,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const handleDrawer = () => {
     setOpenDrawer(openDrawer === "none" ? "block" : "none");
   };
-
-  useEffect(() => {
-    console.log("actually: ", engineResources.currentDate);
-
-    modeStrict
-      ? console.log("App con restricciones")
-      : console.log("Usuario root");
-  }, [modeStrict]);
 
   return (
     <>

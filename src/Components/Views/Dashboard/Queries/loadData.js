@@ -1,16 +1,14 @@
 import { Routes as pages } from "../../../../constans";
 
-export const loadData = async (user) => {
-  const path_API = await `${pages.remoteApi}arcontroller/web/loadAllData`;
+export const loadData = async (user, email, token) => {
   try {
-    const respSendDats = await fetch(path_API, {
+    const respSendDats = await fetch(pages.API_URL_SESSIONS_VALIDETOKEN, {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "access-control-allow-origin": "*",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ user, email, token }),
     })
       .then((res) => res.json())
       .catch((err) => console.error(err));
